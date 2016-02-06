@@ -5,14 +5,21 @@ Game::Game()
 	, TimePerFrame(sf::seconds(1.0f/60.0f))
 	, m_map("test.json")
 	, m_camera(m_window)
-	, m_blobber(sf::Vector2f(100, 300))
+	, m_blobber(sf::Vector2f(10, 300))
 	, m_effie(sf::Vector2f(50, 200))
 	, m_world(m_map)
+	, m_spawnClick(m_world, m_window)
 {
 
 	m_world.add(&m_player);
 	m_world.add(&m_blobber);
 	m_world.add(&m_effie);
+
+	debugBB.setOutlineColor(sf::Color::Green);
+	debugBB.setOutlineThickness(-1.f);
+	debugBB.setFillColor(sf::Color::Transparent);
+
+	m_spawnClick.setSpawnType(SpawnClick::BLOBBER);
 
 }
 void Game::run() {
@@ -54,6 +61,12 @@ void Game::processEvents() {
 			case sf::Event::Resized:
 				m_camera.handleResize(event.size);
 				break;
+			case sf::Event::MouseButtonPressed:
+				m_spawnClick.handleInput(event.mouseButton.button, true);
+				break;
+			case sf::Event::MouseButtonReleased:
+				m_spawnClick.handleInput(event.mouseButton.button, false);
+				break;
 			case sf::Event::Closed:
 				m_window.close();
 				break;
@@ -67,12 +80,18 @@ void Game::update(sf::Time dt) {
 	m_world.update(dt);
 	m_camera.moveTo(m_player.getCenterPos());
 
+	/*debugBB.setPosition(m_blobber.getCenterPos());
+	debugBB.setSize(sf::Vector2f(m_blobber.getGlobalBounds().width, m_blobber.getGlobalBounds().height));
+	debugBB.move(-debugBB.getSize() / 2.0f);*/
+
 }
 void Game::render() {
 
 	m_window.clear(sf::Color(20, 20, 20));
 
 	m_window.draw(m_world);
+
+	//m_window.draw(debugBB);
 
 #ifdef RENDER_COLLISION_SHAPES
 	for (sf::RectangleShape s : m_player.debug_collisionShapes)

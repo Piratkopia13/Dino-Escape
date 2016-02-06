@@ -24,4 +24,6 @@ class Entity : public sf::Drawable {
 		sf::Vector2f lastVelocity;
 		bool isGrounded = false;
 
+		sf::Vector2f interpolationStepOnGround = sf::Vector2f(.26f, .1f);
+		sf::Vector2f interpolationStepInAir = sf::Vector2f(.05f, .1f);
 };

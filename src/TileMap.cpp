@@ -244,10 +244,13 @@ sf::Vector2f TileMap::getCollisionOverlap(sf::FloatRect bb) {
 
 bool TileMap::isPointColliding(const sf::Vector2f& point) const {
 
+	if (point.x < 0 || point.y < 0)
+		return false;
+
 	int x = (point.x * m_width) / (m_width	* m_tileWidth);
 	int y = (point.y * m_height) / (m_height * m_tileHeight);
 
-	if (x < 0 || y < 0 || x >= m_width || y >= m_height)
+	if (x >= m_width || y >= m_height)
 		return false;
 
 	return (*m_collisionGrid)[x][y]; // If maptile is collidable

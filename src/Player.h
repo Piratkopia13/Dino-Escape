@@ -35,7 +35,6 @@ class Player : public Entity {
 		//TileMap* m_collisionMap;
 
 		bool m_isJumping, m_isMovingLeft, m_isMovingRight;
-		bool m_wasMovingLeft, m_wasMovingRight;
 
 		sf::Texture m_walkingSheet,
 			m_standingSheet,

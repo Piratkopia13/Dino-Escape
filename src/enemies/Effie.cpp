@@ -10,18 +10,18 @@ Effie::Effie(sf::Vector2f position)
 		m_walkAnimation.addFrame(sf::IntRect(startX + i * width, startY, width, height));*/
 
 	// Possible idle animation, make it slow tho
-	m_walkAnimation.addFrame(sf::IntRect(0, 16, width, height));
-	m_walkAnimation.addFrame(sf::IntRect(32, 16, width, height));
+	walkAnimation.addFrame(sf::IntRect(0, 16, width, height));
+	walkAnimation.addFrame(sf::IntRect(32, 16, width, height));
 
-	m_sprite.setFrameTime(sf::seconds(0.3f));
+	sprite.setFrameTime(sf::seconds(0.3f));
 
 }
 
 #include <iostream>
 void Effie::update(sf::Time dt) {
 
-	m_sprite.play(m_walkAnimation);
-	m_sprite.update(dt);
+	sprite.play(walkAnimation);
+	sprite.update(dt);
 
 	//std::cout << "Vel: " << velocity.x << ", " << velocity.y << " - ";
 	//std::cout << lastVelocity.y << std::endl;
@@ -34,16 +34,16 @@ void Effie::update(sf::Time dt) {
 
 void Effie::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
-	target.draw(m_sprite);
+	target.draw(sprite);
 
 }
 
 sf::Transformable& Effie::getTransformable() {
-	return m_sprite;
+	return sprite;
 }
 sf::FloatRect Effie::getGlobalBounds() const {
-	return m_sprite.getGlobalBounds();
+	return sprite.getGlobalBounds();
 }
 sf::Vector2f Effie::getCenterPos() const {
-	return m_sprite.getPosition();
+	return sprite.getPosition();
 }

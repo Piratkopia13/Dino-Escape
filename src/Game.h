@@ -8,6 +8,7 @@
 #include "enemies/Blobber.h"
 #include "enemies/Effie.h"
 #include "GameWorld.h"
+#include "debug/SpawnClick.h"
 
 class Game {
 
@@ -34,5 +35,8 @@ private:
 	Player m_player;
 	Blobber m_blobber;
 	Effie m_effie;
+
+	sf::RectangleShape debugBB;
+	SpawnClick m_spawnClick;
 
 };

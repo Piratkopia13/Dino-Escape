@@ -20,4 +20,6 @@ class Blobber : public Enemy {
 	private:
 		sf::RectangleShape m_debugPoint;
 
+		bool m_isMovingLeft, m_isMovingRight;
+
 };

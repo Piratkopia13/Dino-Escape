@@ -125,6 +125,7 @@
     <ClCompile Include="src\animations\AnimatedSprite.cpp" />
     <ClCompile Include="src\animations\Animation.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\debug\SpawnClick.cpp" />
     <ClCompile Include="src\enemies\Blobber.cpp" />
     <ClCompile Include="src\enemies\Effie.cpp" />
     <ClCompile Include="src\enemies\Enemy.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="src\animations\AnimatedSprite.hpp" />
     <ClInclude Include="src\animations\Animation.hpp" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\debug\SpawnClick.h" />
     <ClInclude Include="src\enemies\Blobber.h" />
     <ClInclude Include="src\enemies\Effie.h" />
     <ClInclude Include="src\enemies\Enemy.h" />

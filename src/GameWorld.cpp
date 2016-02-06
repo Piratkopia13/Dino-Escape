@@ -37,9 +37,9 @@ void GameWorld::update(sf::Time dt) {
 		e->velocity.y += GRAVITY * dt.asSeconds();
 
 		// Interpolate values to simulate acceleration
-		float stepX = 0.26f;
-		if (!e->isGrounded) stepX = 0.05f; // Slower acceleration while in air
-		e->velocity.y = 0.1f * e->velocity.y + (1 - 0.1f) * e->lastVelocity.y;
+		float stepX = e->interpolationStepOnGround.x;
+		if (!e->isGrounded) stepX = e->interpolationStepInAir.x; // Slower acceleration while in air
+		e->velocity.y = e->interpolationStepOnGround.y * e->velocity.y + (1 - e->interpolationStepOnGround.y) * e->lastVelocity.y;
 		e->velocity.x = stepX * e->velocity.x + (1 - stepX) * e->lastVelocity.x;
 
 		// Move by velocity

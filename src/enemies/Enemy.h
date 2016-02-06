@@ -23,8 +23,9 @@ class Enemy : public Entity {
 		sf::Texture m_texture;
 
 	protected:
-		AnimatedSprite m_sprite;
-		Animation m_walkAnimation;
+		AnimatedSprite sprite;
+		Animation walkAnimation;
+		sf::Vector2f spriteScale = sf::Vector2f(2.0f, 2.0f);
 
 
 };
