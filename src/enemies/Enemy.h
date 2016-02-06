@@ -19,10 +19,8 @@ class Enemy : public Entity {
 		virtual sf::Vector2f getCenterPos() const = 0;
 
 
-	private:
-		sf::Texture m_texture;
-
 	protected:
+		sf::Texture texture;
 		AnimatedSprite sprite;
 		Animation walkAnimation;
 		sf::Vector2f spriteScale = sf::Vector2f(2.0f, 2.0f);

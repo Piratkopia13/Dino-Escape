@@ -242,21 +242,6 @@ sf::Vector2f TileMap::getCollisionOverlap(sf::FloatRect bb) {
 
 }
 
-bool TileMap::isPointColliding(const sf::Vector2f& point) const {
-
-	if (point.x < 0 || point.y < 0)
-		return false;
-
-	int x = (point.x * m_width) / (m_width	* m_tileWidth);
-	int y = (point.y * m_height) / (m_height * m_tileHeight);
-
-	if (x >= m_width || y >= m_height)
-		return false;
-
-	return (*m_collisionGrid)[x][y]; // If maptile is collidable
-
-}
-
 std::vector<sf::FloatRect> TileMap::getCollidableTilesFor(const sf::FloatRect& rect) const {
 
 	std::vector<sf::FloatRect> tiles;
@@ -286,5 +271,75 @@ std::vector<sf::FloatRect> TileMap::getCollidableTilesFor(const sf::FloatRect& r
 
 
 	return tiles;
+
+}
+
+bool TileMap::isPointColliding(const sf::Vector2f& point) const {
+
+	if (point.x < 0 || point.y < 0)
+		return false;
+
+	int x = (point.x * m_width) / (m_width	* m_tileWidth);
+	int y = (point.y * m_height) / (m_height * m_tileHeight);
+
+	if (x >= m_width || y >= m_height)
+		return false;
+
+	return (*m_collisionGrid)[x][y]; // If maptile is collidable
+
+}
+
+bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end) {
+
+	debugShapes.clear();
+
+	int x = start.x / m_tileWidth;
+	int x2 = end.x / m_tileWidth;
+	int y = start.y / m_tileWidth;
+	int y2 = end.y / m_tileWidth;
+
+
+	int w = x2 - x;
+	int h = y2 - y;
+	int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
+	if (w < 0) dx1 = -1; else if (w>0) dx1 = 1;
+	if (h < 0) dy1 = -1; else if (h>0) dy1 = 1;
+	if (w < 0) dx2 = -1; else if (w>0) dx2 = 1;
+	int longest = abs(w);
+	int shortest = abs(h);
+	if (!(longest > shortest)) {
+		longest = abs(h);
+		shortest = abs(w);
+		if (h < 0) dy2 = -1; else if (h>0) dy2 = 1;
+		dx2 = 0;
+	}
+	int numerator = longest >> 1;
+	for (int i = 0; i <= longest; i++) {
+		
+		if (debugShapes.size() < 50) {
+			sf::RectangleShape s;
+			s.setSize(sf::Vector2f(m_tileWidth, m_tileHeight));
+			s.setFillColor(sf::Color::Transparent);
+			s.setOutlineColor(sf::Color::Green);
+			s.setOutlineThickness(-1.f);
+			s.setPosition(x * m_tileWidth, y * m_tileHeight);
+			debugShapes.push_back(s);
+		}
+
+		if (x < m_width && y < m_height)
+			if ((*m_collisionGrid)[x][y]) return true; // collision found, return true!
+
+		numerator += shortest;
+		if (!(numerator < longest)) {
+			numerator -= longest;
+			x += dx1;
+			y += dy1;
+		} else {
+			x += dx2;
+			y += dy2;
+		}
+	}
+
+	return false;
 
 }

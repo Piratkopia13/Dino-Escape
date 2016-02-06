@@ -20,6 +20,7 @@ class Entity : public sf::Drawable {
 
 	public:
 		TileMap* map;
+		Entity* player;
 		sf::Vector2f velocity;
 		sf::Vector2f lastVelocity;
 		bool isGrounded = false;

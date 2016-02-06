@@ -27,6 +27,9 @@ public:
 	std::vector<sf::FloatRect> getCollidableTilesFor(const sf::FloatRect& rect) const;
 
 	bool isPointColliding(const sf::Vector2f& point) const;
+	bool isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end);
+
+	std::vector<sf::RectangleShape> debugShapes;
 
 private:
 

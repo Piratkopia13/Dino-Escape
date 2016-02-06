@@ -11,7 +11,7 @@ int main() {
 	// Player spawn and finish locations defined on map
 	// File for settings level order
 	// Enemy AI
-	//		Blobbers, move left and right on platforms
+	//		DONE - Blobbers, move left and right on platforms
 	//		Effies, shoot fireballs when player is in line of sight
 
 	Game game;

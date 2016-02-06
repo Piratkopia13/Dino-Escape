@@ -13,22 +13,44 @@ Effie::Effie(sf::Vector2f position)
 	walkAnimation.addFrame(sf::IntRect(0, 16, width, height));
 	walkAnimation.addFrame(sf::IntRect(32, 16, width, height));
 
+	shootAnimation.setSpriteSheet(texture);
+	shootAnimation.addFrame(sf::IntRect(48, 16, width, height));
+	shootAnimation.addFrame(sf::IntRect(0, 16, width, height));
+	shootAnimation.addFrame(sf::IntRect(32, 16, width, height));
+
+	sprite.setAnimation(walkAnimation);
+
+	sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
+	sprite.setScale(spriteScale);
+
 	sprite.setFrameTime(sf::seconds(0.3f));
 
 }
 
-#include <iostream>
 void Effie::update(sf::Time dt) {
 
-	sprite.play(walkAnimation);
-	sprite.update(dt);
+	sf::Vector2f start = sprite.getPosition();
+	sf::Vector2f end = player->getCenterPos();
 
-	//std::cout << "Vel: " << velocity.x << ", " << velocity.y << " - ";
-	//std::cout << lastVelocity.y << std::endl;
+	// Raycast
+	bool rayIntersects = map->isLineColliding(start, end);
 
-	if (isGrounded) {
-		velocity.y = -8000.0f * dt.asSeconds();
+	if (!rayIntersects) {
+		sprite.play(shootAnimation);
+
+		// Check what direction effie is looking
+		if (end.x < start.x) {
+			// Flip
+			sprite.setScale(-spriteScale.x, spriteScale.y);
+		} else {
+			// Flip back
+			sprite.setScale(spriteScale.x, spriteScale.y);
+		}
+
+	} else {
+		sprite.play(walkAnimation);
 	}
+	sprite.update(dt);
 
 }
 

@@ -6,7 +6,7 @@ Game::Game()
 	, m_map("test.json")
 	, m_camera(m_window)
 	, m_blobber(sf::Vector2f(10, 300))
-	, m_effie(sf::Vector2f(50, 200))
+	, m_effie(sf::Vector2f(240, 280))
 	, m_world(m_map)
 	, m_spawnClick(m_world, m_window)
 {
@@ -14,6 +14,7 @@ Game::Game()
 	m_world.add(&m_player);
 	m_world.add(&m_blobber);
 	m_world.add(&m_effie);
+	m_world.setPlayer(&m_player);
 
 	debugBB.setOutlineColor(sf::Color::Green);
 	debugBB.setOutlineThickness(-1.f);
@@ -92,11 +93,11 @@ void Game::render() {
 	m_window.draw(m_world);
 
 	//m_window.draw(debugBB);
+	/*for (sf::RectangleShape s : m_map.debugShapes)
+		m_window.draw(s);*/
 
-#ifdef RENDER_COLLISION_SHAPES
-	for (sf::RectangleShape s : m_player.debug_collisionShapes)
-		m_window.draw(s);
-#endif
+//#ifdef RENDER_COLLISION_SHAPES
+//#endif
 
 	m_window.display();
 

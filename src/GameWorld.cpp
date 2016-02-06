@@ -14,6 +14,13 @@ void GameWorld::add(Entity* entity) {
 	entity->map = &m_map;
 }
 
+void GameWorld::setPlayer(Entity* player) {
+	// Let the entities know who the player is / who to attack
+	for (Entity* e : m_entities)
+		e->player = player;
+}
+
+
 void GameWorld::handleInput(sf::Keyboard::Key key, bool isPressed) {
 
 	for (Entity* e : m_entities)
@@ -26,8 +33,6 @@ void GameWorld::update(sf::Time dt) {
 	for (Entity* e : m_entities) {
 		// Update
 		e->update(dt);
-		//// Perform custom map checks for entites that has it implented, like Blobber's AI
-		//e->customMapCheck(m_map);
 	}
 
 	// Apply gravity and move by velocity

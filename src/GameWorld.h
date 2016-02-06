@@ -16,6 +16,7 @@ class GameWorld : public sf::Drawable {
 
 		void handleInput(sf::Keyboard::Key key, bool isPressed);
 		void add(Entity* entity);
+		void setPlayer(Entity* player);
 
 		void update(sf::Time dt);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

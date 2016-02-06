@@ -44,11 +44,8 @@ Player::Player()
 
 void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
 
-	if (key == sf::Keyboard::W) {
+	if (key == sf::Keyboard::W)
 		m_isJumping = isPressed;
-	}
-	/*else if (key == sf::Keyboard::S)
-		m_isMovingDown = isPressed;*/
 	else if (key == sf::Keyboard::A)
 		m_isMovingLeft = isPressed;
 	else if (key == sf::Keyboard::D)
@@ -57,8 +54,6 @@ void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
 }
 
 void Player::update(sf::Time dt) {
-
-	//std::cout << isGrounded << std::endl;
 
 	float speed = 187.0f * dt.asSeconds();
 	sf::Vector2f targetSpeed;
@@ -86,20 +81,11 @@ void Player::update(sf::Time dt) {
 
 	m_sprite.update(dt);
 
-	//targetSpeed.y += 340.f * dt.asSeconds();
-
-	// Accelerate using interpolation
-	//velocity.x = 0.26f * targetSpeed.x + (1 - 0.26f) * lastVelocity.x;
-
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.draw(m_sprite);
 }
-
-//void Player::shouldCollideWith(TileMap& map) {
-//	m_collisionMap = &map;
-//}
 
 sf::Transformable& Player::getTransformable() {
 	return m_sprite;

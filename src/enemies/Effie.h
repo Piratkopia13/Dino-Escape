@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Enemy.h"
+#include "../TileMap.h"
 
 class Effie : public Enemy {
 
@@ -13,5 +14,9 @@ public:
 	virtual sf::Transformable& getTransformable();
 	virtual sf::FloatRect getGlobalBounds() const;
 	virtual sf::Vector2f getCenterPos() const;
+
+private:
+	Animation shootAnimation;
+
 
 };

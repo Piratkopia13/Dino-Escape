@@ -10,7 +10,6 @@ Blobber::Blobber(sf::Vector2f position)
 	for (int i = 0; i < 3; i++)
 		walkAnimation.addFrame(sf::IntRect(startX + i * width, startY, width, height));
 
-	sprite.setFrameTime(sf::seconds(0.2f));
 	sprite.setAnimation(walkAnimation);
 	sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
 	sprite.setScale(spriteScale);
