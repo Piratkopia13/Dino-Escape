@@ -92,6 +92,7 @@ void GameWorld::update(sf::Time dt) {
 	// Bullet stuff
 	m_bulletSystem.update(dt);
 	m_bulletSystem.resolveCollisions(m_map, m_entities);
+
 }
 
 void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const {

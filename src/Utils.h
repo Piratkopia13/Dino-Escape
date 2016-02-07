@@ -36,4 +36,12 @@ public:
 		return sf::Vector2f(linearInterpolation(from.x, to.x, step), linearInterpolation(from.y, to.y, step));
 	}
 
+
+	static sf::Vector2f normalize(sf::Vector2f& vec) {
+		float length = sqrt((vec.x * vec.x) + (vec.y * vec.y));
+		if (length != 0)
+			return sf::Vector2f(vec.x / length, vec.y / length);
+		else
+			return vec;
+	}
 };

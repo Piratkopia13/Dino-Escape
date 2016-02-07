@@ -29,23 +29,32 @@ Effie::Effie(sf::Vector2f position)
 
 void Effie::update(sf::Time dt) {
 
-	sf::Vector2f start = sprite.getPosition();
-	sf::Vector2f end = world->getPlayer()->getCenterPos();
+	sf::Vector2f myPos = sprite.getPosition();
+	sf::Vector2f playerPos = world->getPlayer()->getCenterPos();
 
 	// Raycast
-	bool rayIntersects = world->getMap()->isLineColliding(start, end);
+	bool rayIntersects = world->getMap()->isLineColliding(myPos, playerPos);
 
 	if (!rayIntersects) {
-		sprite.play(shootAnimation);
 
 		// Check what direction effie is looking
-		if (end.x < start.x) {
+		if (playerPos.x < myPos.x) {
 			// Flip
 			sprite.setScale(-spriteScale.x, spriteScale.y);
 		} else {
 			// Flip back
 			sprite.setScale(spriteScale.x, spriteScale.y);
 		}
+
+		// Play shoot animation
+		sprite.play(shootAnimation);
+
+		// Fire a bullet towards the player
+		float bulletSpeed = 4.0f;
+		sf::Vector2f bulletDir = Utils::normalize(playerPos - myPos);
+		sf::Vector2f bulletVelocity = bulletSpeed * bulletDir;
+		world->getBulletSystem().fireBullet(Bullet::FIREBALL, myPos, bulletVelocity, this);
+
 
 	} else {
 		sprite.play(walkAnimation);
