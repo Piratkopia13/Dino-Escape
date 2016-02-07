@@ -10,14 +10,12 @@ GameWorld::GameWorld(TileMap& map)
 
 void GameWorld::add(Entity* entity) {
 	m_entities.push_back(entity);
-	// Let the entity know what map it is on
-	entity->map = &m_map;
+	// Let the entity know about this world
+	entity->world = this;
 }
 
 void GameWorld::setPlayer(Entity* player) {
-	// Let the entities know who the player is / who to attack
-	for (Entity* e : m_entities)
-		e->player = player;
+	m_player = player;
 }
 
 
@@ -30,13 +28,21 @@ void GameWorld::handleInput(sf::Keyboard::Key key, bool isPressed) {
 
 void GameWorld::update(sf::Time dt) {
 
-	for (Entity* e : m_entities) {
+	for (auto it = m_entities.begin(); it != m_entities.end();) {
+		Entity* e = *it;
+
+		// Remove if entity is dead
+		if (e->isDead) {
+			it = m_entities.erase(it);
+			continue;
+		} else ++it;
+
 		// Update
 		e->update(dt);
-	}
 
-	// Apply gravity and move by velocity
-	for (Entity* e : m_entities) {
+		// ======================================== //
+		// == Apply gravity and move by velocity == //
+		// ======================================== //
 
 		// Apply gravity
 		e->velocity.y += GRAVITY * dt.asSeconds();
@@ -50,17 +56,21 @@ void GameWorld::update(sf::Time dt) {
 		// Move by velocity
 		e->getTransformable().move(e->velocity);
 
+		// Reset values if they are really low
 		if (fabs(e->velocity.x) < 0.0001f) e->velocity.x = 0.f;
 		if (fabs(e->velocity.y) < 0.0001f) e->velocity.y = 0.f;
 
 		//std::cout << "Vel: " << e->velocity.x << ", " << e->velocity.y << std::endl;
 		
+		// Set lastVelocity to current velocity
 		e->lastVelocity.x = e->velocity.x;
 		e->lastVelocity.y = e->velocity.y;
-	}
+	
 
-	// Resolve collisions
-	for (Entity* e : m_entities) {
+		// ================================ //
+		// ====== Resolve collisions ====== //
+		// ================================ //
+
 		sf::Vector2f velBack = m_map.resolveCollisions(*e);
 		e->getTransformable().move(velBack);
 		e->lastVelocity += velBack;
@@ -71,11 +81,17 @@ void GameWorld::update(sf::Time dt) {
 		else 
 			e->isGrounded = false;
 
-		e->velocity.x = 0; e->velocity.y = 0; // Reset velocity
+		// Reset velocity
+		e->velocity.x = 0; e->velocity.y = 0;
+		// Reset values if they are really low
 		if (fabs(e->lastVelocity.x) < 0.0001f) e->lastVelocity.x = 0.f;
 		if (fabs(e->lastVelocity.y) < 0.0001f) e->lastVelocity.y = 0.f;
+
 	}
 
+	// Bullet stuff
+	m_bulletSystem.update(dt);
+	m_bulletSystem.resolveCollisions(m_map, m_entities);
 }
 
 void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -87,4 +103,17 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	for (Entity* e : m_entities)
 		target.draw(*e, states);
 
+	// Draw bullets
+	m_bulletSystem.draw(target, states);
+
+}
+
+BulletSystem& GameWorld::getBulletSystem() {
+	return m_bulletSystem;
+}
+Entity* GameWorld::getPlayer() const {
+	return m_player;
+}
+TileMap* GameWorld::getMap() const {
+	return &m_map;
 }

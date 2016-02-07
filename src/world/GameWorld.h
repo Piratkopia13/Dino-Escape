@@ -5,6 +5,7 @@
 
 #include "Entity.h"
 #include "TileMap.h"
+#include "BulletSystem.h"
 
 class GameWorld : public sf::Drawable {
 
@@ -21,8 +22,14 @@ class GameWorld : public sf::Drawable {
 		void update(sf::Time dt);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+		BulletSystem& getBulletSystem();
+		Entity* getPlayer() const;
+		TileMap* getMap() const;
+
 	private:
 		std::vector<Entity*> m_entities;
+		Entity* m_player; // Keep track of who enemies should attack and bullets collide with
 		TileMap& m_map;
+		BulletSystem m_bulletSystem;
 
 };

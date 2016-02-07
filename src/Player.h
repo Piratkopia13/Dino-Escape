@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "animations\AnimatedSprite.hpp"
-#include "Entity.h"
+#include "world\Entity.h"
 
 class Player : public Entity {
 
@@ -14,8 +14,7 @@ class Player : public Entity {
 		virtual void handleInput(sf::Keyboard::Key key, bool isPressed);
 		virtual void update(sf::Time dt);
 
-		//void shouldCollideWith(TileMap& map);
-		//const sf::Vector2f getCenterPos() const;
+		virtual void hitByBullet(Bullet* blt);
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

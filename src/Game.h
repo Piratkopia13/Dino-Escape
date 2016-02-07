@@ -3,12 +3,14 @@
 #include <SFML/Graphics.hpp>
 
 #include "Player.h"
-#include "TileMap.h"
+#include "world/TileMap.h"
 #include "Camera.h"
 #include "enemies/Blobber.h"
 #include "enemies/Effie.h"
-#include "GameWorld.h"
-#include "debug/SpawnClick.h"
+#include "world/GameWorld.h"
+
+#include "debug/SpawnClickEntity.h"
+#include "debug/SpawnClickBullet.h"
 
 class Game {
 
@@ -37,6 +39,7 @@ private:
 	Effie m_effie;
 
 	sf::RectangleShape debugBB;
-	SpawnClick m_spawnClick;
+	SpawnClickEntity m_spawnClickEnt;
+	SpawnClickBullet m_spawnClickBlt;
 
 };

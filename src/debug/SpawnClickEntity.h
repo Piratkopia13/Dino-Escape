@@ -1,11 +1,11 @@
 #pragma once
 
 #include <vector>
-#include "../GameWorld.h"
+#include "../world/GameWorld.h"
 #include "../enemies/Blobber.h"
 #include "../enemies/Effie.h"
 
-class SpawnClick {
+class SpawnClickEntity {
 
 	public:
 		enum EnemyType {
@@ -15,8 +15,8 @@ class SpawnClick {
 		};
 
 	public:
-		SpawnClick(GameWorld& world, sf::RenderWindow& window);
-		~SpawnClick();
+		SpawnClickEntity(GameWorld& world, sf::RenderWindow& window);
+		~SpawnClickEntity();
 
 		void setSpawnType(EnemyType type);
 		void handleInput(sf::Mouse::Button button, bool isPressed);

@@ -11,8 +11,8 @@
 
 #include <vector>
 
-#include "Utils.h"
-#include "Entity.h"
+#include "../Utils.h"
+#include "../world/Entity.h"
 
 class TileMap : public sf::Drawable {
 

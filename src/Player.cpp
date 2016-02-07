@@ -83,6 +83,16 @@ void Player::update(sf::Time dt) {
 
 }
 
+void Player::hitByBullet(Bullet* blt) {
+
+	// TODO : make different bullet-types do different amount of damage
+	health -= 1;
+
+	//if (health <= 0)
+	//	isDead = true; // Tell GameWorld to remove this entity
+
+}
+
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.draw(m_sprite);
 }

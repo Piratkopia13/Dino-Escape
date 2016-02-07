@@ -8,19 +8,20 @@ Game::Game()
 	, m_blobber(sf::Vector2f(10, 300))
 	, m_effie(sf::Vector2f(240, 280))
 	, m_world(m_map)
-	, m_spawnClick(m_world, m_window)
+	, m_spawnClickEnt(m_world, m_window)
+	, m_spawnClickBlt(m_world, m_window)
 {
 
 	m_world.add(&m_player);
 	m_world.add(&m_blobber);
 	m_world.add(&m_effie);
-	m_world.setPlayer(&m_player);
+	//m_world.setPlayer(&m_player);
 
 	debugBB.setOutlineColor(sf::Color::Green);
 	debugBB.setOutlineThickness(-1.f);
 	debugBB.setFillColor(sf::Color::Transparent);
 
-	m_spawnClick.setSpawnType(SpawnClick::BLOBBER);
+	m_spawnClickEnt.setSpawnType(SpawnClickEntity::EFFIE);
 
 }
 void Game::run() {
@@ -63,10 +64,12 @@ void Game::processEvents() {
 				m_camera.handleResize(event.size);
 				break;
 			case sf::Event::MouseButtonPressed:
-				m_spawnClick.handleInput(event.mouseButton.button, true);
+				m_spawnClickEnt.handleInput(event.mouseButton.button, true);
+				m_spawnClickBlt.handleInput(event.mouseButton.button, true);
 				break;
 			case sf::Event::MouseButtonReleased:
-				m_spawnClick.handleInput(event.mouseButton.button, false);
+				m_spawnClickEnt.handleInput(event.mouseButton.button, false);
+				m_spawnClickBlt.handleInput(event.mouseButton.button, false);
 				break;
 			case sf::Event::Closed:
 				m_window.close();
@@ -77,6 +80,8 @@ void Game::processEvents() {
 
 }
 void Game::update(sf::Time dt) {
+
+	m_world.setPlayer(&m_player);
 
 	m_world.update(dt);
 	m_camera.moveTo(m_player.getCenterPos());

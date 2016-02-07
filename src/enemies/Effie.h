@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Enemy.h"
-#include "../TileMap.h"
+#include "../world/GameWorld.h"
 
 class Effie : public Enemy {
 
@@ -10,6 +10,8 @@ public:
 
 	virtual void update(sf::Time dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+	virtual void hitByBullet(Bullet* blt);
 
 	virtual sf::Transformable& getTransformable();
 	virtual sf::FloatRect getGlobalBounds() const;

@@ -125,29 +125,35 @@
     <ClCompile Include="src\animations\AnimatedSprite.cpp" />
     <ClCompile Include="src\animations\Animation.cpp" />
     <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\debug\SpawnClick.cpp" />
+    <ClCompile Include="src\debug\SpawnClickBullet.cpp" />
+    <ClCompile Include="src\debug\SpawnClickEntity.cpp" />
     <ClCompile Include="src\enemies\Blobber.cpp" />
     <ClCompile Include="src\enemies\Effie.cpp" />
     <ClCompile Include="src\enemies\Enemy.cpp" />
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\GameWorld.cpp" />
+    <ClCompile Include="src\world\Bullet.cpp" />
+    <ClCompile Include="src\world\BulletSystem.cpp" />
+    <ClCompile Include="src\world\GameWorld.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\TileMap.cpp" />
+    <ClCompile Include="src\world\TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\animations\AnimatedSprite.hpp" />
     <ClInclude Include="src\animations\Animation.hpp" />
     <ClInclude Include="src\Camera.h" />
-    <ClInclude Include="src\debug\SpawnClick.h" />
+    <ClInclude Include="src\debug\SpawnClickBullet.h" />
+    <ClInclude Include="src\debug\SpawnClickEntity.h" />
     <ClInclude Include="src\enemies\Blobber.h" />
     <ClInclude Include="src\enemies\Effie.h" />
     <ClInclude Include="src\enemies\Enemy.h" />
-    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\world\Bullet.h" />
+    <ClInclude Include="src\world\BulletSystem.h" />
+    <ClInclude Include="src\world\Entity.h" />
     <ClInclude Include="src\Game.h" />
-    <ClInclude Include="src\GameWorld.h" />
+    <ClInclude Include="src\world\GameWorld.h" />
     <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\TileMap.h" />
+    <ClInclude Include="src\world\TileMap.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -30,10 +30,10 @@ Effie::Effie(sf::Vector2f position)
 void Effie::update(sf::Time dt) {
 
 	sf::Vector2f start = sprite.getPosition();
-	sf::Vector2f end = player->getCenterPos();
+	sf::Vector2f end = world->getPlayer()->getCenterPos();
 
 	// Raycast
-	bool rayIntersects = map->isLineColliding(start, end);
+	bool rayIntersects = world->getMap()->isLineColliding(start, end);
 
 	if (!rayIntersects) {
 		sprite.play(shootAnimation);
@@ -52,6 +52,14 @@ void Effie::update(sf::Time dt) {
 	}
 	sprite.update(dt);
 
+}
+
+void Effie::hitByBullet(Bullet* blt) {
+	// TODO : make different bullet-types do different amount of damage
+	health -= 1;
+
+	if (health <= 0)
+		isDead = true; // Tell GameWorld to remove this entity
 }
 
 void Effie::draw(sf::RenderTarget& target, sf::RenderStates states) const {

@@ -76,7 +76,7 @@ void Blobber::runAI() {
 	m_debugPoint.setPosition(sideCheckPoint);
 
 	// Check if we need to turn to avoid falling
-	if (!map->isPointColliding(bottomCheckPoint)) {
+	if (!world->getMap()->isPointColliding(bottomCheckPoint)) {
 		
 		// Reverse horizontal movement
 		velocity.x *= -1.f;
@@ -89,7 +89,7 @@ void Blobber::runAI() {
 	}
 
 	// Check if we need to turn to avoid getting stuck in a wall
-	if (map->isPointColliding(sideCheckPoint)) {
+	if (world->getMap()->isPointColliding(sideCheckPoint)) {
 
 		// Reverse horizontal movement
 		velocity.x *= -1.f;
@@ -101,6 +101,13 @@ void Blobber::runAI() {
 
 }
 
+void Blobber::hitByBullet(Bullet* blt) {
+	// TODO : make different bullet-types do different amount of damage
+	health -= 1;
+
+	if (health <= 0)
+		isDead = true; // Tell GameWorld to remove this entity
+}
 
 void Blobber::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
