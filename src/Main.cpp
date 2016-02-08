@@ -12,7 +12,8 @@ int main() {
 	// File for settings level order
 	// Enemy AI
 	//		DONE - Blobbers, move left and right on platforms
-	//		Effies, shoot fireballs when player is in line of sight
+	//		DONE - Effies, shoot fireballs when player is in line of sight
+	// Add debug thing for statically adding shapes for rendering
 
 	Game game;
 	game.run();

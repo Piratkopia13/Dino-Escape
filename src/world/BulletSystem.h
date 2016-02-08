@@ -4,6 +4,7 @@
 
 #include "TileMap.h"
 #include "Bullet.h"
+#include "../animations/AnimatedSprite.hpp"
 
 class BulletSystem : sf::Drawable {
 
@@ -27,5 +28,11 @@ class BulletSystem : sf::Drawable {
 
 		// Lifetime for bullets if they dont collide before it
 		const sf::Time m_bulletMaxLifetime;
+
+		sf::RectangleShape m_shapeNormal;
+
+		sf::Texture m_texFireball;
+		Animation m_animFireball;
+		AnimatedSprite m_shapeFireball;
 
 };

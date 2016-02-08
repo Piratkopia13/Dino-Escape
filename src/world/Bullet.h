@@ -1,11 +1,10 @@
 #pragma once
 
 #include <SFML\Graphics.hpp>
-#include "../animations/AnimatedSprite.hpp"
 
 class Entity;
 
-class Bullet : public sf::Drawable {
+class Bullet {
 
 	public:
 		enum BulletType {
@@ -20,21 +19,18 @@ class Bullet : public sf::Drawable {
 		~Bullet();
 
 		void update(sf::Time dt);
-		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		// Getters
 		const sf::Vector2f& getPosition() const;
 		const Entity* getOwner() const;
 		Bullet::BulletType getType() const;
-		sf::FloatRect getGlobalBounds();
-
+		float getRotation() const;
 	private:
 		const Entity* m_owner;
 		BulletType m_type;
 		sf::Vector2f m_velocity;
 
-		AnimatedSprite sprite;
-
-		sf::RectangleShape m_shape;
+		float m_rotation;
+		sf::Vector2f m_position;
 		sf::Time m_timeAlive;
 };

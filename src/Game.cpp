@@ -12,6 +12,11 @@ Game::Game()
 	, m_spawnClickBlt(m_world, m_window)
 {
 
+	m_font.loadFromFile("res/fonts/Roboto-Regular.ttf");
+	m_text.setFont(m_font);
+	m_text.setCharacterSize(30);
+	m_text.setScale(0.2f, 0.2f);
+
 	// Plant the time seed
 	srand(static_cast<unsigned int>(time(0)));
 
@@ -29,10 +34,17 @@ Game::Game()
 }
 void Game::run() {
 
-	sf::Clock clock;
+	m_window.setFramerateLimit(100);
+
+	sf::Clock clock, clock2;
 	sf::Time elapsedTime = sf::Time::Zero;
+	float lastTime = 0;
 
 	while (m_window.isOpen()) {
+
+		float currentTime = clock2.restart().asSeconds();
+		m_fps = 1.f / (currentTime);
+		lastTime = currentTime;
 
 		processEvents();
 		elapsedTime += clock.restart();
@@ -41,6 +53,7 @@ void Game::run() {
 			processEvents();
 			update(TimePerFrame);
 		}
+
 		
 		render();
 
@@ -89,6 +102,9 @@ void Game::update(sf::Time dt) {
 	m_world.update(dt);
 	m_camera.moveTo(m_player.getCenterPos());
 
+	m_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
+	m_text.setString("FPS: " + std::to_string(m_fps));
+
 	/*debugBB.setPosition(m_blobber.getCenterPos());
 	debugBB.setSize(sf::Vector2f(m_blobber.getGlobalBounds().width, m_blobber.getGlobalBounds().height));
 	debugBB.move(-debugBB.getSize() / 2.0f);*/
@@ -99,6 +115,8 @@ void Game::render() {
 	m_window.clear(sf::Color(20, 20, 20));
 
 	m_window.draw(m_world);
+
+	m_window.draw(m_text);
 
 	//m_window.draw(debugBB);
 	/*for (sf::RectangleShape s : m_map.debugShapes)

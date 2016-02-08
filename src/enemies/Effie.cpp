@@ -2,7 +2,7 @@
 
 Effie::Effie(sf::Vector2f position)
 : Enemy(position)
-, m_fireballCooldown(sf::seconds(.9f)) // How often Effie can shoot when he sees the player
+, m_fireballCooldown(sf::seconds(.0f)) // How often Effie can shoot when he sees the player
 {
 
 	// Set up animation
