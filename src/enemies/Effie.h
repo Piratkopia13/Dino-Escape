@@ -19,6 +19,8 @@ public:
 
 private:
 	Animation shootAnimation;
+	const sf::Time m_fireballCooldown;
+	sf::Time m_lastFireballTime;
 
 
 };

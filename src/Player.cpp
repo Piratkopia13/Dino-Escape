@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player()
-: m_sprite(sf::seconds(0.1), true, false)
+: m_sprite(sf::seconds(0.1f), true, false)
 {
 
 	// Load texture

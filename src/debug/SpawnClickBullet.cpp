@@ -4,7 +4,6 @@ SpawnClickBullet::SpawnClickBullet(GameWorld& world, sf::RenderWindow& window)
 : m_window(window)
 , m_world(world)
 {
-	srand(time(0));
 }
 
 void SpawnClickBullet::handleInput(sf::Mouse::Button button, bool isPressed) const {

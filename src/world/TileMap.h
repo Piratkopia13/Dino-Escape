@@ -49,7 +49,7 @@ private:
 
 	std::vector< std::vector<bool> >* m_collisionGrid;
 
-	const float m_renderScale = 2.0f;
+	const int m_renderScale = 2;
 
 
 };

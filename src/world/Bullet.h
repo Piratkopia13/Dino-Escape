@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML\Graphics.hpp>
+#include "../animations/AnimatedSprite.hpp"
 
 class Entity;
 
@@ -31,6 +32,8 @@ class Bullet : public sf::Drawable {
 		const Entity* m_owner;
 		BulletType m_type;
 		sf::Vector2f m_velocity;
+
+		AnimatedSprite sprite;
 
 		sf::RectangleShape m_shape;
 		sf::Time m_timeAlive;

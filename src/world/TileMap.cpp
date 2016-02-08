@@ -75,7 +75,7 @@ TileMap::TileMap(std::string filePath) {
 			for (int x = m_width - 1; x >= 0; x--) {
 				for (int y = m_height - 1; y >= 0; y--) {
 
-					int gid = (*itr)["data"][(x + y*m_width)].GetInt64();
+					unsigned int gid = (*itr)["data"][(x + y*m_width)].GetInt(); // 64
 
 					// Find the correct tileset
 					Tileset &curSet = m_tilesets.front();
@@ -99,33 +99,33 @@ TileMap::TileMap(std::string filePath) {
 						int tileGid = gid - curSet.firstgid; // Subtract firstgid to get the relative gid to this set
 
 						float texX = (tileGid % (curSet.imgWidth / curSet.tileWidth)) // Gets the column
-							* (float)curSet.tileWidth / (float)curSet.imgWidth;		  // Converts the column to accual coordinates
+							* static_cast<float>(curSet.tileWidth / static_cast<float>(curSet.imgWidth));		  // Converts the column to accual coordinates
 
-						float texY = ceilf(tileGid / (curSet.imgWidth / curSet.tileWidth)) // Gets the row
-							* (float)curSet.tileHeight / (float)curSet.imgHeight;		   // Converts the row to accual coordinates
+						float texY = ceilf(static_cast<float>(static_cast<unsigned int>(tileGid / (curSet.imgWidth / curSet.tileWidth)))) // Gets the row
+							* static_cast<float>(curSet.tileHeight / static_cast<float>(curSet.imgHeight));		   // Converts the row to accual coordinates
 
-						float tileHeight = curSet.tileHeight / (float)curSet.imgHeight; // Tile height in pixels
-						float tileWidth = curSet.tileWidth / (float)curSet.imgWidth;	// Tile width in pixels
+						float tileHeight = curSet.tileHeight / static_cast<float>(curSet.imgHeight); // Tile height in pixels
+						float tileWidth = curSet.tileWidth / static_cast<float>(curSet.imgWidth);	// Tile width in pixels
 
 
 						// Triangle 1 (left)
-						m_va.append(sf::Vertex(sf::Vector2f((float)x * width, (float)y * height), 
+						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width, static_cast<float>(y) * height),
 							sf::Vector2f(texX * curSet.imgWidth, texY * curSet.imgHeight)));
 
-						m_va.append(sf::Vertex(sf::Vector2f((float)x * width + width, (float)y * height),
+						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width + width, static_cast<float>(y) * height),
 							sf::Vector2f((texX + tileWidth) * curSet.imgWidth, texY * curSet.imgHeight)));
 
-						m_va.append(sf::Vertex(sf::Vector2f((float)x * width, (float)y * height + height), 
+						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width, static_cast<float>(y) * height + height),
 							sf::Vector2f(texX * curSet.imgWidth, (texY + tileHeight) * curSet.imgHeight)));
 
 						// Triangle 2 (right)
-						m_va.append(sf::Vertex(sf::Vector2f((float)x * width + width, (float)y * height),
+						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width + width, static_cast<float>(y) * height),
 							sf::Vector2f((texX + tileWidth) * curSet.imgWidth, (texY) * curSet.imgHeight)));
 
-						m_va.append(sf::Vertex(sf::Vector2f((float)x * width + width, (float)y * height + height),
+						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width + width, static_cast<float>(y) * height + height),
 							sf::Vector2f((texX + tileWidth) * curSet.imgWidth, (texY + tileHeight) * curSet.imgHeight)));
 
-						m_va.append(sf::Vertex(sf::Vector2f((float)x * width, (float)y * height + height),
+						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width, static_cast<float>(y) * height + height),
 							sf::Vector2f(texX * curSet.imgWidth, (texY + tileHeight) * curSet.imgHeight)));
 
 					}
@@ -246,10 +246,10 @@ std::vector<sf::FloatRect> TileMap::getCollidableTilesFor(const sf::FloatRect& r
 
 	std::vector<sf::FloatRect> tiles;
 
-	int xStart = (rect.left * m_width) / (m_width	* m_tileWidth);
-	int yStart = (rect.top * m_height) / (m_height * m_tileHeight);
-	int xEnd = ((rect.left + rect.width)  * m_width) / (m_width	* m_tileWidth);
-	int yEnd = ((rect.top + rect.height) * m_height) / (m_height * m_tileHeight);
+	unsigned int xStart = static_cast<int>((rect.left * m_width)		/ (m_width	* m_tileWidth));
+	unsigned int yStart = static_cast<int>((rect.top * m_height)		/ (m_height * m_tileHeight));
+	unsigned int xEnd = static_cast<int> (((rect.left + rect.width)	* m_width)	/ (m_width	* m_tileWidth));
+	unsigned int yEnd = static_cast<int> (((rect.top + rect.height)	* m_height) / (m_height * m_tileHeight));
 
 	// Make sure no cell is outside the grid
 	(xStart < 0) ? xStart = 0 : xStart;
@@ -262,10 +262,11 @@ std::vector<sf::FloatRect> TileMap::getCollidableTilesFor(const sf::FloatRect& r
 	std::cout << yStart << ", " << yEnd << std::endl << std::endl;*/
 
 	// Check for collisions
-	for (int y = yStart; y <= yEnd; y++) {
-		for (int x = xStart; x <= xEnd; x++) {
+	for (unsigned int y = yStart; y <= yEnd; y++) {
+		for (unsigned int x = xStart; x <= xEnd; x++) {
 			if ((*m_collisionGrid)[x][y]) // If maptile is collidable
-				tiles.push_back(sf::FloatRect(x * m_tileWidth, y * m_tileHeight, m_tileWidth, m_tileHeight));
+				tiles.push_back(sf::FloatRect(static_cast<float>(x * m_tileWidth), static_cast<float>(y * m_tileHeight), 
+					static_cast<float>(m_tileWidth), static_cast<float>((m_tileHeight))));
 		}
 	}
 
@@ -279,8 +280,8 @@ bool TileMap::isPointColliding(const sf::Vector2f& point) const {
 	if (point.x < 0 || point.y < 0)
 		return false;
 
-	int x = (point.x * m_width) / (m_width	* m_tileWidth);
-	int y = (point.y * m_height) / (m_height * m_tileHeight);
+	unsigned int x = static_cast<unsigned int>((point.x * m_width) / (m_width	* m_tileWidth));
+	unsigned int y = static_cast<unsigned int>((point.y * m_height) / (m_height * m_tileHeight));
 
 	if (x >= m_width || y >= m_height)
 		return false;
@@ -293,10 +294,10 @@ bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end
 
 	//debugShapes.clear();
 
-	int x = start.x / m_tileWidth;
-	int x2 = end.x / m_tileWidth;
-	int y = start.y / m_tileWidth;
-	int y2 = end.y / m_tileWidth;
+	unsigned int x  = static_cast<unsigned int>(start.x	/ m_tileWidth);
+	unsigned int x2 = static_cast<unsigned int>(end.x		/ m_tileWidth);
+	unsigned int y  = static_cast<unsigned int>(start.y	/ m_tileWidth);
+	unsigned int y2 = static_cast<unsigned int>(end.y		/ m_tileWidth);
 
 
 	int w = x2 - x;

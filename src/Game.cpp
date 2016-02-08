@@ -12,6 +12,9 @@ Game::Game()
 	, m_spawnClickBlt(m_world, m_window)
 {
 
+	// Plant the time seed
+	srand(static_cast<unsigned int>(time(0)));
+
 	m_world.add(&m_player);
 	m_world.add(&m_blobber);
 	m_world.add(&m_effie);
