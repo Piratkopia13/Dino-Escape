@@ -46,9 +46,9 @@ void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
 
 	if (key == sf::Keyboard::W)
 		m_isJumping = isPressed;
-	else if (key == sf::Keyboard::A)
+	if (key == sf::Keyboard::A)
 		m_isMovingLeft = isPressed;
-	else if (key == sf::Keyboard::D)
+	if (key == sf::Keyboard::D)
 		m_isMovingRight = isPressed;
 
 }
@@ -65,13 +65,13 @@ void Player::update(sf::Time dt) {
 	bool isMovingHorizintally = false;
 	if (m_isMovingLeft) {
 		isMovingHorizintally = true;
-		velocity.x = -speed;
+		velocity.x += -speed;
 		m_sprite.play(m_walkingAnimation);
 		m_sprite.setScale(-m_spriteScale, m_spriteScale);
 	}
 	if (m_isMovingRight) {
 		isMovingHorizintally = true;
-		velocity.x = speed;
+		velocity.x += speed;
 		m_sprite.play(m_walkingAnimation);
 		m_sprite.setScale(m_spriteScale, m_spriteScale);
 	}

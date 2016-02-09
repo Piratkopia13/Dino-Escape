@@ -109,6 +109,7 @@ void BulletSystem::resolveCollisions(TileMap& map, std::vector<Entity*>& entites
 		}
 
 		// Check collision with map
+		// TODO : check bullet bounds instead of just position
 		if (map.isPointColliding(it->getPosition()))
 			deleteCurrent = true;
 

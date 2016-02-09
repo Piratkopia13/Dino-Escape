@@ -28,7 +28,7 @@ class Game {
 
 private:
 	sf::RenderWindow m_window;
-	float m_fps;
+	int m_fps;
 
 	TileMap m_map;
 	Camera m_camera;
@@ -40,7 +40,7 @@ private:
 	Effie m_effie;
 
 	sf::Font m_font;
-	sf::Text m_text;
+	sf::Text m_FPStext;
 
 	sf::RectangleShape debugBB;
 	SpawnClickEntity m_spawnClickEnt;

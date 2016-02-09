@@ -13,9 +13,9 @@ Game::Game()
 {
 
 	m_font.loadFromFile("res/fonts/Roboto-Regular.ttf");
-	m_text.setFont(m_font);
-	m_text.setCharacterSize(30);
-	m_text.setScale(0.2f, 0.2f);
+	m_FPStext.setFont(m_font);
+	m_FPStext.setCharacterSize(30);
+	m_FPStext.setScale(0.2f, 0.2f);
 
 	// Plant the time seed
 	srand(static_cast<unsigned int>(time(0)));
@@ -34,27 +34,36 @@ Game::Game()
 }
 void Game::run() {
 
-	m_window.setFramerateLimit(100);
+	//m_window.setFramerateLimit(100);
 
-	sf::Clock clock, clock2;
+	sf::Clock clock, fpsClock;
 	sf::Time elapsedTime = sf::Time::Zero;
-	float lastTime = 0;
+
+	int frames = 0;
+	sf::Time startTime = sf::Time::Zero;
 
 	while (m_window.isOpen()) {
 
-		float currentTime = clock2.restart().asSeconds();
-		m_fps = 1.f / (currentTime);
-		lastTime = currentTime;
+		// Calculate FPS every 1/4th second
+		if ((fpsClock.getElapsedTime() - startTime).asSeconds() > 0.25f && frames > 10) {
+			m_fps = frames / (fpsClock.restart() - startTime).asSeconds();
+			startTime = sf::Time::Zero;
+			frames = 0;
+		}
+		frames++;
 
-		processEvents();
+		// Update using a fixed timestep of TimePerFrame (1/60)
 		elapsedTime += clock.restart();
 		while (elapsedTime > TimePerFrame) {
 			elapsedTime -= TimePerFrame;
+
+			// Process events
 			processEvents();
+			// Update all the stuff
 			update(TimePerFrame);
 		}
 
-		
+		// Render
 		render();
 
 	}
@@ -102,12 +111,9 @@ void Game::update(sf::Time dt) {
 	m_world.update(dt);
 	m_camera.moveTo(m_player.getCenterPos());
 
-	m_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
-	m_text.setString("FPS: " + std::to_string(m_fps));
-
-	/*debugBB.setPosition(m_blobber.getCenterPos());
-	debugBB.setSize(sf::Vector2f(m_blobber.getGlobalBounds().width, m_blobber.getGlobalBounds().height));
-	debugBB.move(-debugBB.getSize() / 2.0f);*/
+	// Update FPSText
+	m_FPStext.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
+	m_FPStext.setString("FPS: " + std::to_string(m_fps));
 
 }
 void Game::render() {
@@ -116,14 +122,8 @@ void Game::render() {
 
 	m_window.draw(m_world);
 
-	m_window.draw(m_text);
-
-	//m_window.draw(debugBB);
-	/*for (sf::RectangleShape s : m_map.debugShapes)
-		m_window.draw(s);*/
-
-//#ifdef RENDER_COLLISION_SHAPES
-//#endif
+	// Render FPS
+	m_window.draw(m_FPStext);
 
 	m_window.display();
 
