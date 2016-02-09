@@ -344,3 +344,7 @@ bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end
 	return false;
 
 }
+
+sf::FloatRect TileMap::getBounds() {
+	return sf::FloatRect(0, 0, m_width * m_tileWidth, m_height * m_tileHeight);
+}

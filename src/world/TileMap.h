@@ -28,7 +28,7 @@ public:
 
 	bool isPointColliding(const sf::Vector2f& point) const;
 	bool isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end);
-
+	sf::FloatRect getBounds();
 	std::vector<sf::RectangleShape> debugShapes;
 
 private:

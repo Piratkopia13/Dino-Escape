@@ -4,9 +4,9 @@ int main() {
 
 	// TODO: add some music from https://soundcloud.com/trevor-d-lentz / http://opengameart.org/users/trevor-lentz
 	// Add sounds for jumping, shooting, getting hurt, hurting monsters, etc
-	// Interpolate camera
+	// DONE - Interpolate camera
 	// Stick camera view to map borders
-	// Bullet system
+	// DONE - Bullet system
 	// Spawn enemies from points on map
 	// Player spawn and finish locations defined on map
 	// File for settings level order

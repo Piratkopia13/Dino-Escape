@@ -25,6 +25,9 @@ Game::Game()
 	m_world.add(&m_effie);
 	//m_world.setPlayer(&m_player);
 
+	// Set the cameras constraints to map border
+	m_camera.setConstraints(m_map.getBounds());
+
 	debugBB.setOutlineColor(sf::Color::Green);
 	debugBB.setOutlineThickness(-1.f);
 	debugBB.setFillColor(sf::Color::Transparent);
