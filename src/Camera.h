@@ -15,6 +15,7 @@ public:
 
 private:
 	void updateView();
+	void checkSize();
 
 private:
 	sf::View m_view;

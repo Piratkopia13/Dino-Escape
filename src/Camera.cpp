@@ -5,12 +5,29 @@ Camera::Camera(sf::RenderWindow& window)
 , m_window(window)
 , m_constraints(0,0,0,0) {
 
-	m_view.zoom(1 / 3.0f);
+	//m_view.zoom(1 / 3.0f);
 	updateView();
 }
 
 void Camera::setConstraints(sf::FloatRect& constraints) {
 	m_constraints = constraints;
+	checkSize();
+}
+
+void Camera::checkSize() {
+
+	// Make sure the camera is smaller than the constraints, otherwise change the view size
+	const sf::Vector2f& viewSize = m_view.getSize();
+	float aspectRatio = viewSize.x / viewSize.y;
+	if (viewSize.x > m_constraints.width) {
+		// Fix size to map width
+		m_view.setSize(m_constraints.width, m_constraints.width * (1.0f / aspectRatio));
+	}
+	if (viewSize.y > m_constraints.height) {
+		// Fix size to map height
+		m_view.setSize(m_constraints.height * aspectRatio, m_constraints.height);
+	}
+
 }
 
 void Camera::moveTo(const sf::Vector2f& position) {
@@ -45,9 +62,9 @@ void Camera::moveTo(const sf::Vector2f& position) {
 
 void Camera::handleResize(sf::Event::SizeEvent size) {
 
-	//m_view.setViewport(sf::FloatRect(0, 0, size.width, size.height));
 	m_view.setSize(size.width, size.height);
-	m_view.zoom(1 / 3.0f);
+	checkSize();
+	//m_view.zoom(1 / 3.0f);
 	updateView();
 
 }
