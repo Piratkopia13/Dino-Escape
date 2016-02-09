@@ -2,7 +2,7 @@
 
 Effie::Effie(sf::Vector2f position)
 : Enemy(position)
-, m_fireballCooldown(sf::seconds(.0f)) // How often Effie can shoot when he sees the player
+, m_fireballCooldown(sf::seconds(.9f)) // How often Effie can shoot when he sees the player
 {
 
 	// Set up animation
@@ -52,12 +52,13 @@ void Effie::update(sf::Time dt) {
 		// Apply bullet cooldown
 		m_lastFireballTime += dt;
 		if (m_lastFireballTime >= m_fireballCooldown) {
-			// Play shoot animation
-			sprite.play(shootAnimation);
 
 			// Fire a bullet towards the player
 			float bulletSpeed = 4.0f;
 			sf::Vector2f dir = playerPos - myPos;
+
+			sf::Vector2f bulletStart = myPos + Utils::normalize(dir) * 5.0f; // Add an offset from the center
+			bulletStart.y += 6.0f; // Shoot from the mouth
 
 			// Apply slight randomization to bullet direction
 			dir.x += rand() / ((float)RAND_MAX + 1) * 40 - 20.0f;
@@ -66,10 +67,15 @@ void Effie::update(sf::Time dt) {
 			sf::Vector2f bulletDir = Utils::normalize(dir);
 
 			sf::Vector2f bulletVelocity = bulletSpeed * bulletDir;
-			world->getBulletSystem().fireBullet(Bullet::FIREBALL, myPos, bulletVelocity, this);
+			world->getBulletSystem().fireBullet(Bullet::FIREBALL, bulletStart, bulletVelocity, this);
 
 			// Reset cooldown timer
-			m_lastFireballTime = sf::seconds(0.f);
+			m_lastFireballTime = sf::Time::Zero;
+			
+			// Play shoot animation
+			sprite.play(shootAnimation);
+			// Sync animation with bullets
+			sprite.setFrame(0, true);
 		}
 
 

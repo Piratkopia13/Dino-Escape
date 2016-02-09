@@ -15,6 +15,8 @@ int main() {
 	//		DONE - Effies, shoot fireballs when player is in line of sight
 	// Add debug thing for statically adding shapes for rendering
 
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	Game game;
 	game.run();
 

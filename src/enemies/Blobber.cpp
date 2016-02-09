@@ -12,6 +12,7 @@ Blobber::Blobber(sf::Vector2f position)
 
 	sprite.setAnimation(walkAnimation);
 	sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
+	spriteScale = sf::Vector2f(1.7f, 1.7f);
 	sprite.setScale(spriteScale);
 
 	m_debugPoint.setSize(sf::Vector2f(1.0f, 1.0f));
