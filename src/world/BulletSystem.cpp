@@ -5,7 +5,7 @@ BulletSystem::BulletSystem()
 {
 
 	m_shapeNormal.setFillColor(sf::Color::Yellow);
-	m_shapeNormal.setSize(sf::Vector2f(2.f, 2.f));
+	m_shapeNormal.setSize(sf::Vector2f(1.5f, 1.5f));
 
 	m_texFireball.loadFromFile("res/textures/items.png");
 

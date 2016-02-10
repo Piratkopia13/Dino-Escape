@@ -15,10 +15,10 @@ Effie::Effie(sf::Vector2f position)
 	walkAnimation.addFrame(sf::IntRect(0, 16, width, height));
 	walkAnimation.addFrame(sf::IntRect(32, 16, width, height));
 
-	shootAnimation.setSpriteSheet(texture);
-	shootAnimation.addFrame(sf::IntRect(48, 16, width, height));
-	shootAnimation.addFrame(sf::IntRect(0, 16, width, height));
-	shootAnimation.addFrame(sf::IntRect(32, 16, width, height));
+	m_shootAnimation.setSpriteSheet(texture);
+	m_shootAnimation.addFrame(sf::IntRect(48, 16, width, height));
+	m_shootAnimation.addFrame(sf::IntRect(0, 16, width, height));
+	m_shootAnimation.addFrame(sf::IntRect(32, 16, width, height));
 
 	sprite.setAnimation(walkAnimation);
 
@@ -73,7 +73,7 @@ void Effie::update(sf::Time dt) {
 			m_lastFireballTime = sf::Time::Zero;
 			
 			// Play shoot animation
-			sprite.play(shootAnimation);
+			sprite.play(m_shootAnimation);
 			// Sync animation with bullets
 			sprite.setFrame(0, true);
 		}

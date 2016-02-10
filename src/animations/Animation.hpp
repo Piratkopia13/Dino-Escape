@@ -40,7 +40,7 @@ public:
 
 	// Adds frames to animation
 	// Assumes all frames are on the same line of the spritesheet
-	void createFrames(int width, int height, int startX, int startY);
+	void createFrames(int width, int height, int startX, int startY, int numFrames);
 
 private:
 	std::vector<sf::IntRect> m_frames;

@@ -18,7 +18,7 @@ public:
 	virtual sf::Vector2f getCenterPos() const;
 
 private:
-	Animation shootAnimation;
+	Animation m_shootAnimation;
 	const sf::Time m_fireballCooldown;
 	sf::Time m_lastFireballTime;
 

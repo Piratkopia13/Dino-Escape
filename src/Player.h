@@ -5,6 +5,7 @@
 
 #include "animations\AnimatedSprite.hpp"
 #include "world\Entity.h"
+#include "world\GameWorld.h"
 
 #include "debug\DebugRenderer.h"
 
@@ -28,19 +29,22 @@ class Player : public Entity {
 		
 		
 	private:
-		/*sf::Vector2f resolveCollisions(sf::Vector2f& velocity);
-		sf::Vector2f getCollisionOverlap(sf::FloatRect& bb);*/
+		void fireGun();
+		void turn(bool left);
 
 	private:
 		AnimatedSprite m_sprite;
-		//TileMap* m_collisionMap;
 
-		bool m_isJumping, m_isMovingLeft, m_isMovingRight;
+		bool m_isJumping, m_isMovingLeft, m_isMovingRight, m_isShooting;
+		bool m_isLookingLeft;
 
 		sf::Texture m_spriteSheet;
 		Animation m_walkingAnimation,
 			m_standingAnimation,
 			m_shootAnimation;
+
+		const sf::Time m_BulletCooldown;
+		sf::Time m_lastBulletTime;
 
 		float m_spriteScale;
 
