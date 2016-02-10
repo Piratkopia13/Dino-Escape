@@ -6,6 +6,8 @@
 #include "animations\AnimatedSprite.hpp"
 #include "world\Entity.h"
 
+#include "debug\DebugRenderer.h"
+
 class Player : public Entity {
 
 	public:
@@ -35,12 +37,10 @@ class Player : public Entity {
 
 		bool m_isJumping, m_isMovingLeft, m_isMovingRight;
 
-		sf::Texture m_walkingSheet,
-			m_standingSheet,
-			m_turnSheet;
+		sf::Texture m_spriteSheet;
 		Animation m_walkingAnimation,
 			m_standingAnimation,
-			m_turnAnimation;
+			m_shootAnimation;
 
 		float m_spriteScale;
 

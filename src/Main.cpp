@@ -5,7 +5,7 @@ int main() {
 	// TODO: add some music from https://soundcloud.com/trevor-d-lentz / http://opengameart.org/users/trevor-lentz
 	// Add sounds for jumping, shooting, getting hurt, hurting monsters, etc
 	// DONE - Interpolate camera
-	// Stick camera view to map borders
+	// DONE - Stick camera view to map borders
 	// DONE - Bullet system
 	// Spawn enemies from points on map
 	// Player spawn and finish locations defined on map
@@ -13,7 +13,8 @@ int main() {
 	// Enemy AI
 	//		DONE - Blobbers, move left and right on platforms
 	//		DONE - Effies, shoot fireballs when player is in line of sight
-	// Add debug thing for statically adding shapes for rendering
+	// DONE - Add debug thing for statically adding shapes for rendering
+	// Create resource caching, requesting system
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 

@@ -27,6 +27,7 @@ Game::Game()
 
 	// Set the cameras constraints to map border
 	m_camera.setConstraints(m_map.getBounds());
+	m_camera.zoom(1 / 1.2f);
 
 	debugBB.setOutlineColor(sf::Color::Green);
 	debugBB.setOutlineThickness(-1.f);
@@ -116,6 +117,7 @@ void Game::update(sf::Time dt) {
 
 	// Update FPSText
 	m_FPStext.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
+	m_FPStext.move(2.0f, 0);
 	m_FPStext.setString("FPS: " + std::to_string(m_fps));
 
 }
@@ -124,6 +126,9 @@ void Game::render() {
 	m_window.clear(sf::Color(20, 20, 20));
 
 	m_window.draw(m_world);
+
+	// Draw debug shapes
+	DebugRenderer::draw(m_window);
 
 	// Render FPS
 	m_window.draw(m_FPStext);

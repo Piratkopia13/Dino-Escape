@@ -9,6 +9,7 @@
 #include "enemies/Effie.h"
 #include "world/GameWorld.h"
 
+#include "debug/DebugRenderer.h"
 #include "debug/SpawnClickEntity.h"
 #include "debug/SpawnClickBullet.h"
 

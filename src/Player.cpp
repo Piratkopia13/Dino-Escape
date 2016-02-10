@@ -5,40 +5,28 @@ Player::Player()
 {
 
 	// Load texture
-	m_walkingSheet.loadFromFile("res/textures/dino_walk_normal.png");
+	m_spriteSheet.loadFromFile("res/textures/dino.png");
+
 	// Set up animations
-	m_walkingAnimation.setSpriteSheet(m_walkingSheet);
-	int width = 22, height = 22;
-	int startX = 5, startY = 4;
-	int space = 10;
-	for (int i = 0; i < 8; i++) {
-		m_walkingAnimation.addFrame(sf::IntRect(startX + i * width + space * i, startY, width, height));
-	}
+	m_walkingAnimation.setSpriteSheet(m_spriteSheet);
+	m_walkingAnimation.createFrames(22, 22, 0, 22);
 
-	m_standingSheet.loadFromFile("res/textures/dino_stand_normal.png");
-	m_standingAnimation.setSpriteSheet(m_standingSheet);
-	width = 22; height = 22;
-	startX = 5; startY = 4;
-	for (int i = 0; i < 8; i++) {
-		m_standingAnimation.addFrame(sf::IntRect(startX + i * width + space * i, startY, width, height));
-	}
+	m_standingAnimation.setSpriteSheet(m_spriteSheet);
+	m_standingAnimation.createFrames(22, 22, 0, 0);
 
-	m_turnSheet.loadFromFile("res/textures/dino_turn.png");
-	m_turnAnimation.setSpriteSheet(m_turnSheet);
-	width = 22; height = 22;
-	startX = 5; startY = 4;
-	for (int i = 0; i < 3; i++) {
-		m_turnAnimation.addFrame(sf::IntRect(startX + i * width + space * i, startY, width, height));
-	}
+	m_shootAnimation.setSpriteSheet(m_spriteSheet);
+	m_shootAnimation.createFrames(22, 22, 0, 44);
 
 	// Set inital animation
 	m_sprite.setAnimation(m_standingAnimation);
 
+	// Set origin / rotation point
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.0f, m_sprite.getLocalBounds().height / 2.0f);
+
+	// Set scale and starting position
 	m_spriteScale = 1.5f;
 	m_sprite.setScale(m_spriteScale, m_spriteScale);
 	m_sprite.setPosition(100.0f, 200.0f);
-
 
 }
 
@@ -94,6 +82,8 @@ void Player::hitByBullet(Bullet* blt) {
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+
+	//DebugRenderer::addShape(m_sprite.getPosition(), m_sprite.getGlobalBounds(), sf::Color::Red);
 	target.draw(m_sprite);
 }
 

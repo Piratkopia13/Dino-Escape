@@ -8,10 +8,10 @@ public:
 	Camera(sf::RenderWindow& window);
 
 	void handleResize(sf::Event::SizeEvent size);
-
-	void setConstraints(sf::FloatRect& constraints);
-
 	void moveTo(const sf::Vector2f& position);
+	void setConstraints(sf::FloatRect& constraints);
+	void zoom(float zoom);
+
 
 private:
 	void updateView();
@@ -21,6 +21,7 @@ private:
 	sf::View m_view;
 	sf::RenderWindow& m_window;
 	sf::FloatRect m_constraints;
+	float m_zoom;
 
 };
 

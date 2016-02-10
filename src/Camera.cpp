@@ -3,15 +3,16 @@
 Camera::Camera(sf::RenderWindow& window)
 : m_view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))
 , m_window(window)
-, m_constraints(0,0,0,0) {
+, m_constraints(0,0,0,0)
+, m_zoom(1.f) {
 
-	//m_view.zoom(1 / 3.0f);
 	updateView();
 }
 
 void Camera::setConstraints(sf::FloatRect& constraints) {
 	m_constraints = constraints;
 	checkSize();
+	m_view.zoom(m_zoom);
 }
 
 void Camera::checkSize() {
@@ -64,9 +65,14 @@ void Camera::handleResize(sf::Event::SizeEvent size) {
 
 	m_view.setSize(size.width, size.height);
 	checkSize();
-	//m_view.zoom(1 / 3.0f);
+	m_view.zoom(m_zoom);
 	updateView();
 
+}
+
+void Camera::zoom(float zoom) {
+	m_zoom = zoom;
+	m_view.zoom(m_zoom);
 }
 
 void Camera::updateView() {

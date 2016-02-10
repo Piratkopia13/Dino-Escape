@@ -155,9 +155,6 @@ sf::Vector2f TileMap::resolveCollisions(Entity& entity) {
 
 	//std::cout << "Resolve collision " << entity.velocity.x << ", " << entity.velocity.y << std::endl;
 
-	float tileWidth = 16 * 2;
-	float tileHeight = 16 * 2;
-
 	sf::Vector2f diff;
 	sf::Vector2f vel;
 
@@ -168,10 +165,10 @@ sf::Vector2f TileMap::resolveCollisions(Entity& entity) {
 	if (diff.x != 0.0f) {
 
 		if (entity.velocity.x > 0)
-			vel.x = diff.x - tileWidth / 2.0f - bb.width / 2.0f - 0.1f;
+			vel.x = diff.x - m_tileWidth / 2.0f - bb.width / 2.0f - 0.1f;
 
 		if (entity.velocity.x < 0)
-			vel.x = diff.x + tileWidth / 2.0f + bb.width / 2.0f + 0.1f;
+			vel.x = diff.x + m_tileWidth / 2.0f + bb.width / 2.0f + 0.1f;
 	}
 
 	entity.getTransformable().move(sf::Vector2f(-entity.velocity.x, entity.velocity.y));
@@ -180,10 +177,10 @@ sf::Vector2f TileMap::resolveCollisions(Entity& entity) {
 
 		// If moving down
 		if (entity.velocity.y > 0)
-			vel.y = diff.y - tileHeight / 2.0f - bb.height / 2.0f - 0.1f;
+			vel.y = diff.y - m_tileHeight / 2.0f - bb.height / 2.0f - 0.1f;
 		// If moving up
 		if (entity.velocity.y < 0)
-			vel.y = diff.y + tileHeight / 2.0f + bb.height / 2.0f + 0.1f;
+			vel.y = diff.y + m_tileHeight / 2.0f + bb.height / 2.0f + 0.1f;
 
 	}
 	entity.getTransformable().move(sf::Vector2f(entity.velocity.x, 0));

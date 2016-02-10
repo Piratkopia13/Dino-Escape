@@ -38,6 +38,10 @@ public:
 	std::size_t getSize() const;
 	const sf::IntRect& getFrame(std::size_t n) const;
 
+	// Adds frames to animation
+	// Assumes all frames are on the same line of the spritesheet
+	void createFrames(int width, int height, int startX, int startY);
+
 private:
 	std::vector<sf::IntRect> m_frames;
 	const sf::Texture* m_texture;

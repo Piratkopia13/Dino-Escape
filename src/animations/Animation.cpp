@@ -46,3 +46,13 @@ std::size_t Animation::getSize() const {
 const sf::IntRect& Animation::getFrame(std::size_t n) const {
 	return m_frames[n];
 }
+
+void Animation::createFrames(int width, int height, int startX, int startY) {
+
+	int sheetWidth = getSpriteSheet()->getSize().x;
+	
+	for (int i = 0; i < sheetWidth / width; i++) {
+		addFrame(sf::IntRect(startX + i * width, startY, width, height));
+	}
+
+}
