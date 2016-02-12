@@ -18,10 +18,6 @@ class GameWorld : public sf::Drawable {
 		GameWorld(TileMap& map);
 		~GameWorld();
 
-		// Spawns entites specified by the map
-		// Also moves the player to the specified spawn
-		void spawnMapEntities();
-
 		void handleInput(sf::Keyboard::Key key, bool isPressed);
 		void add(Entity* entity);
 		void setPlayer(Entity* player);
@@ -34,12 +30,22 @@ class GameWorld : public sf::Drawable {
 		TileMap* getMap() const;
 
 	private:
+		// Spawns entites specified by the map
+		// Also moves the player to the specified spawn
+		// Also stores the map goal bounds
+		void handleMapObjects();
+
+	private:
 		std::vector<Entity*> m_entities;
 		BulletSystem m_bulletSystem;
 
+		sf::Vector2f m_playerSpawn;
 		Entity* m_player; // Keep track of who enemies should attack and bullets collide with
 
 		TileMap& m_map;
 		std::vector<Entity*> m_mapDefinedEntities;
+
+		sf::FloatRect m_mapGoalBounds;
+
 
 };

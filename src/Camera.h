@@ -22,6 +22,7 @@ private:
 	sf::RenderWindow& m_window;
 	sf::FloatRect m_constraints;
 	float m_zoom;
+	bool m_hasConstraints;
 
 };
 

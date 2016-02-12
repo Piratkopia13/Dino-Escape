@@ -5,6 +5,7 @@ const float GameWorld::GRAVITY = 340.0f;
 GameWorld::GameWorld(TileMap& map)
 : m_map(map)
 {
+	handleMapObjects();
 }
 
 GameWorld::~GameWorld() {
@@ -15,7 +16,7 @@ GameWorld::~GameWorld() {
 
 }
 
-void GameWorld::spawnMapEntities() {
+void GameWorld::handleMapObjects() {
 	auto objects = m_map.getObjects();
 	for (auto obj : objects) {
 
@@ -23,8 +24,10 @@ void GameWorld::spawnMapEntities() {
 
 			if (prop.name == "spawn") {
 
-				if (prop.value == "player")
-				m_player->getTransformable().setPosition(obj.x, obj.y - m_player->getGlobalBounds().height);
+				if (prop.value == "player") {
+					m_playerSpawn.x = obj.x;
+					m_playerSpawn.y = obj.y;
+				}
 				if (prop.value == "effie") {
 					m_mapDefinedEntities.push_back(new Effie(sf::Vector2f(obj.x, obj.y)));
 					add(m_mapDefinedEntities.back());
@@ -33,6 +36,13 @@ void GameWorld::spawnMapEntities() {
 					m_mapDefinedEntities.push_back(new Blobber(sf::Vector2f(obj.x, obj.y)));
 					add(m_mapDefinedEntities.back());
 				}
+			}
+
+			if (prop.name == "goal") {
+				m_mapGoalBounds.left = obj.x;
+				m_mapGoalBounds.top = obj.y;
+				m_mapGoalBounds.width = obj.width;
+				m_mapGoalBounds.height = obj.height;
 			}
 
 		}
@@ -47,7 +57,8 @@ void GameWorld::add(Entity* entity) {
 }
 
 void GameWorld::setPlayer(Entity* player) {
-	m_player = player;	
+	m_player = player;
+	m_player->getTransformable().setPosition(m_playerSpawn.x, m_playerSpawn.y - m_player->getGlobalBounds().height);
 }
 
 
@@ -59,6 +70,8 @@ void GameWorld::handleInput(sf::Keyboard::Key key, bool isPressed) {
 }
 
 void GameWorld::update(sf::Time dt) {
+
+	DebugRenderer::addShape(m_mapGoalBounds, sf::Color::Cyan);
 
 	for (auto it = m_entities.begin(); it != m_entities.end();) {
 		Entity* e = *it;
@@ -92,8 +105,6 @@ void GameWorld::update(sf::Time dt) {
 		if (fabs(e->velocity.x) < 0.0001f) e->velocity.x = 0.f;
 		if (fabs(e->velocity.y) < 0.0001f) e->velocity.y = 0.f;
 
-		//std::cout << "Vel: " << e->velocity.x << ", " << e->velocity.y << std::endl;
-		
 		// Set lastVelocity to current velocity
 		e->lastVelocity.x = e->velocity.x;
 		e->lastVelocity.y = e->velocity.y;
@@ -121,7 +132,20 @@ void GameWorld::update(sf::Time dt) {
 
 	}
 
-	// Bullet stuff
+
+	// ======================================== //
+	// ====== Check if player is in goal ====== //
+	// ======================================== //
+
+	if (m_player->getGlobalBounds().intersects(m_mapGoalBounds))
+		std::cout << "GOOAL" << std::endl;
+
+
+
+	// ============================ //
+	// ====== Update bullets ====== //
+	// ============================ //
+
 	m_bulletSystem.update(dt);
 	m_bulletSystem.resolveCollisions(m_map, m_entities);
 

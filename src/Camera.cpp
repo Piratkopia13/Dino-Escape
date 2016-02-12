@@ -4,8 +4,9 @@ Camera::Camera(sf::RenderWindow& window)
 : m_view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))
 , m_window(window)
 , m_constraints(0,0,0,0)
-, m_zoom(1.f) {
-
+, m_zoom(1.f)
+, m_hasConstraints(false)
+{
 	updateView();
 }
 
@@ -13,6 +14,7 @@ void Camera::setConstraints(sf::FloatRect& constraints) {
 	m_constraints = constraints;
 	checkSize();
 	m_view.zoom(m_zoom);
+	m_hasConstraints = true;
 }
 
 void Camera::checkSize() {
@@ -55,6 +57,10 @@ void Camera::moveTo(const sf::Vector2f& position) {
 	// Interpolate
 	sf::Vector2f interp = 0.2f * newPos + (1 - 0.2f) * m_view.getCenter();
 
+	// Reset values if they are really low
+	if (fabs(interp.x) < 0.0001f) interp.x = 0.f;
+	if (fabs(interp.y) < 0.0001f) interp.y = 0.f;
+
 	m_view.setCenter(interp);
 
 	updateView();
@@ -64,7 +70,8 @@ void Camera::moveTo(const sf::Vector2f& position) {
 void Camera::handleResize(sf::Event::SizeEvent size) {
 
 	m_view.setSize(size.width, size.height);
-	checkSize();
+	if (m_hasConstraints)
+		checkSize();
 	m_view.zoom(m_zoom);
 	updateView();
 

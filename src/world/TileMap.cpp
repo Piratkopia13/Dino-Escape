@@ -145,8 +145,8 @@ TileMap::TileMap(std::string filePath) {
 				struct Object object;
 				object.x = (*obj)["x"].GetDouble() * m_renderScale;
 				object.y = (*obj)["y"].GetDouble() * m_renderScale;
-				object.width = (*obj)["width"].GetDouble();
-				object.height = (*obj)["height"].GetDouble();
+				object.width = (*obj)["width"].GetDouble() * m_renderScale;
+				object.height = (*obj)["height"].GetDouble() * m_renderScale;
 
 				// Loop through all properties
 				for (rapidjson::Value::ConstMemberIterator prop = (*obj)["properties"].MemberBegin(); prop != (*obj)["properties"].MemberEnd(); ++prop)

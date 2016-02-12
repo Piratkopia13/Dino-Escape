@@ -24,7 +24,6 @@ Game::Game()
 
 	m_world.add(&m_player);
 	m_world.setPlayer(&m_player);
-	m_world.spawnMapEntities();
 
 	// Set the cameras constraints to map border
 	m_camera.setConstraints(m_map.getBounds());
@@ -39,7 +38,8 @@ Game::Game()
 }
 void Game::run() {
 
-	m_window.setFramerateLimit(100);
+	// Enable VSYNC
+	m_window.setVerticalSyncEnabled(true);
 
 	sf::Clock clock, fpsClock;
 	sf::Time elapsedTime = sf::Time::Zero;
@@ -83,11 +83,9 @@ void Game::processEvents() {
 			switch (event.type) {
 
 			case sf::Event::KeyPressed:
-				//m_player.handleInput(event.key.code, true);
 				m_world.handleInput(event.key.code, true);
 				break;
 			case sf::Event::KeyReleased:
-				//m_player.handleInput(event.key.code, false);
 				m_world.handleInput(event.key.code, false);
 				break;
 			case sf::Event::Resized:
@@ -113,8 +111,6 @@ void Game::update(sf::Time dt) {
 
 	DebugRenderer::reset();
 
-	m_world.setPlayer(&m_player);
-
 	m_world.update(dt);
 	m_camera.moveTo(m_player.getCenterPos());
 
@@ -135,7 +131,7 @@ void Game::render() {
 	m_window.draw(m_world);
 
 	// Draw debug shapes
-	// DebugRenderer::draw(m_window);
+	DebugRenderer::draw(m_window);
 
 	// Render FPS
 	m_window.draw(m_FPStext);

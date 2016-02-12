@@ -7,8 +7,8 @@ int main() {
 	// DONE - Interpolate camera
 	// DONE - Stick camera view to map borders
 	// DONE - Bullet system
-	// Spawn enemies from points on map
-	// Player spawn and finish locations defined on map
+	// DONE - Spawn enemies from points on map
+	// DONE - Player spawn and finish locations defined on map
 	// File for settings level order
 	// Enemy AI
 	//		DONE - Blobbers, move left and right on platforms
@@ -18,6 +18,7 @@ int main() {
 	// Fix jumping
 	// Allow multiple tilesets and layers with rendering on top of player, etc
 	// TileMap culling outside camera
+	// Fix collisionTiles for entity outside map checking all tiles on the map
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
