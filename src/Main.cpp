@@ -15,6 +15,9 @@ int main() {
 	//		DONE - Effies, shoot fireballs when player is in line of sight
 	// DONE - Add debug thing for statically adding shapes for rendering
 	// Create resource caching, requesting system
+	// Fix jumping
+	// Allow multiple tilesets and layers with rendering on top of player, etc
+	// TileMap culling outside camera
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 

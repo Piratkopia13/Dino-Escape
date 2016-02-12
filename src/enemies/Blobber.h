@@ -6,7 +6,7 @@
 class Blobber : public Enemy {
 
 	public:
-		Blobber(sf::Vector2f position = sf::Vector2f(0, 0));
+		Blobber(sf::Vector2f bottomCenterPosition = sf::Vector2f(0, 0));
 
 		virtual void update(sf::Time dt);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -15,8 +15,8 @@ TileMap::TileMap(std::string filePath) {
 	m_tileWidth = doc["tilewidth"].GetInt() * m_renderScale;
 	m_tileHeight = doc["tileheight"].GetInt() * m_renderScale;
 
-	// Create the vector with width and height
-	m_collisionGrid = new std::vector< std::vector<bool> >(m_width, std::vector<bool>(m_height));
+	// Allocate appropriate amount of memory to store collidable tiles	
+	m_collisionGrid.resize(m_width, std::vector<bool>(m_height, false)); // False as inital value
 
 	int width = doc["tilewidth"].GetInt() * m_renderScale;
 	int height = doc["tileheight"].GetInt() * m_renderScale;
@@ -87,8 +87,8 @@ TileMap::TileMap(std::string filePath) {
 					}
 
 					// Add cell to the collision grid
-					if (!(*m_collisionGrid)[x][y]) {
-						(*m_collisionGrid)[x][y] = (curSet.collidableTiles.count(gid)) ? true : false;
+					if (!m_collisionGrid[x][y]) {
+						m_collisionGrid[x][y] = (curSet.collidableTiles.count(gid)) ? true : false;
 					}
 
 					// If the tile is not empty
@@ -133,12 +133,37 @@ TileMap::TileMap(std::string filePath) {
 			}
 
 		}
+
+
+		// If map has objects
+		if (itr->HasMember("objects") && (*itr)["objects"].IsArray()) {
+			auto &objects = (*itr)["objects"];
+			// Check objects for properties
+			for (rapidjson::Value::ConstValueIterator obj = objects.Begin(); obj != objects.End(); ++obj) {
+				
+				// Create the object
+				struct Object object;
+				object.x = (*obj)["x"].GetDouble() * m_renderScale;
+				object.y = (*obj)["y"].GetDouble() * m_renderScale;
+				object.width = (*obj)["width"].GetDouble();
+				object.height = (*obj)["height"].GetDouble();
+
+				// Loop through all properties
+				for (rapidjson::Value::ConstMemberIterator prop = (*obj)["properties"].MemberBegin(); prop != (*obj)["properties"].MemberEnd(); ++prop)
+					object.properties.push_back({prop->name.GetString(), prop->value.GetString()});
+
+				// Add the object
+				m_objects.push_back(object);
+
+			}
+		}
+
+
 	}
 
 }
 
 TileMap::~TileMap() {
-	delete m_collisionGrid;
 }
 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -148,10 +173,6 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 sf::Vector2f TileMap::resolveCollisions(Entity& entity) {
-
-#ifdef RENDER_COLLISION_SHAPES
-	debug_collisionShapes.clear();
-#endif
 
 	//std::cout << "Resolve collision " << entity.velocity.x << ", " << entity.velocity.y << std::endl;
 
@@ -198,24 +219,13 @@ sf::Vector2f TileMap::resolveCollisions(Entity& entity) {
 sf::Vector2f TileMap::getCollisionOverlap(sf::FloatRect bb) {
 
 #ifdef RENDER_COLLISION_SHAPES
-	sf::RectangleShape tmpRect(sf::Vector2f(playerBounds.width, playerBounds.height));
-	tmpRect.setPosition(playerBounds.left, playerBounds.top);
-	tmpRect.setOutlineThickness(-1.0f);
-	tmpRect.setFillColor(sf::Color::Transparent);
-	tmpRect.setOutlineColor(sf::Color::Red);
-	debug_collisionShapes.push_back(tmpRect);
+	DebugRenderer::addShape(bb, sf::Color::Blue);
 #endif
 
 	for (sf::FloatRect tile : getCollidableTilesFor(bb)) {
 
 #ifdef RENDER_COLLISION_SHAPES
-		// DEBUG - stores tiles checked for collision so they can be rendered
-		tmpRect = sf::RectangleShape(sf::Vector2f(tile.width, tile.height));
-		tmpRect.setPosition(tile.left, tile.top);
-		tmpRect.setOutlineThickness(-1.0f);
-		tmpRect.setFillColor(sf::Color::Transparent);
-		tmpRect.setOutlineColor(sf::Color::Green);
-		debug_collisionShapes.push_back(tmpRect);
+		DebugRenderer::addShape(tile, sf::Color::Green);
 #endif
 
 		if (tile.intersects(bb)) {
@@ -261,7 +271,7 @@ std::vector<sf::FloatRect> TileMap::getCollidableTilesFor(const sf::FloatRect& r
 	// Check for collisions
 	for (unsigned int y = yStart; y <= yEnd; y++) {
 		for (unsigned int x = xStart; x <= xEnd; x++) {
-			if ((*m_collisionGrid)[x][y]) // If maptile is collidable
+			if (m_collisionGrid[x][y]) // If maptile is collidable
 				tiles.push_back(sf::FloatRect(static_cast<float>(x * m_tileWidth), static_cast<float>(y * m_tileHeight), 
 					static_cast<float>(m_tileWidth), static_cast<float>((m_tileHeight))));
 		}
@@ -283,7 +293,7 @@ bool TileMap::isPointColliding(const sf::Vector2f& point) const {
 	if (x >= m_width || y >= m_height)
 		return false;
 
-	return (*m_collisionGrid)[x][y]; // If maptile is collidable
+	return m_collisionGrid[x][y]; // If maptile is collidable
 
 }
 
@@ -314,18 +324,10 @@ bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end
 	int numerator = longest >> 1;
 	for (int i = 0; i <= longest; i++) {
 		
-		/*if (debugShapes.size() < 50) {
-			sf::RectangleShape s;
-			s.setSize(sf::Vector2f(m_tileWidth, m_tileHeight));
-			s.setFillColor(sf::Color::Transparent);
-			s.setOutlineColor(sf::Color::Green);
-			s.setOutlineThickness(-1.f);
-			s.setPosition(x * m_tileWidth, y * m_tileHeight);
-			debugShapes.push_back(s);
-		}*/
+		DebugRenderer::addShape(sf::Vector2f(x * m_tileWidth, y * m_tileHeight), sf::Vector2f(m_tileWidth, m_tileHeight), sf::Color::Magenta);
 
 		if (x < m_width && y < m_height)
-			if ((*m_collisionGrid)[x][y]) return true; // collision found, return true!
+			if (m_collisionGrid[x][y]) return true; // collision found, return true!
 
 		numerator += shortest;
 		if (!(numerator < longest)) {
@@ -344,4 +346,9 @@ bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end
 
 sf::FloatRect TileMap::getBounds() {
 	return sf::FloatRect(0, 0, m_width * m_tileWidth, m_height * m_tileHeight);
+}
+
+const std::vector<TileMap::Object>& TileMap::getObjects() const {
+
+	return m_objects;
 }

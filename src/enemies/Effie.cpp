@@ -1,7 +1,7 @@
 #include "Effie.h"
 
-Effie::Effie(sf::Vector2f position)
-: Enemy(position)
+Effie::Effie(sf::Vector2f bottomCenterPosition)
+: Enemy(bottomCenterPosition)
 , m_fireballCooldown(sf::seconds(.9f)) // How often Effie can shoot when he sees the player
 {
 
@@ -22,10 +22,13 @@ Effie::Effie(sf::Vector2f position)
 
 	sprite.setAnimation(walkAnimation);
 
-	sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
+	sf::FloatRect bounds = sprite.getGlobalBounds();
+	sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
 	sprite.setScale(spriteScale);
 
 	sprite.setFrameTime(sf::seconds(0.3f));
+
+	sprite.move(0, -bounds.height);
 
 }
 

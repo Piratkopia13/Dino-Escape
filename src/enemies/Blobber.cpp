@@ -1,7 +1,7 @@
 #include "Blobber.h"
 
-Blobber::Blobber(sf::Vector2f position)
-: Enemy(position)
+Blobber::Blobber(sf::Vector2f bottomCenterPosition)
+: Enemy(bottomCenterPosition)
 {
 
 	// Set up animation
@@ -22,6 +22,8 @@ Blobber::Blobber(sf::Vector2f position)
 
 	interpolationStepOnGround.x = 0.01f; // Slippery
 
+	sf::FloatRect bounds = sprite.getGlobalBounds();
+	sprite.move(0, -bounds.height);
 }
 
 void Blobber::update(sf::Time dt) {

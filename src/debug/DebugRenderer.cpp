@@ -30,12 +30,23 @@ void DebugRenderer::addShape(const sf::Vector2f& centerPos, const sf::FloatRect&
 
 }
 
+void DebugRenderer::addShape(const sf::FloatRect& bounds, const sf::Color& color, const bool onlyBorder) {
+
+	sf::Vector2f pos(bounds.left, bounds.top);
+	sf::Vector2f size(bounds.width, bounds.height);
+
+	addShape(pos, size, color, onlyBorder);
+
+}
+
 void DebugRenderer::draw(sf::RenderTarget& target) {
 
 	for (auto s : m_shapes) {
 		target.draw(s);
 	}
 
-	m_shapes.clear();
+}
 
+void DebugRenderer::reset() {
+	m_shapes.clear();
 }

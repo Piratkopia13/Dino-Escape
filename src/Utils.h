@@ -44,4 +44,11 @@ public:
 		else
 			return vec;
 	}
+
+	static std::string vecToString(const sf::Vector2f& vec) {
+		std::string str = "{";
+		str += std::to_string(vec.x); str += ", "; str += std::to_string(vec.y); str += "}";
+		return str;
+	}
+
 };

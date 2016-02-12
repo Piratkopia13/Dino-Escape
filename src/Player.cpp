@@ -52,6 +52,7 @@ void Player::update(sf::Time dt) {
 
 	if (m_isJumping && isGrounded) {
 		// TODO: fix jumping, make it smoother (and with normal values, looking at you, 9k)
+
 		velocity.y = -9000.0f * dt.asSeconds();
 	}
 	bool isMovingHorizintally = false;
@@ -108,6 +109,7 @@ void Player::fireGun() {
 			bulletVelocity.x = bulletSpeed;
 			from.x += 15.0f;
 		}
+		bulletVelocity += lastVelocity;
 
 		world->getBulletSystem().fireBullet(Bullet::NORMAL, from, bulletVelocity, this);
 			

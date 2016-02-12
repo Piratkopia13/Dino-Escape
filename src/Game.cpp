@@ -5,8 +5,6 @@ Game::Game()
 	, TimePerFrame(sf::seconds(1.0f/60.0f))
 	, m_map("test.json")
 	, m_camera(m_window)
-	, m_blobber(sf::Vector2f(50, 300))
-	, m_effie(sf::Vector2f(240, 280))
 	, m_world(m_map)
 	, m_spawnClickEnt(m_world, m_window)
 	, m_spawnClickBlt(m_world, m_window)
@@ -17,13 +15,16 @@ Game::Game()
 	m_FPStext.setCharacterSize(30);
 	m_FPStext.setScale(0.2f, 0.2f);
 
+	m_posText.setFont(m_font);
+	m_posText.setCharacterSize(30);
+	m_posText.setScale(0.2f, 0.2f);	
+
 	// Plant the time seed
 	srand(static_cast<unsigned int>(time(0)));
 
 	m_world.add(&m_player);
-	m_world.add(&m_blobber);
-	m_world.add(&m_effie);
-	//m_world.setPlayer(&m_player);
+	m_world.setPlayer(&m_player);
+	m_world.spawnMapEntities();
 
 	// Set the cameras constraints to map border
 	m_camera.setConstraints(m_map.getBounds());
@@ -38,7 +39,7 @@ Game::Game()
 }
 void Game::run() {
 
-	//m_window.setFramerateLimit(100);
+	m_window.setFramerateLimit(100);
 
 	sf::Clock clock, fpsClock;
 	sf::Time elapsedTime = sf::Time::Zero;
@@ -110,6 +111,8 @@ void Game::processEvents() {
 }
 void Game::update(sf::Time dt) {
 
+	DebugRenderer::reset();
+
 	m_world.setPlayer(&m_player);
 
 	m_world.update(dt);
@@ -120,6 +123,10 @@ void Game::update(sf::Time dt) {
 	m_FPStext.move(2.0f, 0);
 	m_FPStext.setString("FPS: " + std::to_string(m_fps));
 
+	// Update PosText
+	m_posText.setPosition(m_window.mapPixelToCoords(sf::Vector2i(5.f, 25.f)));
+	m_posText.setString("Player pos: " + Utils::vecToString(m_player.getCenterPos()));
+
 }
 void Game::render() {
 
@@ -128,10 +135,11 @@ void Game::render() {
 	m_window.draw(m_world);
 
 	// Draw debug shapes
-	DebugRenderer::draw(m_window);
+	// DebugRenderer::draw(m_window);
 
 	// Render FPS
 	m_window.draw(m_FPStext);
+	m_window.draw(m_posText);
 
 	m_window.display();
 

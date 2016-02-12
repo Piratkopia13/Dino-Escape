@@ -8,7 +8,7 @@
 class Enemy : public Entity {
 
 	public:
-		Enemy(sf::Vector2f position = sf::Vector2f(0,0));
+		Enemy(sf::Vector2f bottomCenterPosition = sf::Vector2f(0,0));
 
 		virtual void handleInput(sf::Keyboard::Key key, bool isPressed) {}; // Enemies dont use key input
 		virtual void update(sf::Time dt) = 0;

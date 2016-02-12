@@ -5,7 +5,39 @@ const float GameWorld::GRAVITY = 340.0f;
 GameWorld::GameWorld(TileMap& map)
 : m_map(map)
 {
+}
 
+GameWorld::~GameWorld() {
+
+	// Remove entities that where created from spawnpoints on the map
+	for (auto e : m_mapDefinedEntities)
+		delete e;
+
+}
+
+void GameWorld::spawnMapEntities() {
+	auto objects = m_map.getObjects();
+	for (auto obj : objects) {
+
+		for (auto prop : obj.properties) {
+
+			if (prop.name == "spawn") {
+
+				if (prop.value == "player")
+				m_player->getTransformable().setPosition(obj.x, obj.y - m_player->getGlobalBounds().height);
+				if (prop.value == "effie") {
+					m_mapDefinedEntities.push_back(new Effie(sf::Vector2f(obj.x, obj.y)));
+					add(m_mapDefinedEntities.back());
+				}
+				if (prop.value == "blobber") {
+					m_mapDefinedEntities.push_back(new Blobber(sf::Vector2f(obj.x, obj.y)));
+					add(m_mapDefinedEntities.back());
+				}
+			}
+
+		}
+
+	}
 }
 
 void GameWorld::add(Entity* entity) {
@@ -15,7 +47,7 @@ void GameWorld::add(Entity* entity) {
 }
 
 void GameWorld::setPlayer(Entity* player) {
-	m_player = player;
+	m_player = player;	
 }
 
 

@@ -6,6 +6,8 @@
 #include "Entity.h"
 #include "TileMap.h"
 #include "BulletSystem.h"
+#include "../enemies/Effie.h"
+#include "../enemies/Blobber.h"
 
 class GameWorld : public sf::Drawable {
 
@@ -14,6 +16,11 @@ class GameWorld : public sf::Drawable {
 
 	public:
 		GameWorld(TileMap& map);
+		~GameWorld();
+
+		// Spawns entites specified by the map
+		// Also moves the player to the specified spawn
+		void spawnMapEntities();
 
 		void handleInput(sf::Keyboard::Key key, bool isPressed);
 		void add(Entity* entity);
@@ -28,8 +35,11 @@ class GameWorld : public sf::Drawable {
 
 	private:
 		std::vector<Entity*> m_entities;
-		Entity* m_player; // Keep track of who enemies should attack and bullets collide with
-		TileMap& m_map;
 		BulletSystem m_bulletSystem;
+
+		Entity* m_player; // Keep track of who enemies should attack and bullets collide with
+
+		TileMap& m_map;
+		std::vector<Entity*> m_mapDefinedEntities;
 
 };
