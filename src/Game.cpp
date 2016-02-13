@@ -8,7 +8,6 @@ Game::Game()
 	, m_world(m_map)
 	, m_spawnClickEnt(m_world, m_window)
 	, m_spawnClickBlt(m_world, m_window)
-	, m_player(new Player())
 {
 
 	m_font.loadFromFile("res/fonts/Roboto-Regular.ttf");
@@ -22,9 +21,6 @@ Game::Game()
 
 	// Plant the time seed
 	srand(static_cast<unsigned int>(time(0)));
-
-	m_world.add(m_player.get());
-	m_world.setPlayer(m_player.get());
 
 	// Set the cameras constraints to map border
 	m_camera.setConstraints(m_map.getBounds());
@@ -113,7 +109,7 @@ void Game::update(sf::Time dt) {
 	DebugRenderer::reset();
 
 	m_world.update(dt);
-	m_camera.moveTo(m_player->getCenterPos());
+	m_camera.moveTo(m_world.getPlayer()->getCenterPos());
 
 	// Update FPSText
 	m_FPStext.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
@@ -122,7 +118,7 @@ void Game::update(sf::Time dt) {
 
 	// Update PosText
 	m_posText.setPosition(m_window.mapPixelToCoords(sf::Vector2i(5.f, 25.f)));
-	m_posText.setString("Player pos: " + Utils::vecToString(m_player->getCenterPos()));
+	m_posText.setString("Player pos: " + Utils::vecToString(m_world.getPlayer()->getCenterPos()));
 
 }
 void Game::render() {

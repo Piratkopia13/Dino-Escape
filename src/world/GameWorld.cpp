@@ -5,6 +5,11 @@ const float GameWorld::GRAVITY = 340.0f;
 GameWorld::GameWorld(TileMap& map)
 : m_map(map)
 {
+	// Create the player
+	add(new Player());
+	// Store a pointer to the unique_ptr's value
+	m_player = m_entities.back().get();
+
 	handleMapObjects();
 }
 
@@ -20,10 +25,8 @@ void GameWorld::handleMapObjects() {
 
 			if (prop.name == "spawn") {
 
-				if (prop.value == "player") {
-					m_playerSpawn.x = obj.x;
-					m_playerSpawn.y = obj.y;
-				}
+				if (prop.value == "player")
+					m_player->getTransformable().setPosition(obj.x, obj.y - m_player->getGlobalBounds().height);
 				if (prop.value == "effie")
 					add(new Effie(sf::Vector2f(obj.x, obj.y)));
 				if (prop.value == "blobber")
@@ -48,12 +51,11 @@ void GameWorld::add(Entity* entity) {
 	// Let the entity know about this world
 	m_entities.back()->world = this;
 }
-
-void GameWorld::setPlayer(Entity* player) {
-	m_player = player;
-	m_player->getTransformable().setPosition(m_playerSpawn.x, m_playerSpawn.y - m_player->getGlobalBounds().height);
+void GameWorld::add(Entity::EntityPtr& entity) {
+	m_entities.push_back(std::move(entity));
+	// Let the entity know about this world
+	m_entities.back()->world = this;
 }
-
 
 void GameWorld::handleInput(sf::Keyboard::Key key, bool isPressed) {
 

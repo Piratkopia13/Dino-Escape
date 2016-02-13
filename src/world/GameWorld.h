@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Entity.h"
+#include "../Player.h"
 #include "TileMap.h"
 #include "BulletSystem.h"
 #include "../enemies/Effie.h"
@@ -21,7 +22,7 @@ class GameWorld : public sf::Drawable {
 
 		void handleInput(sf::Keyboard::Key key, bool isPressed);
 		void add(Entity* entity);
-		void setPlayer(Entity* player);
+		void add(Entity::EntityPtr& entity);
 
 		void update(sf::Time dt);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -40,8 +41,7 @@ class GameWorld : public sf::Drawable {
 		std::vector<Entity::EntityPtr> m_entities;
 		BulletSystem m_bulletSystem;
 
-		sf::Vector2f m_playerSpawn;
-		Entity* m_player; // Keep track of who enemies should attack and bullets collide with
+		Entity* m_player; // Who enemies should attack and bullets collide with
 
 		TileMap& m_map;
 

@@ -2,11 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Player.h"
-#include "world/TileMap.h"
 #include "Camera.h"
-#include "enemies/Blobber.h"
-#include "enemies/Effie.h"
 #include "world/GameWorld.h"
 
 #include "debug/DebugRenderer.h"
@@ -35,8 +31,6 @@ private:
 	Camera m_camera;
 
 	GameWorld m_world;
-
-	Entity::EntityPtr m_player;
 
 	sf::Font m_font;
 	sf::Text m_FPStext;
