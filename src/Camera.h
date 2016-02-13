@@ -11,7 +11,7 @@ public:
 	void moveTo(const sf::Vector2f& position);
 	void setConstraints(sf::FloatRect& constraints);
 	void zoom(float zoom);
-
+	const sf::View& getView() const;
 
 private:
 	void updateView();

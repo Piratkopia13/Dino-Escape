@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include <SFML\Graphics.hpp>
 
+#include "../Common.h"
 #include "../world/GameWorld.h"
 
 class SpawnClickBullet {

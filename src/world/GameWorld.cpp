@@ -66,7 +66,9 @@ void GameWorld::handleInput(sf::Keyboard::Key key, bool isPressed) {
 
 void GameWorld::update(sf::Time dt) {
 
+#ifdef ENABLE_DEBUG_SHAPES
 	DebugRenderer::addShape(m_mapGoalBounds, sf::Color::Cyan);
+#endif
 
 	for (auto it = m_entities.begin(); it != m_entities.end();) {
 		auto& e = *it;
@@ -168,4 +170,8 @@ Entity* GameWorld::getPlayer() const {
 }
 TileMap* GameWorld::getMap() const {
 	return &m_map;
+}
+
+int GameWorld::getNumEntites() const {
+	return m_entities.size();
 }

@@ -85,3 +85,7 @@ void Camera::zoom(float zoom) {
 void Camera::updateView() {
 	m_window.setView(m_view);
 }
+
+const sf::View& Camera::getView() const {
+	return m_view;
+}

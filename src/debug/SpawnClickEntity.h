@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+
+#include "../Common.h"
 #include "../world/GameWorld.h"
 #include "../enemies/Blobber.h"
 #include "../enemies/Effie.h"

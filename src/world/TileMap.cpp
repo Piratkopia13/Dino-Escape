@@ -216,16 +216,15 @@ sf::Vector2f TileMap::resolveCollisions(Entity& entity) {
 
 }
 
-#define RENDER_COLLISION_SHAPES
 sf::Vector2f TileMap::getCollisionOverlap(sf::FloatRect bb) {
 
-#ifdef RENDER_COLLISION_SHAPES
+#ifdef ENABLE_DEBUG_SHAPES
 	DebugRenderer::addShape(bb, sf::Color::Blue);
 #endif
 
 	for (sf::FloatRect tile : getCollidableTilesFor(bb)) {
 
-#ifdef RENDER_COLLISION_SHAPES
+#ifdef ENABLE_DEBUG_SHAPES
 		DebugRenderer::addShape(tile, sf::Color::Green);
 #endif
 
@@ -329,7 +328,9 @@ bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end
 	int numerator = longest >> 1;
 	for (int i = 0; i <= longest; i++) {
 		
+#ifdef ENABLE_DEBUG_SHAPES
 		DebugRenderer::addShape(sf::Vector2f(x * m_tileWidth, y * m_tileHeight), sf::Vector2f(m_tileWidth, m_tileHeight), sf::Color::Magenta);
+#endif
 
 		if (x < m_width && y < m_height)
 			if (m_collisionGrid[x][y]) return true; // collision found, return true!

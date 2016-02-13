@@ -1,7 +1,8 @@
 #pragma once
 
 #include <memory>
-#include <SFML\Graphics.hpp>
+
+#include "../Common.h"
 #include "Bullet.h"
 
 class GameWorld;

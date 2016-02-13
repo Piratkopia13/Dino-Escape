@@ -1,8 +1,10 @@
 #pragma once
 
-#include <vector>
+#include "../Common.h"
 
-#include <SFML\Graphics.hpp>
+#ifdef ENABLE_DEBUG_SHAPES
+
+#include <vector>
 
 class DebugRenderer {
 
@@ -19,3 +21,5 @@ private:
 	static std::vector<sf::RectangleShape> m_shapes;
 
 };
+
+#endif

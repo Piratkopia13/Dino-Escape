@@ -82,9 +82,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-network-s-d.lib;sfml-audio-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>No</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,6 +146,7 @@
     <ClInclude Include="src\animations\AnimatedSprite.hpp" />
     <ClInclude Include="src\animations\Animation.hpp" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\debug\DebugRenderer.h" />
     <ClInclude Include="src\debug\SpawnClickBullet.h" />
     <ClInclude Include="src\debug\SpawnClickEntity.h" />

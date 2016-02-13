@@ -30,6 +30,7 @@ class GameWorld : public sf::Drawable {
 		BulletSystem& getBulletSystem();
 		Entity* getPlayer() const;
 		TileMap* getMap() const;
+		int getNumEntites() const;
 
 	private:
 		// Spawns entites specified by the map

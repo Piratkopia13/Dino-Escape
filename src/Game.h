@@ -35,6 +35,7 @@ private:
 	sf::Font m_font;
 	sf::Text m_FPStext;
 	sf::Text m_posText;
+	sf::Text m_numEntsText;
 
 	sf::RectangleShape debugBB;
 	SpawnClickEntity m_spawnClickEnt;

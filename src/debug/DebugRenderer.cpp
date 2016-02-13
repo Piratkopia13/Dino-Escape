@@ -1,5 +1,7 @@
 #include "DebugRenderer.h"
 
+#ifdef ENABLE_DEBUG_SHAPES
+
 std::vector<sf::RectangleShape> DebugRenderer::m_shapes;
 
 void DebugRenderer::addShape(const sf::Vector2f& pos, const sf::Vector2f& size, const sf::Color& color, const bool onlyBorder) {
@@ -50,3 +52,5 @@ void DebugRenderer::draw(sf::RenderTarget& target) {
 void DebugRenderer::reset() {
 	m_shapes.clear();
 }
+
+#endif

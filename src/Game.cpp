@@ -19,6 +19,10 @@ Game::Game()
 	m_posText.setCharacterSize(30);
 	m_posText.setScale(0.2f, 0.2f);	
 
+	m_numEntsText.setFont(m_font);
+	m_numEntsText.setCharacterSize(30);
+	m_numEntsText.setScale(0.2f, 0.2f);
+
 	// Plant the time seed
 	srand(static_cast<unsigned int>(time(0)));
 
@@ -106,7 +110,9 @@ void Game::processEvents() {
 }
 void Game::update(sf::Time dt) {
 
+#ifdef ENABLE_DEBUG_SHAPES
 	DebugRenderer::reset();
+#endif
 
 	m_world.update(dt);
 	m_camera.moveTo(m_world.getPlayer()->getCenterPos());
@@ -120,6 +126,9 @@ void Game::update(sf::Time dt) {
 	m_posText.setPosition(m_window.mapPixelToCoords(sf::Vector2i(5.f, 25.f)));
 	m_posText.setString("Player pos: " + Utils::vecToString(m_world.getPlayer()->getCenterPos()));
 
+	m_numEntsText.setPosition(m_window.mapPixelToCoords(sf::Vector2i(5.f, 50.f)));
+	m_numEntsText.setString("Num entites: " + std::to_string(m_world.getNumEntites()));
+
 }
 void Game::render() {
 
@@ -127,12 +136,15 @@ void Game::render() {
 
 	m_window.draw(m_world);
 
+#ifdef ENABLE_DEBUG_SHAPES
 	// Draw debug shapes
 	DebugRenderer::draw(m_window);
+#endif
 
 	// Render FPS
 	m_window.draw(m_FPStext);
 	m_window.draw(m_posText);
+	m_window.draw(m_numEntsText);
 
 	m_window.display();
 
