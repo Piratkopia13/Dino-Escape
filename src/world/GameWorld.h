@@ -9,6 +9,7 @@
 #include "../enemies/Effie.h"
 #include "../enemies/Blobber.h"
 
+
 class GameWorld : public sf::Drawable {
 
 	public:
@@ -36,14 +37,13 @@ class GameWorld : public sf::Drawable {
 		void handleMapObjects();
 
 	private:
-		std::vector<Entity*> m_entities;
+		std::vector<Entity::EntityPtr> m_entities;
 		BulletSystem m_bulletSystem;
 
 		sf::Vector2f m_playerSpawn;
 		Entity* m_player; // Keep track of who enemies should attack and bullets collide with
 
 		TileMap& m_map;
-		std::vector<Entity*> m_mapDefinedEntities;
 
 		sf::FloatRect m_mapGoalBounds;
 

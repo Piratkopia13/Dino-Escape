@@ -7,13 +7,6 @@ SpawnClickEntity::SpawnClickEntity(GameWorld& world, sf::RenderWindow& window)
 {
 }
 
-SpawnClickEntity::~SpawnClickEntity() {
-
-	for (Entity* e : m_entites)
-		delete e;
-
-}
-
 void SpawnClickEntity::handleInput(sf::Mouse::Button button, bool isPressed) {
 
 	if (button == sf::Mouse::Left && isPressed) {
@@ -23,14 +16,12 @@ void SpawnClickEntity::handleInput(sf::Mouse::Button button, bool isPressed) {
 		switch (m_type) {
 		case SpawnClickEntity::BLOBBER:
 
-			m_entites.push_back(new Blobber(pos));
-			m_world.add(m_entites.back());
+			m_world.add(new Blobber(pos));
 
 			break;
 		case SpawnClickEntity::EFFIE:
-
-			m_entites.push_back(new Effie(pos));
-			m_world.add(m_entites.back());
+			
+			m_world.add(new Effie(pos));
 
 			break;
 		}

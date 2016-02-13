@@ -73,7 +73,7 @@ void BulletSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 }
 
-void BulletSystem::resolveCollisions(TileMap& map, std::vector<Entity*>& entites) {
+void BulletSystem::resolveCollisions(TileMap& map, std::vector<Entity::EntityPtr>& entites) {
 
 	// TODO: Create a tree structure and only check for collisions with entities in same cell
 	// TODO: Dont delete too many bullets per frame sice vector.erase is slow as f***, mark the bullets to not render and remove a couple every frame
@@ -84,7 +84,7 @@ void BulletSystem::resolveCollisions(TileMap& map, std::vector<Entity*>& entites
 
 		// Check collision with entities
 		for (auto& entity : entites) {
-			if (entity != it->getOwner()) { // Dont check for collisions on bullets owner
+			if (entity.get() != it->getOwner()) { // Dont check for collisions on bullets owner
 
 				sf::FloatRect bounds;
 				switch (it->getType()) {

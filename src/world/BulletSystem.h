@@ -21,7 +21,7 @@ class BulletSystem : sf::Drawable {
 		// Takes a list of entities to check for collision with
 		// Uses the last entity.map to check bullet-map collisions
 		// Calls entity.hitByBullet() on collision
-		void resolveCollisions(TileMap& map, std::vector<Entity*>& entites);
+		void resolveCollisions(TileMap& map, std::vector<Entity::EntityPtr>& entites);
 
 	private:
 		std::vector<Bullet> m_bullets;

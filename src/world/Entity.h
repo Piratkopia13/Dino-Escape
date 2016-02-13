@@ -1,11 +1,15 @@
 #pragma once
 
+#include <memory>
 #include <SFML\Graphics.hpp>
 #include "Bullet.h"
 
 class GameWorld;
 
 class Entity : public sf::Drawable {
+
+	public:
+		typedef std::unique_ptr<Entity> EntityPtr;
 
 	public:
 		Entity() {}

@@ -36,7 +36,7 @@ private:
 
 	GameWorld m_world;
 
-	Player m_player;
+	Entity::EntityPtr m_player;
 
 	sf::Font m_font;
 	sf::Text m_FPStext;

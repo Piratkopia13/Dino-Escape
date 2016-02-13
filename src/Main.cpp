@@ -18,7 +18,8 @@ int main() {
 	// Fix jumping
 	// Allow multiple tilesets and layers with rendering on top of player, etc
 	// TileMap culling outside camera
-	// Fix collisionTiles for entity outside map checking all tiles on the map
+	// DONE - Fix collisionTiles for entity outside map checking all tiles on the map
+	// Switch to strongly typed enumerations
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 

@@ -51,7 +51,7 @@ public:
 	bool isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end);
 
 	// Returns the max bounds for the map
-	sf::FloatRect getBounds();
+	sf::FloatRect getBounds() const;
 
 	const std::vector<TileMap::Object>& getObjects() const;
 

@@ -10,10 +10,6 @@ GameWorld::GameWorld(TileMap& map)
 
 GameWorld::~GameWorld() {
 
-	// Remove entities that where created from spawnpoints on the map
-	for (auto e : m_mapDefinedEntities)
-		delete e;
-
 }
 
 void GameWorld::handleMapObjects() {
@@ -28,14 +24,11 @@ void GameWorld::handleMapObjects() {
 					m_playerSpawn.x = obj.x;
 					m_playerSpawn.y = obj.y;
 				}
-				if (prop.value == "effie") {
-					m_mapDefinedEntities.push_back(new Effie(sf::Vector2f(obj.x, obj.y)));
-					add(m_mapDefinedEntities.back());
-				}
-				if (prop.value == "blobber") {
-					m_mapDefinedEntities.push_back(new Blobber(sf::Vector2f(obj.x, obj.y)));
-					add(m_mapDefinedEntities.back());
-				}
+				if (prop.value == "effie")
+					add(new Effie(sf::Vector2f(obj.x, obj.y)));
+				if (prop.value == "blobber")
+					add(new Blobber(sf::Vector2f(obj.x, obj.y)));
+				
 			}
 
 			if (prop.name == "goal") {
@@ -51,9 +44,9 @@ void GameWorld::handleMapObjects() {
 }
 
 void GameWorld::add(Entity* entity) {
-	m_entities.push_back(entity);
+	m_entities.push_back(std::move(Entity::EntityPtr(entity)));
 	// Let the entity know about this world
-	entity->world = this;
+	m_entities.back()->world = this;
 }
 
 void GameWorld::setPlayer(Entity* player) {
@@ -64,7 +57,7 @@ void GameWorld::setPlayer(Entity* player) {
 
 void GameWorld::handleInput(sf::Keyboard::Key key, bool isPressed) {
 
-	for (Entity* e : m_entities)
+	for (auto& e : m_entities)
 		e->handleInput(key, isPressed);
 
 }
@@ -74,7 +67,7 @@ void GameWorld::update(sf::Time dt) {
 	DebugRenderer::addShape(m_mapGoalBounds, sf::Color::Cyan);
 
 	for (auto it = m_entities.begin(); it != m_entities.end();) {
-		Entity* e = *it;
+		auto& e = *it;
 
 		// Remove if entity is dead
 		if (e->isDead) {
@@ -157,7 +150,7 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.draw(m_map, states);
 
 	// Draw entities
-	for (Entity* e : m_entities)
+	for (auto& e : m_entities)
 		target.draw(*e, states);
 
 	// Draw bullets

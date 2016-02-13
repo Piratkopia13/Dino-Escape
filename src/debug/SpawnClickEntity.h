@@ -16,7 +16,6 @@ class SpawnClickEntity {
 
 	public:
 		SpawnClickEntity(GameWorld& world, sf::RenderWindow& window);
-		~SpawnClickEntity();
 
 		void setSpawnType(EnemyType type);
 		void handleInput(sf::Mouse::Button button, bool isPressed);
@@ -24,6 +23,5 @@ class SpawnClickEntity {
 	private:
 		GameWorld& m_world;
 		EnemyType m_type;
-		std::vector<Entity*> m_entites;
 		sf::RenderWindow& m_window;
 };
