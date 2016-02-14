@@ -4,6 +4,7 @@
 
 #include "../Common.h"
 #include "Bullet.h"
+#include "../TextureHolder.h"
 
 class GameWorld;
 

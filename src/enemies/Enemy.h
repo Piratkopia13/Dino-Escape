@@ -2,13 +2,13 @@
 
 #include <SFML\Graphics.hpp>
 
-#include "..\animations\AnimatedSprite.hpp"
 #include "..\world\Entity.h"
+#include "..\animations\AnimatedSprite.hpp"
 
 class Enemy : public Entity {
 
 	public:
-		Enemy(sf::Vector2f bottomCenterPosition = sf::Vector2f(0,0));
+		Enemy(GameWorld& world) { this->world = &world; }
 
 		virtual void handleInput(sf::Keyboard::Key key, bool isPressed) {}; // Enemies dont use key input
 		virtual void update(sf::Time dt) = 0;
@@ -20,9 +20,6 @@ class Enemy : public Entity {
 
 
 	protected:
-		sf::Texture texture;
-		AnimatedSprite sprite;
-		Animation walkAnimation;
 		sf::Vector2f spriteScale = sf::Vector2f(2.0f, 2.0f);
 
 

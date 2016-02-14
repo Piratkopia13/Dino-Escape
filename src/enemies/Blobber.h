@@ -6,7 +6,7 @@
 class Blobber : public Enemy {
 
 	public:
-		Blobber(sf::Vector2f bottomCenterPosition = sf::Vector2f(0, 0));
+		Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition = sf::Vector2f(0, 0));
 
 		virtual void update(sf::Time dt);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -20,6 +20,10 @@ class Blobber : public Enemy {
 		void runAI();
 
 	private:
+		const sf::Texture* m_texture;
+		AnimatedSprite m_sprite;
+		Animation m_walkAnimation;
+
 		sf::RectangleShape m_debugPoint;
 
 		bool m_isMovingLeft, m_isMovingRight;

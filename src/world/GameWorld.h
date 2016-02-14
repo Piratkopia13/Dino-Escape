@@ -3,10 +3,9 @@
 #include <SFML\Graphics.hpp>
 #include <vector>
 
-#include "Entity.h"
-#include "../Player.h"
 #include "TileMap.h"
 #include "BulletSystem.h"
+#include "../Player.h"
 #include "../enemies/Effie.h"
 #include "../enemies/Blobber.h"
 
@@ -15,6 +14,7 @@ class GameWorld : public sf::Drawable {
 
 	public:
 		static const float GRAVITY;
+		TextureHolder m_textureManager;
 
 	public:
 		GameWorld(TileMap& map);
@@ -31,6 +31,7 @@ class GameWorld : public sf::Drawable {
 		Entity* getPlayer() const;
 		TileMap* getMap() const;
 		int getNumEntites() const;
+		TextureHolder& getTextureManager();
 
 	private:
 		// Spawns entites specified by the map

@@ -1,40 +1,36 @@
 #include "Effie.h"
 
-Effie::Effie(sf::Vector2f bottomCenterPosition)
-: Enemy(bottomCenterPosition)
+Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition)
+: Enemy(world)
 , m_fireballCooldown(sf::seconds(.9f)) // How often Effie can shoot when he sees the player
 {
 
-	// Set up animation
-	int width = 16, height = 16;
-	int startX = 0, startY = 16;
-	/*for (int i = 0; i < 3; i++)
-		m_walkAnimation.addFrame(sf::IntRect(startX + i * width, startY, width, height));*/
+	m_sprite.move(bottomCenterPosition);
+
+	m_texture = &world.getTextureManager().get(TextureHolder::ENEMIES);
 
 	// Possible idle animation, make it slow tho
-	walkAnimation.addFrame(sf::IntRect(0, 16, width, height));
-	walkAnimation.addFrame(sf::IntRect(32, 16, width, height));
+	m_idleAnimation.setSpriteSheet(*m_texture);
+	m_idleAnimation.createFrames(16, 16, 16, 16, 2);
 
-	m_shootAnimation.setSpriteSheet(texture);
-	m_shootAnimation.addFrame(sf::IntRect(48, 16, width, height));
-	m_shootAnimation.addFrame(sf::IntRect(0, 16, width, height));
-	m_shootAnimation.addFrame(sf::IntRect(32, 16, width, height));
+	m_shootAnimation.setSpriteSheet(*m_texture);
+	m_shootAnimation.createFrames(16, 16, 0, 16, 3);
 
-	sprite.setAnimation(walkAnimation);
+	m_sprite.setAnimation(m_idleAnimation);
 
-	sf::FloatRect bounds = sprite.getGlobalBounds();
-	sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
-	sprite.setScale(spriteScale);
+	sf::FloatRect bounds = m_sprite.getGlobalBounds();
+	m_sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
+	m_sprite.setScale(spriteScale);
 
-	sprite.setFrameTime(sf::seconds(0.3f));
+	m_sprite.setFrameTime(sf::seconds(0.3f));
 
-	sprite.move(0, -bounds.height);
+	m_sprite.move(0, -bounds.height);
 
 }
 
 void Effie::update(sf::Time dt) {
 
-	sf::Vector2f myPos = sprite.getPosition();
+	sf::Vector2f myPos = m_sprite.getPosition();
 	sf::Vector2f playerPos = world->getPlayer()->getCenterPos();
 
 	// Raycast
@@ -45,10 +41,10 @@ void Effie::update(sf::Time dt) {
 		// Check what direction effie is looking
 		if (playerPos.x < myPos.x) {
 			// Flip
-			sprite.setScale(-spriteScale.x, spriteScale.y);
+			m_sprite.setScale(-spriteScale.x, spriteScale.y);
 		} else {
 			// Flip back
-			sprite.setScale(spriteScale.x, spriteScale.y);
+			m_sprite.setScale(spriteScale.x, spriteScale.y);
 		}
 
 
@@ -76,16 +72,16 @@ void Effie::update(sf::Time dt) {
 			m_lastFireballTime = sf::Time::Zero;
 			
 			// Play shoot animation
-			sprite.play(m_shootAnimation);
+			m_sprite.play(m_shootAnimation);
 			// Sync animation with bullets
-			sprite.setFrame(0, true);
+			m_sprite.setFrame(0, true);
 		}
 
 
 	} else {
-		sprite.play(walkAnimation);
+		m_sprite.play(m_idleAnimation);
 	}
-	sprite.update(dt);
+	m_sprite.update(dt);
 
 }
 
@@ -99,16 +95,16 @@ void Effie::hitByBullet(Bullet* blt) {
 
 void Effie::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
-	target.draw(sprite);
+	target.draw(m_sprite);
 
 }
 
 sf::Transformable& Effie::getTransformable() {
-	return sprite;
+	return m_sprite;
 }
 sf::FloatRect Effie::getGlobalBounds() const {
-	return sprite.getGlobalBounds();
+	return m_sprite.getGlobalBounds();
 }
 sf::Vector2f Effie::getCenterPos() const {
-	return sprite.getPosition();
+	return m_sprite.getPosition();
 }

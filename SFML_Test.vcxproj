@@ -133,8 +133,8 @@
     <ClCompile Include="src\debug\SpawnClickEntity.cpp" />
     <ClCompile Include="src\enemies\Blobber.cpp" />
     <ClCompile Include="src\enemies\Effie.cpp" />
-    <ClCompile Include="src\enemies\Enemy.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\TextureHolder.cpp" />
     <ClCompile Include="src\world\Bullet.cpp" />
     <ClCompile Include="src\world\BulletSystem.cpp" />
     <ClCompile Include="src\world\GameWorld.cpp" />
@@ -153,6 +153,7 @@
     <ClInclude Include="src\enemies\Blobber.h" />
     <ClInclude Include="src\enemies\Effie.h" />
     <ClInclude Include="src\enemies\Enemy.h" />
+    <ClInclude Include="src\TextureHolder.h" />
     <ClInclude Include="src\world\Bullet.h" />
     <ClInclude Include="src\world\BulletSystem.h" />
     <ClInclude Include="src\world\Entity.h" />

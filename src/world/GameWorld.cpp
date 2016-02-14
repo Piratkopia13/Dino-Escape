@@ -11,6 +11,8 @@ GameWorld::GameWorld(TileMap& map)
 	m_player = m_entities.back().get();
 
 	handleMapObjects();
+
+	m_textureManager.get(TextureHolder::ENEMIES);
 }
 
 GameWorld::~GameWorld() {
@@ -28,9 +30,9 @@ void GameWorld::handleMapObjects() {
 				if (prop.value == "player")
 					m_player->getTransformable().setPosition(obj.x, obj.y - m_player->getGlobalBounds().height);
 				if (prop.value == "effie")
-					add(new Effie(sf::Vector2f(obj.x, obj.y)));
+					add(new Effie(*this, sf::Vector2f(obj.x, obj.y)));
 				if (prop.value == "blobber")
-					add(new Blobber(sf::Vector2f(obj.x, obj.y)));
+					add(new Blobber(*this, sf::Vector2f(obj.x, obj.y)));
 				
 			}
 
@@ -174,4 +176,8 @@ TileMap* GameWorld::getMap() const {
 
 int GameWorld::getNumEntites() const {
 	return m_entities.size();
+}
+
+TextureHolder& GameWorld::getTextureManager() {
+	return m_textureManager;
 }

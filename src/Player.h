@@ -3,8 +3,8 @@
 #include <SFML\Graphics.hpp>
 #include <iostream>
 
-#include "animations\AnimatedSprite.hpp"
 #include "world\Entity.h"
+#include "animations\AnimatedSprite.hpp"
 #include "world\GameWorld.h"
 
 #include "debug\DebugRenderer.h"

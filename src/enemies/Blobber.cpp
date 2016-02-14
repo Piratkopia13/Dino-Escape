@@ -1,19 +1,21 @@
 #include "Blobber.h"
 
-Blobber::Blobber(sf::Vector2f bottomCenterPosition)
-: Enemy(bottomCenterPosition)
+Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition)
+: Enemy(world)
 {
 
-	// Set up animation
-	int width = 16, height = 16;
-	int startX = 0, startY = 0;
-	for (int i = 0; i < 3; i++)
-		walkAnimation.addFrame(sf::IntRect(startX + i * width, startY, width, height));
+	m_sprite.move(bottomCenterPosition);
 
-	sprite.setAnimation(walkAnimation);
-	sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
+	m_texture = &world.getTextureManager().get(TextureHolder::ENEMIES);
+	m_walkAnimation.setSpriteSheet(*m_texture);
+
+	// Set up animation
+	m_walkAnimation.createFrames(16, 16, 0, 0, 3);
+
+	m_sprite.setAnimation(m_walkAnimation);
+	m_sprite.setOrigin(m_sprite.getGlobalBounds().width / 2.0f, m_sprite.getGlobalBounds().height / 2.0f);
 	spriteScale = sf::Vector2f(1.7f, 1.7f);
-	sprite.setScale(spriteScale);
+	m_sprite.setScale(spriteScale);
 
 	m_debugPoint.setSize(sf::Vector2f(1.0f, 1.0f));
 	m_debugPoint.setFillColor(sf::Color::Red);
@@ -22,8 +24,9 @@ Blobber::Blobber(sf::Vector2f bottomCenterPosition)
 
 	interpolationStepOnGround.x = 0.01f; // Slippery
 
-	sf::FloatRect bounds = sprite.getGlobalBounds();
-	sprite.move(0, -bounds.height);
+	// Move up by bounds height since original position is defined as the bottom center pos
+	sf::FloatRect bounds = m_sprite.getGlobalBounds();
+	m_sprite.move(0, -bounds.height);
 }
 
 void Blobber::update(sf::Time dt) {
@@ -33,14 +36,14 @@ void Blobber::update(sf::Time dt) {
 
 	if (m_isMovingLeft) {
 		velocity.x = -speed;
-		sprite.setScale(-spriteScale.x, spriteScale.y);
+		m_sprite.setScale(-spriteScale.x, spriteScale.y);
 	} else if (m_isMovingRight) {
 		velocity.x = speed;
-		sprite.setScale(spriteScale.x, spriteScale.y);
+		m_sprite.setScale(spriteScale.x, spriteScale.y);
 	}
 
-	sprite.play(walkAnimation);
-	sprite.update(dt);
+	m_sprite.play(m_walkAnimation);
+	m_sprite.update(dt);
 	/*if (isGrounded) {
 		velocity.y = -8000.0f * dt.asSeconds();
 	}*/
@@ -60,12 +63,12 @@ void Blobber::runAI() {
 		return;
 	
 	float offset = 1;
-	sf::FloatRect bb = sprite.getGlobalBounds();
+	sf::FloatRect bb = m_sprite.getGlobalBounds();
 
-	sf::Vector2f bottomCheckPoint = sprite.getPosition();
+	sf::Vector2f bottomCheckPoint = m_sprite.getPosition();
 	bottomCheckPoint.y += bb.height / 2.f + offset;
 
-	sf::Vector2f sideCheckPoint = sprite.getPosition();
+	sf::Vector2f sideCheckPoint = m_sprite.getPosition();
 
 	if (velocity.x > 0) {
 		bottomCheckPoint.x += bb.width / 2.f + offset;
@@ -114,17 +117,17 @@ void Blobber::hitByBullet(Bullet* blt) {
 
 void Blobber::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
-	target.draw(sprite);
+	target.draw(m_sprite);
 	//target.draw(m_debugPoint);
 
 }
 
 sf::Transformable& Blobber::getTransformable() {
-	return sprite;
+	return m_sprite;
 }
 sf::FloatRect Blobber::getGlobalBounds() const {
-	return sprite.getGlobalBounds();
+	return m_sprite.getGlobalBounds();
 }
 sf::Vector2f Blobber::getCenterPos() const {
-	return sprite.getPosition();
+	return m_sprite.getPosition();
 }

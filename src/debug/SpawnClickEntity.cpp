@@ -16,12 +16,12 @@ void SpawnClickEntity::handleInput(sf::Mouse::Button button, bool isPressed) {
 		switch (m_type) {
 		case SpawnClickEntity::BLOBBER:
 
-			m_world.add(new Blobber(pos));
+			m_world.add(new Blobber(m_world, pos));
 
 			break;
 		case SpawnClickEntity::EFFIE:
 			
-			m_world.add(new Effie(pos));
+			m_world.add(new Effie(m_world, pos));
 
 			break;
 		}
