@@ -4,6 +4,7 @@ Player::Player()
 : m_sprite(sf::seconds(.1f), true, false)
 , m_BulletCooldown(sf::seconds(.8f))
 , m_isLookingLeft(false)
+, m_maxJumpTime(sf::seconds(.1f))
 {
 
 	// Load texture
@@ -50,11 +51,49 @@ void Player::update(sf::Time dt) {
 	float speed = 187.0f * dt.asSeconds();
 	sf::Vector2f targetSpeed;
 
-	if (m_isJumping && isGrounded) {
-		// TODO: fix jumping, make it smoother (and with normal values, looking at you, 9k)
 
-		velocity.y = -9000.0f * dt.asSeconds();
+	// ===================== //
+	// ====== Jumping ====== //
+	// ===================== //
+
+	if (m_justJumped && !m_isJumping) {
+		m_inJump = false;
+		m_justJumped = false;
 	}
+	if (isGrounded) {
+		m_inJump = false;
+		m_currentJumpTime = sf::Time::Zero;
+	}
+	if (m_isJumping) {
+
+		m_justJumped = true;
+
+		if (m_currentJumpTime <= m_maxJumpTime) {
+
+			if (isGrounded || m_inJump) {
+			
+				m_inJump = true;
+				if (m_currentJumpTime == sf::Time::Zero) {
+					velocity.y = -3000.f * dt.asSeconds(); // Min jump height
+				} else {
+					velocity.y -= 1.f / (m_currentJumpTime.asSeconds() * 2.f); // Number fiddling to get the right feeling
+				}
+
+				m_currentJumpTime += dt;
+
+			}
+
+		}
+
+	}
+	if (isGrounded)
+		m_currentJumpTime = sf::Time::Zero; // This needs to be here to reset the time if a new jump will occure next frame
+	
+
+	// ================================= //
+	// ====== Horizontal movement ====== //
+	// ================================= //
+
 	bool isMovingHorizintally = false;
 	if (m_isMovingLeft) {
 		isMovingHorizintally = true;
@@ -68,12 +107,14 @@ void Player::update(sf::Time dt) {
 
 		turn(false);
 	}
+	if (!isMovingHorizintally && !m_isShooting)
+		m_sprite.play(m_standingAnimation);
+
+
+
 	if (m_isShooting) {
 		fireGun();
 	}
-
-	if (!isMovingHorizintally && !m_isShooting)
-		m_sprite.play(m_standingAnimation);
 
 	m_sprite.update(dt);
 
@@ -86,9 +127,6 @@ void Player::hitByBullet(Bullet* blt) {
 
 	// TODO : make different bullet-types do different amount of damage
 	health -= 1;
-
-	//if (health <= 0)
-	//	isDead = true; // Tell GameWorld to remove this entity
 
 }
 

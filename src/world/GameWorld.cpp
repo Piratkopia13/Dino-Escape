@@ -99,6 +99,7 @@ void GameWorld::update(sf::Time dt) {
 
 		// Move by velocity
 		e->getTransformable().move(e->velocity);
+		//std::cout << "Entity Y velocity: " << e->velocity.y << std::endl;
 
 		// Reset values if they are really low
 		if (fabs(e->velocity.x) < 0.0001f) e->velocity.x = 0.f;
@@ -118,8 +119,12 @@ void GameWorld::update(sf::Time dt) {
 		e->lastVelocity += velBack;
 
 		// Cheaty way to check if entity is on the ground
-		if (velBack.y < 0 && velBack.y > -0.6f)
+		if (e->isGroundedNextFrame) {
 			e->isGrounded = true;
+			e->isGroundedNextFrame = false;
+		}
+		if (velBack.y < 0.f)
+			e->isGroundedNextFrame = true;
 		else 
 			e->isGrounded = false;
 

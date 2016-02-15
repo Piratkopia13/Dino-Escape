@@ -14,7 +14,6 @@ class GameWorld : public sf::Drawable {
 
 	public:
 		static const float GRAVITY;
-		TextureHolder m_textureManager;
 
 	public:
 		GameWorld(TileMap& map);
@@ -49,5 +48,6 @@ class GameWorld : public sf::Drawable {
 
 		sf::FloatRect m_mapGoalBounds;
 
+		TextureHolder m_textureManager;
 
 };

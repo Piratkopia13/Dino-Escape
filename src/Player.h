@@ -36,6 +36,7 @@ class Player : public Entity {
 		AnimatedSprite m_sprite;
 
 		bool m_isJumping, m_isMovingLeft, m_isMovingRight, m_isShooting;
+		bool m_justJumped, m_inJump;
 		bool m_isLookingLeft;
 
 		sf::Texture m_spriteSheet;
@@ -45,6 +46,10 @@ class Player : public Entity {
 
 		const sf::Time m_BulletCooldown;
 		sf::Time m_lastBulletTime;
+
+		// Jump stuff
+		const sf::Time m_maxJumpTime;
+		sf::Time m_currentJumpTime;
 
 		float m_spriteScale;
 

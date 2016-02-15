@@ -28,6 +28,8 @@ class Entity : public sf::Drawable {
 		virtual sf::FloatRect getGlobalBounds() const = 0;
 		virtual sf::Vector2f getCenterPos() const = 0;
 
+		friend class GameWorld;
+
 	public:
 		// Pointers to the GameWorld that the entity is part of
 		GameWorld* world;
@@ -41,5 +43,9 @@ class Entity : public sf::Drawable {
 
 		// Interpolation step values. Modifies how "slippery" an entity should be
 		sf::Vector2f interpolationStepOnGround = sf::Vector2f(.26f, .1f);
-		sf::Vector2f interpolationStepInAir = sf::Vector2f(.05f, .1f);
+		sf::Vector2f interpolationStepInAir = sf::Vector2f(.09f, .1f);
+
+	private:
+		bool isGroundedNextFrame = false;
+
 };
