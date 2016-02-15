@@ -303,8 +303,6 @@ bool TileMap::isPointColliding(const sf::Vector2f& point) const {
 
 bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end) {
 
-	//debugShapes.clear();
-
 	unsigned int x  = static_cast<unsigned int>(start.x	/ m_tileWidth);
 	unsigned int x2 = static_cast<unsigned int>(end.x		/ m_tileWidth);
 	unsigned int y  = static_cast<unsigned int>(start.y	/ m_tileWidth);
@@ -328,7 +326,7 @@ bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end
 	int numerator = longest >> 1;
 	for (int i = 0; i <= longest; i++) {
 		
-#ifdef ENABLE_DEBUG_SHAPES
+#ifdef ENABLE_DEBUG_RAYS
 		DebugRenderer::addShape(sf::Vector2f(x * m_tileWidth, y * m_tileHeight), sf::Vector2f(m_tileWidth, m_tileHeight), sf::Color::Magenta);
 #endif
 

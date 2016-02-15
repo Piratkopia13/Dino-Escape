@@ -31,6 +31,11 @@ Player::Player()
 	m_sprite.setScale(m_spriteScale, m_spriteScale);
 	m_sprite.setPosition(100.0f, 200.0f);
 
+
+	// Hardcoded bounding box size
+	m_boundingBox = m_sprite.getGlobalBounds();
+	m_boundingBox.width -= 15.0f;
+
 }
 
 void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
@@ -182,8 +187,14 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 sf::Transformable& Player::getTransformable() {
 	return m_sprite;
 }
-sf::FloatRect Player::getGlobalBounds() const {
-	return m_sprite.getGlobalBounds();
+sf::FloatRect Player::getGlobalBounds() {
+
+	// Hardcoded bounding box size
+	sf::FloatRect& bb = m_sprite.getGlobalBounds();
+	m_boundingBox.left = bb.left + m_boundingBox.width / 2.0f;
+	m_boundingBox.top = bb.top;
+
+	return m_boundingBox;
 }
 sf::Vector2f Player::getCenterPos() const {
 	return m_sprite.getPosition();

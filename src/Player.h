@@ -22,7 +22,7 @@ class Player : public Entity {
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		virtual sf::Transformable& getTransformable();
-		virtual sf::FloatRect getGlobalBounds() const;
+		virtual sf::FloatRect getGlobalBounds();
 		virtual sf::Vector2f getCenterPos() const;
 
 		//std::vector<sf::RectangleShape> debug_collisionShapes;
@@ -34,6 +34,7 @@ class Player : public Entity {
 
 	private:
 		AnimatedSprite m_sprite;
+		sf::FloatRect m_boundingBox;
 
 		bool m_isJumping, m_isMovingLeft, m_isMovingRight, m_isShooting;
 		bool m_justJumped, m_inJump;

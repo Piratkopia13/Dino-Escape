@@ -102,7 +102,7 @@ void Effie::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 sf::Transformable& Effie::getTransformable() {
 	return m_sprite;
 }
-sf::FloatRect Effie::getGlobalBounds() const {
+sf::FloatRect Effie::getGlobalBounds() {
 	return m_sprite.getGlobalBounds();
 }
 sf::Vector2f Effie::getCenterPos() const {

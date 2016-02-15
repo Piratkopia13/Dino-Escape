@@ -125,7 +125,7 @@ void Blobber::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 sf::Transformable& Blobber::getTransformable() {
 	return m_sprite;
 }
-sf::FloatRect Blobber::getGlobalBounds() const {
+sf::FloatRect Blobber::getGlobalBounds() {
 	return m_sprite.getGlobalBounds();
 }
 sf::Vector2f Blobber::getCenterPos() const {

@@ -14,7 +14,7 @@ public:
 	virtual void hitByBullet(Bullet* blt);
 
 	virtual sf::Transformable& getTransformable();
-	virtual sf::FloatRect getGlobalBounds() const;
+	virtual sf::FloatRect getGlobalBounds();
 	virtual sf::Vector2f getCenterPos() const;
 
 private:

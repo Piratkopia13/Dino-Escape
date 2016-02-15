@@ -25,7 +25,7 @@ class Entity : public sf::Drawable {
 		virtual void hitByBullet(Bullet* blt) {}
 
 		virtual sf::Transformable& getTransformable() = 0;
-		virtual sf::FloatRect getGlobalBounds() const = 0;
+		virtual sf::FloatRect getGlobalBounds() = 0;
 		virtual sf::Vector2f getCenterPos() const = 0;
 
 		friend class GameWorld;

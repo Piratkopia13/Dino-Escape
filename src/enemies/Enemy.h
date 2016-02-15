@@ -15,7 +15,7 @@ class Enemy : public Entity {
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 
 		virtual sf::Transformable& getTransformable() = 0;
-		virtual sf::FloatRect getGlobalBounds() const = 0;
+		virtual sf::FloatRect getGlobalBounds() = 0;
 		virtual sf::Vector2f getCenterPos() const = 0;
 
 
