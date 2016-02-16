@@ -16,7 +16,7 @@ class GameWorld : public sf::Drawable {
 		static const float GRAVITY;
 
 	public:
-		GameWorld(TileMap& map);
+		GameWorld(TileMap& map, TextureManager& textureManager);
 		~GameWorld();
 
 		void handleInput(sf::Keyboard::Key key, bool isPressed);
@@ -30,7 +30,7 @@ class GameWorld : public sf::Drawable {
 		Entity* getPlayer() const;
 		TileMap* getMap() const;
 		int getNumEntites() const;
-		TextureHolder& getTextureManager();
+		TextureManager& getTextureManager();
 
 	private:
 		// Spawns entites specified by the map
@@ -48,6 +48,6 @@ class GameWorld : public sf::Drawable {
 
 		sf::FloatRect m_mapGoalBounds;
 
-		TextureHolder m_textureManager;
+		TextureManager* m_textureManager;
 
 };

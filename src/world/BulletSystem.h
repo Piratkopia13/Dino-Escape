@@ -32,7 +32,7 @@ class BulletSystem : sf::Drawable {
 		sf::RectangleShape m_shapeNormal;
 
 		sf::Texture m_texFireball;
-		Animation m_animFireball;
+		Animation m_animFireball, m_animFireballHit;
 		AnimatedSprite m_shapeFireball;
 
 };

@@ -2,8 +2,9 @@
 
 const float GameWorld::GRAVITY = 340.0f;
 
-GameWorld::GameWorld(TileMap& map)
+GameWorld::GameWorld(TileMap& map, TextureManager& textureManager)
 : m_map(map)
+, m_textureManager(&textureManager)
 {
 	// Create the player
 	add(new Player());
@@ -11,8 +12,6 @@ GameWorld::GameWorld(TileMap& map)
 	m_player = m_entities.back().get();
 
 	handleMapObjects();
-
-	m_textureManager.get(TextureHolder::ENEMIES);
 }
 
 GameWorld::~GameWorld() {
@@ -183,6 +182,6 @@ int GameWorld::getNumEntites() const {
 	return m_entities.size();
 }
 
-TextureHolder& GameWorld::getTextureManager() {
-	return m_textureManager;
+TextureManager& GameWorld::getTextureManager() {
+	return *m_textureManager;
 }

@@ -6,7 +6,7 @@
 
 #include "Common.h"
 
-class TextureHolder {
+class TextureManager {
 
 public:
 	enum TextureID {
@@ -16,8 +16,8 @@ public:
 	};
 
 public:
-	TextureHolder();
-	~TextureHolder();
+	TextureManager();
+	~TextureManager();
 
 	const sf::Texture& get(const TextureID& id);
 

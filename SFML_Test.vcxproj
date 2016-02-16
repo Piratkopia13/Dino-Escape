@@ -73,8 +73,8 @@
     <LibraryPath>$(SolutionDir)..\libraries\SFML-2.3.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>F:\Dropbox\Programming\Visual Studio Projects\libraries\SFML-2.3.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dropbox\Programming\Visual Studio Projects\libraries\SFML-2.3.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\libraries\SFML-2.3.2\include;$(SolutionDir)..\libraries\rapidjson\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\libraries\SFML-2.3.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -86,7 +86,7 @@
       </DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-network-s-d.lib;sfml-audio-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>No</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -100,15 +100,19 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-system-s.lib;sfml-window-s.lib;sfml-audio-s.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -133,8 +137,13 @@
     <ClCompile Include="src\debug\SpawnClickEntity.cpp" />
     <ClCompile Include="src\enemies\Blobber.cpp" />
     <ClCompile Include="src\enemies\Effie.cpp" />
+    <ClCompile Include="src\FontManager.cpp" />
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\TextureHolder.cpp" />
+    <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\MenuState.cpp" />
+    <ClCompile Include="src\states\State.cpp" />
+    <ClCompile Include="src\states\StateStack.cpp" />
+    <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="src\world\Bullet.cpp" />
     <ClCompile Include="src\world\BulletSystem.cpp" />
     <ClCompile Include="src\world\GameWorld.cpp" />
@@ -153,7 +162,13 @@
     <ClInclude Include="src\enemies\Blobber.h" />
     <ClInclude Include="src\enemies\Effie.h" />
     <ClInclude Include="src\enemies\Enemy.h" />
-    <ClInclude Include="src\TextureHolder.h" />
+    <ClInclude Include="src\FontManager.h" />
+    <ClInclude Include="src\GameState.h" />
+    <ClInclude Include="src\MenuState.h" />
+    <ClInclude Include="src\states\State.h" />
+    <ClInclude Include="src\states\StateIdentifiers.h" />
+    <ClInclude Include="src\states\StateStack.h" />
+    <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\world\Bullet.h" />
     <ClInclude Include="src\world\BulletSystem.h" />
     <ClInclude Include="src\world\Entity.h" />

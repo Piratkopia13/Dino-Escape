@@ -1,42 +1,31 @@
 #include "Game.h"
 
 Game::Game()
-	: m_window(sf::VideoMode(1280, 720), "Look at me, I'm a window!")
-	, TimePerFrame(sf::seconds(1.0f/60.0f))
-	, m_map("test.json")
-	, m_camera(m_window)
-	, m_world(m_map)
-	, m_spawnClickEnt(m_world, m_window)
-	, m_spawnClickBlt(m_world, m_window)
+: m_window(sf::VideoMode(1280, 720), "Look at me, I'm a window!")
+, TimePerFrame(sf::seconds(1.0f/60.0f))
+, m_stateStack(State::Context(m_window, m_textureManager, m_fontManager))
 {
 
-	m_font.loadFromFile("res/fonts/Roboto-Regular.ttf");
-	m_FPStext.setFont(m_font);
+	m_FPStext.setFont(m_fontManager.get(FontManager::Roboto));
 	m_FPStext.setCharacterSize(30);
 	m_FPStext.setScale(0.2f, 0.2f);
-
-	m_posText.setFont(m_font);
-	m_posText.setCharacterSize(30);
-	m_posText.setScale(0.2f, 0.2f);	
-
-	m_numEntsText.setFont(m_font);
-	m_numEntsText.setCharacterSize(30);
-	m_numEntsText.setScale(0.2f, 0.2f);
 
 	// Plant the time seed
 	srand(static_cast<unsigned int>(time(0)));
 
-	// Set the cameras constraints to map border
-	m_camera.setConstraints(m_map.getBounds());
-	m_camera.zoom(1 / 1.2f);
-
-	debugBB.setOutlineColor(sf::Color::Green);
-	debugBB.setOutlineThickness(-1.f);
-	debugBB.setFillColor(sf::Color::Transparent);
-
-	m_spawnClickEnt.setSpawnType(SpawnClickEntity::EFFIE);
+	// Register and set starting state
+	registerStates();
+	m_stateStack.pushState(States::Menu);
 
 }
+
+void Game::registerStates() {
+
+	m_stateStack.registerState<GameState>(States::Game);
+	m_stateStack.registerState<MenuState>(States::Menu);
+
+}
+
 void Game::run() {
 
 	// Enable VSYNC
@@ -81,29 +70,10 @@ void Game::processEvents() {
 		sf::Event event;
 		while (m_window.pollEvent(event)) {
 
-			switch (event.type) {
-
-			case sf::Event::KeyPressed:
-				m_world.handleInput(event.key.code, true);
-				break;
-			case sf::Event::KeyReleased:
-				m_world.handleInput(event.key.code, false);
-				break;
-			case sf::Event::Resized:
-				m_camera.handleResize(event.size);
-				break;
-			case sf::Event::MouseButtonPressed:
-				m_spawnClickEnt.handleInput(event.mouseButton.button, true);
-				m_spawnClickBlt.handleInput(event.mouseButton.button, true);
-				break;
-			case sf::Event::MouseButtonReleased:
-				m_spawnClickEnt.handleInput(event.mouseButton.button, false);
-				m_spawnClickBlt.handleInput(event.mouseButton.button, false);
-				break;
-			case sf::Event::Closed:
+			m_stateStack.handleEvent(event);
+			
+			if (event.type == sf::Event::Closed)
 				m_window.close();
-				break;
-			}
 
 		}
 
@@ -114,27 +84,19 @@ void Game::update(sf::Time dt) {
 	DebugRenderer::reset();
 #endif
 
-	m_world.update(dt);
-	m_camera.moveTo(m_world.getPlayer()->getCenterPos());
+	m_stateStack.update(dt);
 
 	// Update FPSText
 	m_FPStext.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
 	m_FPStext.move(2.0f, 0);
 	m_FPStext.setString("FPS: " + std::to_string(m_fps));
 
-	// Update PosText
-	m_posText.setPosition(m_window.mapPixelToCoords(sf::Vector2i(5.f, 25.f)));
-	m_posText.setString("Player pos: " + Utils::vecToString(m_world.getPlayer()->getCenterPos()));
-
-	m_numEntsText.setPosition(m_window.mapPixelToCoords(sf::Vector2i(5.f, 50.f)));
-	m_numEntsText.setString("Num entites: " + std::to_string(m_world.getNumEntites()));
-
 }
 void Game::render() {
 
 	m_window.clear(sf::Color(20, 20, 20));
 
-	m_window.draw(m_world);
+	m_stateStack.draw();
 
 #ifdef ENABLE_DEBUG_SHAPES
 	// Draw debug shapes
@@ -143,8 +105,6 @@ void Game::render() {
 
 	// Render FPS
 	m_window.draw(m_FPStext);
-	m_window.draw(m_posText);
-	m_window.draw(m_numEntsText);
 
 	m_window.display();
 

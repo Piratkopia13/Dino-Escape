@@ -7,7 +7,7 @@ Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition)
 
 	m_sprite.move(bottomCenterPosition);
 
-	m_texture = &world.getTextureManager().get(TextureHolder::ENEMIES);
+	m_texture = &world.getTextureManager().get(TextureManager::ENEMIES);
 
 	// Possible idle animation, make it slow tho
 	m_idleAnimation.setSpriteSheet(*m_texture);

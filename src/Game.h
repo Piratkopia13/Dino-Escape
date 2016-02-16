@@ -2,12 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Camera.h"
-#include "world/GameWorld.h"
+#include "TextureManager.h"
+#include "FontManager.h"
+
+#include "states\StateStack.h"
+#include "GameState.h"
+#include "MenuState.h"
 
 #include "debug/DebugRenderer.h"
-#include "debug/SpawnClickEntity.h"
-#include "debug/SpawnClickBullet.h"
 
 class Game {
 
@@ -19,6 +21,8 @@ class Game {
 		const sf::Time TimePerFrame;
 
 	private:
+		void registerStates();
+
 		void processEvents();
 		void update(sf::Time dt);
 		void render();
@@ -27,18 +31,12 @@ private:
 	sf::RenderWindow m_window;
 	int m_fps;
 
-	TileMap m_map;
-	Camera m_camera;
+	TextureManager m_textureManager;
+	FontManager m_fontManager;
 
-	GameWorld m_world;
+	StateStack m_stateStack;
 
-	sf::Font m_font;
 	sf::Text m_FPStext;
-	sf::Text m_posText;
-	sf::Text m_numEntsText;
 
-	sf::RectangleShape debugBB;
-	SpawnClickEntity m_spawnClickEnt;
-	SpawnClickBullet m_spawnClickBlt;
 
 };

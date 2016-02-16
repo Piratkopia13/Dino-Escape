@@ -10,10 +10,11 @@ BulletSystem::BulletSystem()
 	m_texFireball.loadFromFile("res/textures/items.png");
 
 	m_animFireball.setSpriteSheet(m_texFireball);
-	m_animFireball.addFrame(sf::IntRect(0, 32, 16, 16));
-	m_animFireball.addFrame(sf::IntRect(16, 32, 16, 16));
-	m_animFireball.addFrame(sf::IntRect(32, 32, 16, 16));
-	//m_animFireball.addFrame(sf::IntRect(48, 32, 16, 16));
+	m_animFireball.createFrames(16, 16, 0, 32, 3);
+
+	// TODO: use this animation when bullet hit something
+	//m_animFireballHit.setSpriteSheet(m_texFireball);
+	//m_animFireball.createFrames(16, 16, 48, 32, 1);
 
 	m_shapeFireball.play(m_animFireball);
 	m_shapeFireball.setFrameTime(sf::seconds(.1f));

@@ -6,7 +6,7 @@ Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition)
 
 	m_sprite.move(bottomCenterPosition);
 
-	m_texture = &world.getTextureManager().get(TextureHolder::ENEMIES);
+	m_texture = &world.getTextureManager().get(TextureManager::ENEMIES);
 	m_walkAnimation.setSpriteSheet(*m_texture);
 
 	// Set up animation

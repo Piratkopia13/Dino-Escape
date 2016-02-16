@@ -1,6 +1,6 @@
-#include "TextureHolder.h"
+#include "TextureManager.h"
 
-TextureHolder::TextureHolder() {
+TextureManager::TextureManager() {
 
 	// TODO: Load filenames from a file or something
 	m_filenameMap.insert({ TextureID::DINO, "res/textures/dino.png" });
@@ -9,7 +9,7 @@ TextureHolder::TextureHolder() {
 
 }
 
-TextureHolder::~TextureHolder() {
+TextureManager::~TextureManager() {
 
 	for (auto& p : m_textureMap) {
 		if (p.second.get() == nullptr)
@@ -19,7 +19,7 @@ TextureHolder::~TextureHolder() {
 
 }
 
-const sf::Texture& TextureHolder::get(const TextureID& id) {
+const sf::Texture& TextureManager::get(const TextureID& id) {
 	
 	std::cout << "Got texture for id " << id << std::endl;
 
@@ -32,7 +32,7 @@ const sf::Texture& TextureHolder::get(const TextureID& id) {
 
 }
 
-const sf::Texture& TextureHolder::load(const TextureID& id) {
+const sf::Texture& TextureManager::load(const TextureID& id) {
 
 	std::cout << "Loaded texture for id " << id << std::endl;
 
