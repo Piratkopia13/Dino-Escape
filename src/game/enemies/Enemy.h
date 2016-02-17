@@ -3,7 +3,7 @@
 #include <SFML\Graphics.hpp>
 
 #include "..\world\Entity.h"
-#include "..\animations\AnimatedSprite.hpp"
+#include "../../animations/AnimatedSprite.hpp"
 
 class Enemy : public Entity {
 

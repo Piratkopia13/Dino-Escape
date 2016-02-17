@@ -13,6 +13,7 @@ public:
 		DINO,
 		ENEMIES,
 		ITEMS,
+		HEALTH_BAR,
 		MENU_BACKGROUND
 	};
 

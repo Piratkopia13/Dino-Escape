@@ -88,7 +88,8 @@
     <Link>
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>No</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -137,21 +138,23 @@
     <ClCompile Include="src\debug\DebugRenderer.cpp" />
     <ClCompile Include="src\debug\SpawnClickBullet.cpp" />
     <ClCompile Include="src\debug\SpawnClickEntity.cpp" />
-    <ClCompile Include="src\enemies\Blobber.cpp" />
-    <ClCompile Include="src\enemies\Effie.cpp" />
+    <ClCompile Include="src\game\DeathState.cpp" />
+    <ClCompile Include="src\game\enemies\Blobber.cpp" />
+    <ClCompile Include="src\game\enemies\Effie.cpp" />
     <ClCompile Include="src\FontManager.cpp" />
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\game\GameState.cpp" />
+    <ClCompile Include="src\game\HealthBar.cpp" />
     <ClCompile Include="src\MenuState.cpp" />
     <ClCompile Include="src\states\State.cpp" />
     <ClCompile Include="src\states\StateStack.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
-    <ClCompile Include="src\world\Bullet.cpp" />
-    <ClCompile Include="src\world\BulletSystem.cpp" />
-    <ClCompile Include="src\world\GameWorld.cpp" />
+    <ClCompile Include="src\game\world\Bullet.cpp" />
+    <ClCompile Include="src\game\world\BulletSystem.cpp" />
+    <ClCompile Include="src\game\world\GameWorld.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\world\TileMap.cpp" />
+    <ClCompile Include="src\game\Player.cpp" />
+    <ClCompile Include="src\game\world\TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\animations\AnimatedSprite.hpp" />
@@ -161,23 +164,25 @@
     <ClInclude Include="src\debug\DebugRenderer.h" />
     <ClInclude Include="src\debug\SpawnClickBullet.h" />
     <ClInclude Include="src\debug\SpawnClickEntity.h" />
-    <ClInclude Include="src\enemies\Blobber.h" />
-    <ClInclude Include="src\enemies\Effie.h" />
-    <ClInclude Include="src\enemies\Enemy.h" />
+    <ClInclude Include="src\game\DeathState.h" />
+    <ClInclude Include="src\game\enemies\Blobber.h" />
+    <ClInclude Include="src\game\enemies\Effie.h" />
+    <ClInclude Include="src\game\enemies\Enemy.h" />
     <ClInclude Include="src\FontManager.h" />
-    <ClInclude Include="src\GameState.h" />
+    <ClInclude Include="src\game\GameState.h" />
+    <ClInclude Include="src\game\HealthBar.h" />
     <ClInclude Include="src\MenuState.h" />
     <ClInclude Include="src\states\State.h" />
     <ClInclude Include="src\states\StateIdentifiers.h" />
     <ClInclude Include="src\states\StateStack.h" />
     <ClInclude Include="src\TextureManager.h" />
-    <ClInclude Include="src\world\Bullet.h" />
-    <ClInclude Include="src\world\BulletSystem.h" />
-    <ClInclude Include="src\world\Entity.h" />
+    <ClInclude Include="src\game\world\Bullet.h" />
+    <ClInclude Include="src\game\world\BulletSystem.h" />
+    <ClInclude Include="src\game\world\Entity.h" />
     <ClInclude Include="src\Game.h" />
-    <ClInclude Include="src\world\GameWorld.h" />
-    <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\world\TileMap.h" />
+    <ClInclude Include="src\game\world\GameWorld.h" />
+    <ClInclude Include="src\game\Player.h" />
+    <ClInclude Include="src\game\world\TileMap.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <ItemGroup>

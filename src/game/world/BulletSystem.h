@@ -4,7 +4,7 @@
 
 #include "TileMap.h"
 #include "Bullet.h"
-#include "../animations/AnimatedSprite.hpp"
+#include "../../animations/AnimatedSprite.hpp"
 
 class BulletSystem : sf::Drawable {
 

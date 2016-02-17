@@ -7,6 +7,7 @@ TextureManager::TextureManager() {
 	m_filenameMap.insert({ TextureID::ENEMIES, "res/textures/enemies.png" });
 	m_filenameMap.insert({ TextureID::ITEMS, "res/textures/items.png" });
 	m_filenameMap.insert({ TextureID::MENU_BACKGROUND, "res/textures/menu_background.png" });
+	m_filenameMap.insert({ TextureID::HEALTH_BAR, "res/textures/meter.png" });
 
 }
 

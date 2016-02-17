@@ -5,9 +5,10 @@
 #include "TextureManager.h"
 #include "FontManager.h"
 
-#include "states\StateStack.h"
-#include "GameState.h"
+#include "states/StateStack.h"
+#include "game/GameState.h"
 #include "MenuState.h"
+#include "game/DeathState.h"
 
 #include "debug/DebugRenderer.h"
 

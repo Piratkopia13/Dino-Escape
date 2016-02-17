@@ -3,9 +3,9 @@
 #include <vector>
 
 #include "../Common.h"
-#include "../world/GameWorld.h"
-#include "../enemies/Blobber.h"
-#include "../enemies/Effie.h"
+#include "../game/world/GameWorld.h"
+#include "../game/enemies/Blobber.h"
+#include "../game/enemies/Effie.h"
 
 class SpawnClickEntity {
 

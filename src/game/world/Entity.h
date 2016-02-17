@@ -2,9 +2,9 @@
 
 #include <memory>
 
-#include "../Common.h"
+#include "../../Common.h"
 #include "Bullet.h"
-#include "../TextureManager.h"
+#include "../../TextureManager.h"
 
 class GameWorld;
 
@@ -38,7 +38,7 @@ class Entity : public sf::Drawable {
 		sf::Vector2f lastVelocity; // Velocity last frame, used for interpolation
 
 		bool isGrounded = false; // Set by GameWorld, indicates if the object is standing on ground or is in air
-		int health = 1; 
+		int health = 1;
 		bool isDead = false; // Flag indicating if GameWorld should remove this entity
 
 		// Interpolation step values. Modifies how "slippery" an entity should be

@@ -1,11 +1,12 @@
 #pragma once
 
-#include "states\State.h"
-#include "world\TileMap.h"
-#include "Camera.h"
+#include "../states/State.h"
+#include "../game/world/TileMap.h"
+#include "../Camera.h"
+#include "HealthBar.h"
 
-#include "debug\SpawnClickBullet.h"
-#include "debug\SpawnClickEntity.h"
+#include "../debug/SpawnClickBullet.h"
+#include "../debug/SpawnClickEntity.h"
 
 class GameState : public State {
 
@@ -19,11 +20,13 @@ class GameState : public State {
 
 	private:
 		TileMap m_map;
-		Camera m_camera;
+		Camera m_worldCamera, m_hudCamera;
 		sf::Text m_FPStext;
 
 		SpawnClickEntity m_spawnClickEnt;
 		SpawnClickBullet m_spawnClickBlt;
 		GameWorld m_world;
+		
+		HealthBar m_healthBar;
 
 };

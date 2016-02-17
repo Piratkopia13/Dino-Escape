@@ -16,9 +16,9 @@ State::Ptr StateStack::createState(States::ID stateID) {
 
 void StateStack::handleEvent(const sf::Event& event) {
 
-	for (auto& state : m_stack) {
+	for (auto itr = m_stack.rbegin(); itr != m_stack.rend(); ++itr) {
 
-		if (!state->handleEvent(event))
+		if (!(*itr)->handleEvent(event))
 			return;
 
 	}
@@ -29,10 +29,10 @@ void StateStack::handleEvent(const sf::Event& event) {
 
 void StateStack::update(sf::Time dt) {
 
-	for (auto& state : m_stack) {
+	for (auto itr = m_stack.rbegin(); itr != m_stack.rend(); ++itr) {
 
-		if (!state->update(dt))
-			return;
+		if (!(*itr)->update(dt))
+			break;
 
 	}
 

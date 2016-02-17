@@ -3,11 +3,11 @@
 #include <SFML\Graphics.hpp>
 #include <iostream>
 
-#include "world\Entity.h"
-#include "animations\AnimatedSprite.hpp"
-#include "world\GameWorld.h"
+#include "world/Entity.h"
+#include "../animations/AnimatedSprite.hpp"
+#include "world/GameWorld.h"
 
-#include "debug\DebugRenderer.h"
+#include "../debug/DebugRenderer.h"
 
 class Player : public Entity {
 

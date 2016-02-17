@@ -12,9 +12,9 @@ public:
 	void setConstraints(sf::FloatRect& constraints);
 	void zoom(float zoom);
 	const sf::View& getView() const;
+	void applyView();
 
 private:
-	void updateView();
 	void checkSize();
 
 private:
@@ -23,6 +23,7 @@ private:
 	sf::FloatRect m_constraints;
 	float m_zoom;
 	bool m_hasConstraints;
+	sf::Vector2f m_center;
 
 };
 

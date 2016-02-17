@@ -20,6 +20,7 @@ Game::Game()
 void Game::registerStates() {
 
 	m_stateStack.registerState<GameState>(States::Game);
+	m_stateStack.registerState<DeathState>(States::Death);
 	m_stateStack.registerState<MenuState>(States::Menu);
 
 }

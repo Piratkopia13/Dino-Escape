@@ -11,9 +11,9 @@
 
 #include <SFML\Graphics.hpp>
 
-#include "../Utils.h"
+#include "../../Utils.h"
 #include "../world/Entity.h"
-#include "../debug/DebugRenderer.h"
+#include "../../debug/DebugRenderer.h"
 
 class TileMap : public sf::Drawable {
 

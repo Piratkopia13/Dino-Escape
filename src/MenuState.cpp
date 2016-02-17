@@ -12,7 +12,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	m_title.setFont(context.fonts->get(FontManager::Emulogic));
 	m_title.setCharacterSize(80);
 	m_title.setString("Dino Escape");
-	centerTextOrigin(m_title);
+	Utils::centerTextOrigin(m_title);
 	m_title.setColor(sf::Color(61, 212, 100, 255));;
 	m_title.setPosition(halfWindowWidth, 150);
 
@@ -26,17 +26,17 @@ MenuState::MenuState(StateStack& stack, Context context)
 
 
 	sf::Text optionText("Play", getContext().fonts->get(FontManager::Emulogic), 35);
-	centerTextOrigin(optionText);
+	Utils::centerTextOrigin(optionText);
 	optionText.setPosition(halfWindowWidth, 300);
 	m_optionTexts.push_back(optionText);
 
 	optionText.setString("Controls");
-	centerTextOrigin(optionText);
+	Utils::centerTextOrigin(optionText);
 	optionText.setPosition(halfWindowWidth, 400);
 	m_optionTexts.push_back(optionText);
 
 	optionText.setString("Exit");
-	centerTextOrigin(optionText);
+	Utils::centerTextOrigin(optionText);
 	optionText.setPosition(halfWindowWidth, 500);
 	m_optionTexts.push_back(optionText);
 
@@ -104,14 +104,6 @@ void MenuState::draw() {
 	}
 
 	window->draw(m_selectedLine);
-
-}
-
-
-void MenuState::centerTextOrigin(sf::Text& text) {
-
-	sf::FloatRect bounds = text.getLocalBounds();
-	text.setOrigin(bounds.left + bounds.width / 2.0f, bounds.top + bounds.height / 2.0f);
 
 }
 

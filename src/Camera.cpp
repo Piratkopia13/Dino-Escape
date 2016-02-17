@@ -7,7 +7,6 @@ Camera::Camera(sf::RenderWindow& window)
 , m_zoom(1.f)
 , m_hasConstraints(false)
 {
-	updateView();
 }
 
 void Camera::setConstraints(sf::FloatRect& constraints) {
@@ -63,17 +62,18 @@ void Camera::moveTo(const sf::Vector2f& position) {
 
 	m_view.setCenter(interp);
 
-	updateView();
-
 }
 
 void Camera::handleResize(sf::Event::SizeEvent size) {
 
+	//m_view.reset(sf::FloatRect(0, 0, size.width, size.height));
 	m_view.setSize(size.width, size.height);
+	//m_view.set
+	//m_view.setCenter(size.width / 2.0f, size.height / 2.0f);
+
 	if (m_hasConstraints)
 		checkSize();
 	m_view.zoom(m_zoom);
-	updateView();
 
 }
 
@@ -82,7 +82,7 @@ void Camera::zoom(float zoom) {
 	m_view.zoom(m_zoom);
 }
 
-void Camera::updateView() {
+void Camera::applyView() {
 	m_window.setView(m_view);
 }
 

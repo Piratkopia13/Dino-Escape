@@ -15,7 +15,6 @@ public:
 	virtual void draw();
 
 private:
-	void centerTextOrigin(sf::Text& text);
 	void updateSelected();
 
 private:

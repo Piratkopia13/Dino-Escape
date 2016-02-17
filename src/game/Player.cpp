@@ -31,6 +31,8 @@ Player::Player()
 	m_sprite.setScale(m_spriteScale, m_spriteScale);
 	m_sprite.setPosition(100.0f, 200.0f);
 
+	// Set inital health
+	health = 6;
 
 	// Hardcoded bounding box size
 	m_boundingBox = m_sprite.getGlobalBounds();

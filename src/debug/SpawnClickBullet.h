@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "../Common.h"
-#include "../world/GameWorld.h"
+#include "../game/world/GameWorld.h"
 
 class SpawnClickBullet {
 
