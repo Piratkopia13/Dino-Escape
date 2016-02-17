@@ -20,6 +20,7 @@ class GameState : public State {
 	private:
 		TileMap m_map;
 		Camera m_camera;
+		sf::Text m_FPStext;
 
 		SpawnClickEntity m_spawnClickEnt;
 		SpawnClickBullet m_spawnClickBlt;

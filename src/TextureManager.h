@@ -12,7 +12,8 @@ public:
 	enum TextureID {
 		DINO,
 		ENEMIES,
-		ITEMS
+		ITEMS,
+		MENU_BACKGROUND
 	};
 
 public:

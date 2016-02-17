@@ -10,7 +10,8 @@ class FontManager {
 
 public:
 	enum FontID {
-		Roboto
+		Roboto,
+		Emulogic
 	};
 
 public:

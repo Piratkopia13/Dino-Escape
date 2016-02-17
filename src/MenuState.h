@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "states\State.h"
 
 class MenuState : public State {
@@ -13,6 +15,24 @@ public:
 	virtual void draw();
 
 private:
-	sf::Text m_text;
+	void centerTextOrigin(sf::Text& text);
+	void updateSelected();
+
+private:
+
+	enum Options {
+		Play,
+		Controls,
+		Exit
+	};
+
+	sf::RectangleShape m_bg;
+
+	sf::Text m_title;
+	sf::Text m_titleShadow;
+
+	std::vector<sf::Text> m_optionTexts;
+	sf::RectangleShape m_selectedLine;
+	unsigned int m_selectedIndex;
 
 };

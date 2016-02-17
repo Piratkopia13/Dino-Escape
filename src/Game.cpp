@@ -1,14 +1,12 @@
 #include "Game.h"
 
+int Game::m_fps = 0;
+
 Game::Game()
 : m_window(sf::VideoMode(1280, 720), "Look at me, I'm a window!")
 , TimePerFrame(sf::seconds(1.0f/60.0f))
 , m_stateStack(State::Context(m_window, m_textureManager, m_fontManager))
 {
-
-	m_FPStext.setFont(m_fontManager.get(FontManager::Roboto));
-	m_FPStext.setCharacterSize(30);
-	m_FPStext.setScale(0.2f, 0.2f);
 
 	// Plant the time seed
 	srand(static_cast<unsigned int>(time(0)));
@@ -80,16 +78,16 @@ void Game::processEvents() {
 }
 void Game::update(sf::Time dt) {
 
+	// Exit game when state stack is empty
+	if (m_stateStack.isEmpty())
+		m_window.close();
+
+
 #ifdef ENABLE_DEBUG_SHAPES
 	DebugRenderer::reset();
 #endif
 
 	m_stateStack.update(dt);
-
-	// Update FPSText
-	m_FPStext.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
-	m_FPStext.move(2.0f, 0);
-	m_FPStext.setString("FPS: " + std::to_string(m_fps));
 
 }
 void Game::render() {
@@ -103,9 +101,10 @@ void Game::render() {
 	DebugRenderer::draw(m_window);
 #endif
 
-	// Render FPS
-	m_window.draw(m_FPStext);
-
 	m_window.display();
 
+}
+
+int Game::getFPS() {
+	return m_fps;
 }

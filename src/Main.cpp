@@ -1,5 +1,8 @@
+//#include <Windows.h>
+
 #include "Game.h"
 
+//int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszArgument, int nCmdShow) {
 int main() {
 
 	// Todo list available at https://trello.com/b/uA7B6Z2j/dino-escape-todo

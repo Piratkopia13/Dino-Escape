@@ -33,7 +33,7 @@ class State {
 		void requestStackPop();
 		void requestStackClear();
 
-		Context getContext() const;
+		Context& getContext();
 
 	private:
 		StateStack* m_stack;

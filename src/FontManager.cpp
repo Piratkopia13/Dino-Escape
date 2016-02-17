@@ -4,6 +4,7 @@ FontManager::FontManager() {
 
 	// TODO: Load filenames from a file or something
 	m_filenameMap.insert({ FontID::Roboto, "res/fonts/Roboto-Regular.ttf" });
+	m_filenameMap.insert({ FontID::Emulogic, "res/fonts/emulogic.ttf" });
 
 }
 
@@ -34,11 +35,11 @@ const sf::Font& FontManager::load(const FontID& id) {
 
 	std::cout << "Loaded font for id " << id << std::endl;
 
-	std::unique_ptr<sf::Font> tex(new sf::Font());
-	tex->loadFromFile(m_filenameMap.find(id)->second);
+	std::unique_ptr<sf::Font> font(new sf::Font());
+	font->loadFromFile(m_filenameMap.find(id)->second);
 
 	// Insert and return font reference
-	m_fontMap.insert(std::make_pair(id, std::move(tex)));
+	m_fontMap.insert(std::make_pair(id, std::move(font)));
 
 	auto t = m_fontMap.find(id);
 	return *t->second;

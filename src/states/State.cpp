@@ -27,6 +27,6 @@ void State::requestStackClear() {
 	m_stack->clearStack();
 }
 
-State::Context State::getContext() const {
+State::Context& State::getContext() {
 	return m_context;
 }

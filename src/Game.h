@@ -16,6 +16,7 @@ class Game {
 	public:
 		Game();
 		void run();
+		static int getFPS();
 
 	public:
 		const sf::Time TimePerFrame;
@@ -29,14 +30,11 @@ class Game {
 
 private:
 	sf::RenderWindow m_window;
-	int m_fps;
+	static int m_fps;
 
 	TextureManager m_textureManager;
 	FontManager m_fontManager;
 
 	StateStack m_stateStack;
-
-	sf::Text m_FPStext;
-
 
 };
