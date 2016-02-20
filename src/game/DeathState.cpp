@@ -19,7 +19,7 @@ DeathState::DeathState(StateStack& stack, Context context)
 	m_restartText.setFont(getContext().fonts->get(FontManager::Emulogic));
 	m_restartText.setColor(sf::Color::White);
 	m_restartText.setCharacterSize(20);
-	m_restartText.setString("Press R to come back from the dead");
+	m_restartText.setString("Press 'R' to come back from the dead");
 	Utils::centerTextOrigin(m_restartText);
 	m_restartText.setPosition(window->getSize().x / 2.0f, 300.f);
 
@@ -30,7 +30,7 @@ DeathState::~DeathState() {
 }
 
 bool DeathState::handleEvent(const sf::Event& event) {
-
+	
 	if (event.type == sf::Event::KeyPressed) {
 
 		if (event.key.code == sf::Keyboard::R) {

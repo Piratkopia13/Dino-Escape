@@ -3,7 +3,7 @@
 
 GameState::GameState(StateStack& stack, Context context) 
 : State(stack, context)
-, m_map("test.json")
+, m_map("level1.json")
 , m_worldCamera(*context.window)
 , m_hudCamera(*context.window)
 , m_world(m_map, *context.textures)
@@ -14,7 +14,7 @@ GameState::GameState(StateStack& stack, Context context)
 
 	// Set the cameras constraints to map border
 	m_worldCamera.setConstraints(m_map.getBounds());
-	m_worldCamera.zoom(1 / 1.2f);
+	m_worldCamera.zoom(1 / 2.5f);
 
 	m_spawnClickEnt.setSpawnType(SpawnClickEntity::EFFIE);
 
