@@ -31,6 +31,7 @@ class GameWorld : public sf::Drawable {
 		TileMap* getMap() const;
 		int getNumEntites() const;
 		TextureManager& getTextureManager();
+		const bool isLevelComplete();
 
 	private:
 		// Spawns entites specified by the map
@@ -49,5 +50,7 @@ class GameWorld : public sf::Drawable {
 		sf::FloatRect m_mapGoalBounds;
 
 		TextureManager* m_textureManager;
+
+		bool m_isLevelComplete;
 
 };

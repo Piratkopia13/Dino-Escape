@@ -4,11 +4,13 @@
 
 #include "TextureManager.h"
 #include "FontManager.h"
+#include "LevelManager.h"
 
 #include "states/StateStack.h"
 #include "game/GameState.h"
 #include "MenuState.h"
 #include "game/DeathState.h"
+#include "game/LevelCompleteState.h"
 
 #include "debug/DebugRenderer.h"
 
@@ -35,6 +37,7 @@ private:
 
 	TextureManager m_textureManager;
 	FontManager m_fontManager;
+	LevelManager m_levelManager;
 
 	StateStack m_stateStack;
 

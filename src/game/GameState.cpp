@@ -3,7 +3,7 @@
 
 GameState::GameState(StateStack& stack, Context context) 
 : State(stack, context)
-, m_map("level1.json")
+, m_map(context.levels->getCurrentLevelFile()) // Load the currently set level
 , m_worldCamera(*context.window)
 , m_hudCamera(*context.window)
 , m_world(m_map, *context.textures)
@@ -75,6 +75,15 @@ bool GameState::update(sf::Time dt) {
 	sf::RenderWindow* window = getContext().window;
 
 	m_world.update(dt);
+	
+	if (m_world.isLevelComplete()) {
+		// Destroy this GameState instance
+		// and show the level complete screen
+		std::cout << "Goal?" << std::endl;
+		requestStackPop();
+		requestStackPush(States::LevelComplete);
+	}
+
 	m_worldCamera.moveTo(m_world.getPlayer()->getCenterPos());
 
 	// Update FPSText

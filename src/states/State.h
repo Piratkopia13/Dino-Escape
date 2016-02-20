@@ -5,6 +5,7 @@
 #include "StateIdentifiers.h"
 #include "../TextureManager.h"
 #include "../FontManager.h"
+#include "../LevelManager.h"
 
 class StateStack;
 
@@ -13,11 +14,12 @@ class State {
 	public:
 		typedef std::unique_ptr<State> Ptr;
 		struct Context {
-			Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts);
+			Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels);
 
 			sf::RenderWindow* window;
 			TextureManager* textures;
 			FontManager* fonts;
+			LevelManager* levels;
 		};
 
 	public:

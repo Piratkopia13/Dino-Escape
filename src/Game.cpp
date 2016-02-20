@@ -5,7 +5,7 @@ int Game::m_fps = 0;
 Game::Game()
 : m_window(sf::VideoMode(1280, 720), "Look at me, I'm a window!")
 , TimePerFrame(sf::seconds(1.0f/60.0f))
-, m_stateStack(State::Context(m_window, m_textureManager, m_fontManager))
+, m_stateStack(State::Context(m_window, m_textureManager, m_fontManager, m_levelManager))
 {
 
 	// Plant the time seed
@@ -21,6 +21,7 @@ void Game::registerStates() {
 
 	m_stateStack.registerState<GameState>(States::Game);
 	m_stateStack.registerState<DeathState>(States::Death);
+	m_stateStack.registerState<LevelCompleteState>(States::LevelComplete);
 	m_stateStack.registerState<MenuState>(States::Menu);
 
 }

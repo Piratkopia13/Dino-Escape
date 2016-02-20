@@ -51,7 +51,8 @@ TileMap::TileMap(std::string filePath) {
 		// Store which tiles are collidable
 		if (itr->HasMember("tileproperties") && (*itr)["tileproperties"].IsObject()) {
 			for (rapidjson::Value::ConstMemberIterator mem = (*itr)["tileproperties"].MemberBegin(); mem != (*itr)["tileproperties"].MemberEnd(); ++mem) {
-				if (strcmp(mem->value.FindMember("collidable")->value.GetString(), "1") == 0) {
+				if (mem->value.HasMember("collidable")
+					&& strcmp(mem->value.FindMember("collidable")->value.GetString(), "1") == 0) {
 					//std::cout << "Added " << mem->name.GetString() << " to collidables" << std::endl;
 					tileset.collidableTiles.insert({ atoi(mem->name.GetString()) + 1, true });
 				}

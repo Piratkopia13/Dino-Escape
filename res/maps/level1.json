@@ -175,6 +175,21 @@
                  "width":0,
                  "x":400,
                  "y":224
+                }, 
+                {
+                 "height":32,
+                 "id":13,
+                 "name":"",
+                 "properties":
+                    {
+                     "goal":"1"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":4,
+                 "x":476,
+                 "y":48
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -183,7 +198,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":13,
+ "nextobjectid":14,
  "orientation":"orthogonal",
  "properties":
     {
@@ -193,7 +208,6 @@
  "tileheight":16,
  "tilesets":[
         {
-         "columns":9,
          "firstgid":1,
          "image":"res\/textures\/tiles.png",
          "imageheight":80,

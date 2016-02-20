@@ -5,6 +5,7 @@ const float GameWorld::GRAVITY = 340.0f;
 GameWorld::GameWorld(TileMap& map, TextureManager& textureManager)
 : m_map(map)
 , m_textureManager(&textureManager)
+, m_isLevelComplete(false)
 {
 	// Create the player
 	add(new Player());
@@ -141,8 +142,7 @@ void GameWorld::update(sf::Time dt) {
 	// ======================================== //
 
 	if (m_player->getGlobalBounds().intersects(m_mapGoalBounds))
-		std::cout << "GOOAL" << std::endl;
-
+		m_isLevelComplete = true;
 
 
 	// ============================ //
@@ -184,4 +184,8 @@ int GameWorld::getNumEntites() const {
 
 TextureManager& GameWorld::getTextureManager() {
 	return *m_textureManager;
+}
+
+const bool GameWorld::isLevelComplete() {
+	return m_isLevelComplete;
 }
