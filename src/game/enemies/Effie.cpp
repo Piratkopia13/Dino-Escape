@@ -5,32 +5,35 @@ Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition)
 , m_fireballCooldown(sf::seconds(.9f)) // How often Effie can shoot when he sees the player
 {
 
-	m_sprite.move(bottomCenterPosition);
+	health = 2;
 
-	m_texture = &world.getTextureManager().get(TextureManager::ENEMIES);
+	sprite.move(bottomCenterPosition);
 
 	// Possible idle animation, make it slow tho
-	m_idleAnimation.setSpriteSheet(*m_texture);
+	m_idleAnimation.setSpriteSheet(*enemiesTexture);
 	m_idleAnimation.createFrames(16, 16, 16, 16, 2);
 
-	m_shootAnimation.setSpriteSheet(*m_texture);
+	m_shootAnimation.setSpriteSheet(*enemiesTexture);
 	m_shootAnimation.createFrames(16, 16, 0, 16, 3);
 
-	m_sprite.setAnimation(m_idleAnimation);
+	sprite.setAnimation(m_idleAnimation);
 
-	sf::FloatRect bounds = m_sprite.getGlobalBounds();
-	m_sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
-	m_sprite.setScale(spriteScale);
+	sf::FloatRect bounds = sprite.getGlobalBounds();
+	sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
+	sprite.setScale(spriteScale);
 
-	m_sprite.setFrameTime(sf::seconds(0.3f));
+	sprite.setFrameTime(sf::seconds(0.3f));
 
-	m_sprite.move(0, -bounds.height);
+	sprite.move(0, -bounds.height);
 
 }
 
-void Effie::update(sf::Time dt) {
+void Effie::update(const sf::Time& dt) {
 
-	sf::Vector2f myPos = m_sprite.getPosition();
+	// Update parent
+	Entity::update(dt);
+
+	sf::Vector2f myPos = sprite.getPosition();
 	sf::Vector2f playerPos = world->getPlayer()->getCenterPos();
 
 	// Raycast
@@ -41,10 +44,10 @@ void Effie::update(sf::Time dt) {
 		// Check what direction effie is looking
 		if (playerPos.x < myPos.x) {
 			// Flip
-			m_sprite.setScale(-spriteScale.x, spriteScale.y);
+			sprite.setScale(-spriteScale.x, spriteScale.y);
 		} else {
 			// Flip back
-			m_sprite.setScale(spriteScale.x, spriteScale.y);
+			sprite.setScale(spriteScale.x, spriteScale.y);
 		}
 
 
@@ -72,39 +75,39 @@ void Effie::update(sf::Time dt) {
 			m_lastFireballTime = sf::Time::Zero;
 			
 			// Play shoot animation
-			m_sprite.play(m_shootAnimation);
+			sprite.play(m_shootAnimation);
 			// Sync animation with bullets
-			m_sprite.setFrame(0, true);
+			sprite.setFrame(0, true);
 		}
 
 
 	} else {
-		m_sprite.play(m_idleAnimation);
+		sprite.play(m_idleAnimation);
 	}
-	m_sprite.update(dt);
+	sprite.update(dt);
 
 }
 
 void Effie::hitByBullet(Bullet* blt) {
-	// TODO : make different bullet-types do different amount of damage
-	health -= 1;
 
-	if (health <= 0)
-		isDead = true; // Tell GameWorld to remove this entity
+	// Call parent
+	Entity::hitByBullet(blt);
+
 }
 
 void Effie::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
-	target.draw(m_sprite);
+	// Draw sprite from parent
+	Entity::draw(target, states);
 
 }
 
 sf::Transformable& Effie::getTransformable() {
-	return m_sprite;
+	return sprite;
 }
 sf::FloatRect Effie::getGlobalBounds() {
-	return m_sprite.getGlobalBounds();
+	return sprite.getGlobalBounds();
 }
 sf::Vector2f Effie::getCenterPos() const {
-	return m_sprite.getPosition();
+	return sprite.getPosition();
 }

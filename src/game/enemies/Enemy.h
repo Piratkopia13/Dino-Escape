@@ -8,11 +8,12 @@
 class Enemy : public Entity {
 
 	public:
-		Enemy(GameWorld& world) { this->world = &world; }
+		Enemy(GameWorld& world);
 
-		virtual void handleInput(sf::Keyboard::Key key, bool isPressed) {}; // Enemies dont use key input
-		virtual void update(sf::Time dt) = 0;
+		virtual void handleInput(const sf::Keyboard::Key& key, const bool isPressed) {}; // Enemies dont use key input
+		virtual void update(const sf::Time& dt) = 0;
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
+		virtual void hitByBullet(Bullet* blt) = 0;
 
 		virtual sf::Transformable& getTransformable() = 0;
 		virtual sf::FloatRect getGlobalBounds() = 0;
@@ -21,6 +22,7 @@ class Enemy : public Entity {
 
 	protected:
 		sf::Vector2f spriteScale = sf::Vector2f(2.0f, 2.0f);
+		const sf::Texture* enemiesTexture;
 
 
 };

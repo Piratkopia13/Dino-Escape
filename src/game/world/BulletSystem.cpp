@@ -2,6 +2,7 @@
 
 BulletSystem::BulletSystem()
 : m_bulletMaxLifetime(sf::seconds(10.0f)) // Bullets will be destroyed after this time
+, m_bulletMaxDeadTime(sf::seconds(5.f))
 {
 
 	m_shapeNormal.setFillColor(sf::Color::Yellow);
@@ -13,8 +14,8 @@ BulletSystem::BulletSystem()
 	m_animFireball.createFrames(16, 16, 0, 32, 3);
 
 	// TODO: use this animation when bullet hit something
-	//m_animFireballHit.setSpriteSheet(m_texFireball);
-	//m_animFireball.createFrames(16, 16, 48, 32, 1);
+	m_animFireballHit.setSpriteSheet(m_texFireball);
+	m_animFireballHit.createFrames(16, 16, 48, 32, 1);
 
 	m_shapeFireball.play(m_animFireball);
 	m_shapeFireball.setFrameTime(sf::seconds(.1f));
@@ -63,12 +64,17 @@ void BulletSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 			const_cast<AnimatedSprite&>(m_shapeFireball).setPosition(b.getPosition());
 			const_cast<AnimatedSprite&>(m_shapeFireball).setRotation(b.getRotation());
+			
+			// Change animation if the bullet has hit and is lingering
+			if (b.hasHit())
+				const_cast<AnimatedSprite&>(m_shapeFireball).setAnimation(m_animFireballHit);
+			else
+				const_cast<AnimatedSprite&>(m_shapeFireball).setAnimation(m_animFireball);
+
 			target.draw(m_shapeFireball);
 
 			break;
 		}
-
-		//target.draw(b);
 
 	}
 
@@ -81,7 +87,17 @@ void BulletSystem::resolveCollisions(TileMap& map, std::vector<Entity::EntityPtr
 	
 	for (auto it = m_bullets.begin(); it != m_bullets.end();) {
 
-		bool deleteCurrent = false;
+		bool advance = false;
+
+		// Remove fireballs that has hit after the MaxDeadTime has expired
+		if ((it->shouldLinger() && it->m_timeDead >= m_bulletMaxDeadTime) || (!it->shouldLinger() && it->hasHit())) {
+			it = m_bullets.erase(it);
+			continue;
+		} else
+			advance = true;
+
+
+		bool markCurrentAsHit = false;
 
 		// Check collision with entities
 		for (auto& entity : entites) {
@@ -99,9 +115,9 @@ void BulletSystem::resolveCollisions(TileMap& map, std::vector<Entity::EntityPtr
 					break;
 				}
 
-				if (entity->getGlobalBounds().intersects(bounds)) {
+				if (!it->hasHit() && entity->getGlobalBounds().intersects(bounds)) {
 					entity->hitByBullet(&(*it)); // Herp derp iterator flerp
-					deleteCurrent = true;
+					markCurrentAsHit = true;
 
 					break; // Bullets can only hit ONE entity
 				}
@@ -112,13 +128,18 @@ void BulletSystem::resolveCollisions(TileMap& map, std::vector<Entity::EntityPtr
 		// Check collision with map
 		// TODO : check bullet bounds instead of just position
 		if (map.isPointColliding(it->getPosition()))
-			deleteCurrent = true;
+			markCurrentAsHit = true;
 
 		// Delete current bullet if flagged
-		if (deleteCurrent)
-			it = m_bullets.erase(it);
-		else
+		if (markCurrentAsHit) {
+			it->m_velocity = sf::Vector2f(0.f, 0.f);
+			it->m_hasHit = true;
+		}
+
+		// Add to the iterating if the current is not deleted already
+		if (advance)
 			++it;
+
 	}
 
 }

@@ -1,11 +1,12 @@
 #include "Player.h"
 
 Player::Player()
-: m_sprite(sf::seconds(.1f), true, false)
-, m_BulletCooldown(sf::seconds(.8f))
+: m_BulletCooldown(sf::seconds(.8f))
 , m_isLookingLeft(false)
 , m_maxJumpTime(sf::seconds(.1f))
 {
+
+	sprite.setFrameTime(sf::seconds(.1f));
 
 	// Load texture
 	m_spriteSheet.loadFromFile("res/textures/dino.png");
@@ -21,26 +22,26 @@ Player::Player()
 	m_shootAnimation.createFrames(22, 22, 0, 44, 4);
 
 	// Set inital animation
-	m_sprite.setAnimation(m_standingAnimation);
+	sprite.setAnimation(m_standingAnimation);
 
 	// Set origin / rotation point
-	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.0f, m_sprite.getLocalBounds().height / 2.0f);
+	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 
 	// Set scale and starting position
 	m_spriteScale = 1.5f;
-	m_sprite.setScale(m_spriteScale, m_spriteScale);
-	m_sprite.setPosition(100.0f, 200.0f);
+	sprite.setScale(m_spriteScale, m_spriteScale);
+	sprite.setPosition(100.0f, 200.0f);
 
 	// Set inital health
 	health = 6;
 
 	// Hardcoded bounding box size
-	m_boundingBox = m_sprite.getGlobalBounds();
+	m_boundingBox = sprite.getGlobalBounds();
 	m_boundingBox.width -= 15.0f;
 
 }
 
-void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
+void Player::handleInput(const sf::Keyboard::Key& key, const bool isPressed) {
 
 	if (key == sf::Keyboard::W)
 		m_isJumping = isPressed;
@@ -53,7 +54,10 @@ void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
 
 }
 
-void Player::update(sf::Time dt) {
+void Player::update(const sf::Time& dt) {
+
+	// Update parent
+	Entity::update(dt);
 
 	float speed = 187.0f * dt.asSeconds();
 	sf::Vector2f targetSpeed;
@@ -115,7 +119,7 @@ void Player::update(sf::Time dt) {
 		turn(false);
 	}
 	if (!isMovingHorizintally && !m_isShooting)
-		m_sprite.play(m_standingAnimation);
+		sprite.play(m_standingAnimation);
 
 
 
@@ -123,7 +127,7 @@ void Player::update(sf::Time dt) {
 		fireGun();
 	}
 
-	m_sprite.update(dt);
+	sprite.update(dt);
 
 	// Update bullet cooldown
 	m_lastBulletTime += dt;
@@ -132,8 +136,8 @@ void Player::update(sf::Time dt) {
 
 void Player::hitByBullet(Bullet* blt) {
 
-	// TODO : make different bullet-types do different amount of damage
-	health -= 1;
+	// Call parent
+	Entity::hitByBullet(blt);
 
 }
 
@@ -162,10 +166,10 @@ void Player::fireGun() {
 		m_lastBulletTime = sf::Time::Zero;
 
 		// Play shoot animation
-		m_sprite.play(m_shootAnimation);
+		sprite.play(m_shootAnimation);
 
 		// Sync animation with bullets
-		m_sprite.setFrame(1, true);
+		sprite.setFrame(1, true);
 	}
 
 }
@@ -173,31 +177,34 @@ void Player::fireGun() {
 void Player::turn(bool left) {
 
 	if (!m_isShooting) {
-		m_sprite.play(m_walkingAnimation);
+		sprite.play(m_walkingAnimation);
 	}
-	m_sprite.setScale((left) ? -m_spriteScale : m_spriteScale, m_spriteScale);
+	sprite.setScale((left) ? -m_spriteScale : m_spriteScale, m_spriteScale);
 	m_isLookingLeft = left;
 
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
-	//DebugRenderer::addShape(m_sprite.getPosition(), m_sprite.getGlobalBounds(), sf::Color::Red);
-	target.draw(m_sprite);
+	//DebugRenderer::addShape(sprite.getPosition(), sprite.getGlobalBounds(), sf::Color::Red);
+
+	// Draw sprite from parent
+	Entity::draw(target, states);
+
 }
 
 sf::Transformable& Player::getTransformable() {
-	return m_sprite;
+	return sprite;
 }
 sf::FloatRect Player::getGlobalBounds() {
 
 	// Hardcoded bounding box size
-	sf::FloatRect& bb = m_sprite.getGlobalBounds();
+	sf::FloatRect& bb = sprite.getGlobalBounds();
 	m_boundingBox.left = bb.left + m_boundingBox.width / 2.0f;
 	m_boundingBox.top = bb.top;
 
 	return m_boundingBox;
 }
 sf::Vector2f Player::getCenterPos() const {
-	return m_sprite.getPosition();
+	return sprite.getPosition();
 }

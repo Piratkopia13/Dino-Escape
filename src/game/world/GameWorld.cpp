@@ -75,8 +75,9 @@ void GameWorld::update(sf::Time dt) {
 	for (auto it = m_entities.begin(); it != m_entities.end();) {
 		auto& e = *it;
 
-		// Remove if entity is dead
-		if (e->isDead) {
+		// Remove if entity is dead and not the player
+		// Make sure the player does not get deleted since that will cause a crash
+		if (e->isDead && !dynamic_cast<Player*>(e.get())) {
 			it = m_entities.erase(it);
 			continue;
 		} else ++it;

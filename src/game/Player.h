@@ -14,8 +14,8 @@ class Player : public Entity {
 	public:
 		Player();
 
-		virtual void handleInput(sf::Keyboard::Key key, bool isPressed);
-		virtual void update(sf::Time dt);
+		virtual void handleInput(const sf::Keyboard::Key& key, const bool isPressed);
+		virtual void update(const sf::Time& dt);
 
 		virtual void hitByBullet(Bullet* blt);
 
@@ -33,7 +33,6 @@ class Player : public Entity {
 		void turn(bool left);
 
 	private:
-		AnimatedSprite m_sprite;
 		sf::FloatRect m_boundingBox;
 
 		bool m_isJumping, m_isMovingLeft, m_isMovingRight, m_isShooting;

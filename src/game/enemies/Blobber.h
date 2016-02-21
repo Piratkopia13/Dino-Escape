@@ -8,7 +8,7 @@ class Blobber : public Enemy {
 	public:
 		Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition = sf::Vector2f(0, 0));
 
-		virtual void update(sf::Time dt);
+		virtual void update(const sf::Time& dt);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		virtual void hitByBullet(Bullet* blt);
@@ -20,8 +20,6 @@ class Blobber : public Enemy {
 		void runAI();
 
 	private:
-		const sf::Texture* m_texture;
-		AnimatedSprite m_sprite;
 		Animation m_walkAnimation;
 
 		sf::RectangleShape m_debugPoint;

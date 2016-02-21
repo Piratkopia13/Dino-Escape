@@ -26,7 +26,12 @@ class Bullet {
 		const Entity* getOwner() const;
 		Bullet::BulletType getType() const;
 		float getRotation() const;
-	private:
+		const sf::Vector2f& getVelocity() const;
+		const bool hasHit() const;
+
+		// Returns wheather or not the bullet should stay for some time after it has hit
+		bool shouldLinger() const;
+private:
 		const Entity* m_owner;
 		BulletType m_type;
 		sf::Vector2f m_velocity;
@@ -34,4 +39,6 @@ class Bullet {
 		float m_rotation;
 		sf::Vector2f m_position;
 		sf::Time m_timeAlive;
+		bool m_hasHit;
+		sf::Time m_timeDead;
 };

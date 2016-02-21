@@ -28,6 +28,8 @@ class BulletSystem : sf::Drawable {
 
 		// Lifetime for bullets if they dont collide before it
 		const sf::Time m_bulletMaxLifetime;
+		// How long the bullet should be visible after it has hit somthing
+		const sf::Time m_bulletMaxDeadTime;
 
 		sf::RectangleShape m_shapeNormal;
 

@@ -11,8 +11,9 @@ Game::Game()
 	// Plant the time seed
 	srand(static_cast<unsigned int>(time(0)));
 
-	// Register and set starting state
+	// Register states
 	registerStates();
+	// Set starting state
 	m_stateStack.pushState(States::Menu);
 
 }
@@ -80,16 +81,17 @@ void Game::processEvents() {
 }
 void Game::update(sf::Time dt) {
 
-	// Exit game when state stack is empty
-	if (m_stateStack.isEmpty())
-		m_window.close();
-
-
 #ifdef ENABLE_DEBUG_SHAPES
 	DebugRenderer::reset();
 #endif
 
 	m_stateStack.update(dt);
+	
+	// Exit game when state stack is empty
+	if (m_stateStack.isEmpty()) {
+		std::cout << "Stack is empty, quitting." << std::endl;
+		m_window.close();
+	}
 
 }
 void Game::render() {
