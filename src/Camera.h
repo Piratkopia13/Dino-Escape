@@ -5,25 +5,41 @@
 class Camera {
 
 public:
-	Camera(sf::RenderWindow& window);
+	Camera(const sf::RenderWindow& window);
 
-	void handleResize(sf::Event::SizeEvent size);
+	// Resizes the viewport to the new aspect ratio
+	void handleResize(const sf::Event::SizeEvent& size);
+	// Interpolates and moves the camera to the specified position
 	void moveTo(const sf::Vector2f& position);
-	void setConstraints(sf::FloatRect& constraints);
-	void zoom(float zoom);
+
+	// Sets contraints that the camera always will be inside
+	void setConstraints(const sf::FloatRect& constraints);
+	// Locks the width to the set amount, height is adjusted depending on aspect ratio
+	// Can not be set simultaneously as lockHeight
+	void lockWidth(const float width);
+	// Locks the height to the set amount, width is adjusted depending on aspect ratio
+	// Can not be set simultaneously as lockWidth
+	void lockHeight(const float height);
+
+	// Zooms by the given amount
+	void zoom(const float& amount);
+
+	// Returns the view to be applied to the window using sf::RenderWindow.setView(view);
 	const sf::View& getView() const;
-	void applyView();
 
 private:
+	// Makes sure that the camera is not larger in any direction than the set constraints
 	void checkSize();
 
 private:
 	sf::View m_view;
-	sf::RenderWindow& m_window;
+	const sf::RenderWindow& m_window;
 	sf::FloatRect m_constraints;
 	float m_zoom;
 	bool m_hasConstraints;
 	sf::Vector2f m_center;
+
+	float m_lockedWidth, m_lockedHeight;
 
 };
 

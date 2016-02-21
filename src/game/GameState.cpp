@@ -14,7 +14,7 @@ GameState::GameState(StateStack& stack, Context context)
 
 	// Set the cameras constraints to map border
 	m_worldCamera.setConstraints(m_map.getBounds());
-	m_worldCamera.zoom(1 / 2.5f);
+	m_worldCamera.lockHeight(192.f);
 
 	m_spawnClickEnt.setSpawnType(SpawnClickEntity::EFFIE);
 
@@ -47,20 +47,20 @@ bool GameState::handleEvent(const sf::Event& event) {
 		m_worldCamera.handleResize(event.size);
 		m_hudCamera.handleResize(event.size);
 
-		m_hudCamera.applyView();
+		window->setView(m_hudCamera.getView());
 		m_FPStext.setPosition(window->mapPixelToCoords(sf::Vector2i(0, window->getSize().y - 20.f)));
 		m_healthBar.setPosition(window->mapPixelToCoords(sf::Vector2i(15.f, 15.f)));
 
 		break;
 
 	case sf::Event::MouseButtonPressed:
-		m_worldCamera.applyView();
+		window->setView(m_worldCamera.getView());
 		m_spawnClickEnt.handleInput(event.mouseButton.button, true);
 		m_spawnClickBlt.handleInput(event.mouseButton.button, true);
 		break;
 
 	case sf::Event::MouseButtonReleased:
-		m_worldCamera.applyView();
+		window->setView(m_worldCamera.getView());
 		m_spawnClickEnt.handleInput(event.mouseButton.button, false);
 		m_spawnClickBlt.handleInput(event.mouseButton.button, false);
 		break;
@@ -104,13 +104,13 @@ void GameState::draw() {
 	sf::RenderWindow* window = getContext().window;
 
 	// Apply world camera view
-	m_worldCamera.applyView();
+	window->setView(m_worldCamera.getView());
 
 	window->draw(m_world);
 
 
 	// Apply default camera view for HUD rendering
-	m_hudCamera.applyView();
+	window->setView(m_hudCamera.getView());
 
 	window->draw(m_healthBar);
 
