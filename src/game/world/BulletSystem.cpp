@@ -2,7 +2,7 @@
 
 BulletSystem::BulletSystem()
 : m_bulletMaxLifetime(sf::seconds(10.0f)) // Bullets will be destroyed after this time
-, m_bulletMaxDeadTime(sf::seconds(5.f))
+, m_bulletMaxDeadTime(sf::seconds(.05f))
 {
 
 	m_shapeNormal.setFillColor(sf::Color::Yellow);

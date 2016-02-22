@@ -85,7 +85,7 @@ void Player::update(const sf::Time& dt) {
 			
 				m_inJump = true;
 				if (m_currentJumpTime == sf::Time::Zero) {
-					velocity.y = -3000.f * dt.asSeconds(); // Min jump height
+					velocity.y = -50.f; // Min jump height
 				} else {
 					velocity.y -= 1.f / (m_currentJumpTime.asSeconds() * 2.f); // Number fiddling to get the right feeling
 				}
