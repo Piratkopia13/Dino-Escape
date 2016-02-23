@@ -82,7 +82,6 @@ bool GameState::update(sf::Time dt) {
 	if (m_world.isLevelComplete()) {
 		// Destroy this GameState instance
 		// and show the level complete screen
-		std::cout << "Goal?" << std::endl;
 		requestStackPop();
 		requestStackPush(States::LevelComplete);
 	}
@@ -92,11 +91,11 @@ bool GameState::update(sf::Time dt) {
 	// Update FPSText
 	m_FPStext.setString("FPS: " + std::to_string(Game::getFPS()));
 
-	int playerHP = m_world.getPlayer()->health;
+	int playerHP = m_world.getPlayer()->getHealth();
 	m_healthBar.setHealth(playerHP);
 	if (playerHP == 0) {
 		requestStackPush(States::Death);
-		m_world.getPlayer()->health = 6;
+		m_world.getPlayer()->setHealth(6);
 	}
 	
 

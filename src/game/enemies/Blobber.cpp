@@ -4,8 +4,10 @@ Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition)
 : Enemy(world)
 {
 
-	health = 5;
+	// Set initial health
+	setHealth(5);
 
+	// Move to the set position
 	sprite.move(bottomCenterPosition);
 
 	m_walkAnimation.setSpriteSheet(*enemiesTexture);
@@ -67,7 +69,7 @@ void Blobber::update(const sf::Time& dt) {
 void Blobber::runAI() {
 
 	// No need to check if we are in the air
-	if (!isGrounded)
+	if (!isGrounded())
 		return;
 	
 	float offset = 1;
@@ -90,7 +92,7 @@ void Blobber::runAI() {
 	m_debugPoint.setPosition(sideCheckPoint);
 
 	// Check if we need to turn to avoid falling
-	if (!world->getMap()->isPointColliding(bottomCheckPoint)) {
+	if (!getGameWorld().getMap()->isPointColliding(bottomCheckPoint)) {
 		
 		// Reverse horizontal movement
 		//velocity.x *= -1.f;
@@ -103,7 +105,7 @@ void Blobber::runAI() {
 	}
 
 	// Check if we need to turn to avoid getting stuck in a wall
-	if (world->getMap()->isPointColliding(sideCheckPoint)) {
+	if (getGameWorld().getMap()->isPointColliding(sideCheckPoint)) {
 
 		// Reverse horizontal movement
 		//velocity.x *= -1.f;
@@ -116,7 +118,7 @@ void Blobber::runAI() {
 }
 
 void Blobber::hitByBullet(Bullet* blt) {
-	
+
 	// Call parent
 	Entity::hitByBullet(blt);
 

@@ -14,7 +14,7 @@ class Player : public Entity {
 	public:
 		Player();
 
-		virtual void handleInput(const sf::Keyboard::Key& key, const bool isPressed);
+		virtual void handleInput(sf::Keyboard::Key key, bool isPressed);
 		virtual void update(const sf::Time& dt);
 
 		virtual void hitByBullet(Bullet* blt);

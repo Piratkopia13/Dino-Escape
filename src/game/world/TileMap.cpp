@@ -180,32 +180,32 @@ sf::Vector2f TileMap::resolveCollisions(Entity& entity) {
 	sf::Vector2f diff;
 	sf::Vector2f vel;
 
-	entity.getTransformable().move(sf::Vector2f(0, -entity.velocity.y));
+	entity.getTransformable().move(sf::Vector2f(0, -entity.getVelocity().y));
 
 	sf::FloatRect bb = entity.getGlobalBounds();
 	diff = getCollisionOverlap(bb);
 	if (diff.x != 0.0f) {
 
-		if (entity.velocity.x > 0)
+		if (entity.getVelocity().x > 0)
 			vel.x = diff.x - m_tileWidth / 2.0f - bb.width / 2.0f - 0.1f;
 
-		if (entity.velocity.x < 0)
+		if (entity.getVelocity().x < 0)
 			vel.x = diff.x + m_tileWidth / 2.0f + bb.width / 2.0f + 0.1f;
 	}
 
-	entity.getTransformable().move(sf::Vector2f(-entity.velocity.x, entity.velocity.y));
+	entity.getTransformable().move(sf::Vector2f(-entity.getVelocity().x, entity.getVelocity().y));
 	diff = getCollisionOverlap(entity.getGlobalBounds());
 	if (diff.y != 0.0f) {
 
 		// If moving down
-		if (entity.velocity.y > 0)
+		if (entity.getVelocity().y > 0)
 			vel.y = diff.y - m_tileHeight / 2.0f - bb.height / 2.0f - 0.1f;
 		// If moving up
-		if (entity.velocity.y < 0)
+		if (entity.getVelocity().y < 0)
 			vel.y = diff.y + m_tileHeight / 2.0f + bb.height / 2.0f + 0.1f;
 
 	}
-	entity.getTransformable().move(sf::Vector2f(entity.velocity.x, 0));
+	entity.getTransformable().move(sf::Vector2f(entity.getVelocity().x, 0));
 
 
 	// Make sure the values arent too small

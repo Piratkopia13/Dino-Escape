@@ -15,73 +15,66 @@ class Entity : public sf::Drawable {
 		typedef std::unique_ptr<Entity> EntityPtr;
 
 	public:
-		Entity() : m_flashTime(sf::seconds(.2f)) {}
+		Entity();
 
-		virtual void update(const sf::Time& dt) {
+		virtual void update(const sf::Time& dt);
+		virtual void handleInput(sf::Keyboard::Key key, bool isPressed) = 0;
 
-			// Update flash timer
-			m_hitFlashTimer += dt;
-			// Set color to normal if timer has expired
-			if (m_hitFlashTimer >= m_flashTime)
-				sprite.setColor(sf::Color(255, 255, 255, 255));
-
-		};
-		virtual void handleInput(const sf::Keyboard::Key& key, const bool isPressed) = 0;
-
-		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
-			// Draw the sprite
-			target.draw(sprite);
-		}
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		// Called by BulletSystem when a bullet hits this entity
-		virtual void hitByBullet(Bullet* blt) {
+		virtual void hitByBullet(Bullet* blt);
 
-			m_hitFlashTimer = sf::Time::Zero;
-			// Change color
-			sprite.setColor(sf::Color(255, 150, 150, 255));
-			// Push the entitiy back
-			velocity += blt->getVelocity() * hitByBulletXMultiplier;
-			velocity.y -= hitByBulletJumpValue;
-
-
-			// TODO : make different bullet-types do different amount of damage
-			health -= 1;
-
-			if (health <= 0)
-				isDead = true; // Tell GameWorld to remove this entity
-
-		}
-
+		// Abstract getters
 		virtual sf::Transformable& getTransformable() = 0;
 		virtual sf::FloatRect getGlobalBounds() = 0;
 		virtual sf::Vector2f getCenterPos() const = 0;
 
+		// Setters
+		void setWorld(GameWorld* world);
+		void setHealth(const int health);
+		void heal(const int value);
+		void damage(const int value);
+
+		// Getters
+		GameWorld& getGameWorld() const;
+		int getHealth() const;
+		bool isGrounded() const;
+		const sf::Vector2f& getVelocity() const;
+
+		// Give GameWorld access to private variables
+		// Such as m_isGrounded and m_lastVelocity
 		friend class GameWorld;
 
-	public:
-		// Pointers to the GameWorld that the entity is part of
-		GameWorld* world;
+	protected:
+		const sf::Vector2f& Entity::getLastVelocity() const;
 
+	protected:
+		
 		AnimatedSprite sprite;
 
 		sf::Vector2f velocity; // Current velocity
-		sf::Vector2f lastVelocity; // Velocity last frame, used for interpolation
-
-		bool isGrounded = false; // Set by GameWorld, indicates if the object is standing on ground or is in air
-		int health = 1;
-		bool isDead = false; // Flag indicating if GameWorld should remove this entity
 
 		// Interpolation step values. Modifies how "slippery" an entity should be
-		sf::Vector2f interpolationStepOnGround = sf::Vector2f(.26f, .1f);
-		sf::Vector2f interpolationStepInAir = sf::Vector2f(.09f, .1f);
+		sf::Vector2f interpolationStepOnGround;
+		sf::Vector2f interpolationStepInAir;
 
 		// How heigh the entity should jump when hit by a bullet
-		float hitByBulletJumpValue = 40.f;
+		float hitByBulletJumpValue;
 		// What the bullets velocity should be multiplied with when added to the entity velocity
-		float hitByBulletXMultiplier = 1.f;
+		float hitByBulletXMultiplier;
 
 	private:
-		bool isGroundedNextFrame = false;
+		// Pointer to the GameWorld that the entity is part of
+		GameWorld* m_world;
+
+		sf::Vector2f m_lastVelocity; // Velocity last frame, used for interpolation
+
+		bool m_isGrounded; // Set by GameWorld, indicates if the object is standing on ground or is in air
+		bool m_isGroundedNextFrame;
+		bool m_isDead; // Flag indicating if GameWorld should remove this entity
+
+		int m_health;
 
 		// Variables for flashing the entity red when hit by a bullet
 		sf::Time m_hitFlashTimer;

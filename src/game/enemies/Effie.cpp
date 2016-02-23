@@ -4,9 +4,10 @@ Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition)
 : Enemy(world)
 , m_fireballCooldown(sf::seconds(.9f)) // How often Effie can shoot when he sees the player
 {
+	// Inital health
+	setHealth(2);
 
-	health = 2;
-
+	// Move to the set position
 	sprite.move(bottomCenterPosition);
 
 	// Possible idle animation, make it slow tho
@@ -34,10 +35,10 @@ void Effie::update(const sf::Time& dt) {
 	Entity::update(dt);
 
 	sf::Vector2f myPos = sprite.getPosition();
-	sf::Vector2f playerPos = world->getPlayer()->getCenterPos();
+	sf::Vector2f playerPos = getGameWorld().getPlayer()->getCenterPos();
 
 	// Raycast
-	bool rayIntersects = world->getMap()->isLineColliding(myPos, playerPos);
+	bool rayIntersects = getGameWorld().getMap()->isLineColliding(myPos, playerPos);
 
 	if (!rayIntersects) {
 
@@ -55,6 +56,9 @@ void Effie::update(const sf::Time& dt) {
 		m_lastFireballTime += dt;
 		if (m_lastFireballTime >= m_fireballCooldown) {
 
+			// Play fireball shoot sound from the location of the entity
+			getGameWorld().getContext().sounds->play(Sounds::ShootFireball, getCenterPos());
+
 			// Fire a bullet towards the player
 			float bulletSpeed = 4.0f;
 			sf::Vector2f dir = playerPos - myPos;
@@ -69,7 +73,7 @@ void Effie::update(const sf::Time& dt) {
 			sf::Vector2f bulletDir = Utils::normalize(dir);
 
 			sf::Vector2f bulletVelocity = bulletSpeed * bulletDir;
-			world->getBulletSystem().fireBullet(Bullet::FIREBALL, bulletStart, bulletVelocity, this);
+			getGameWorld().getBulletSystem().fireBullet(Bullet::FIREBALL, bulletStart, bulletVelocity, this);
 
 			// Reset cooldown timer
 			m_lastFireballTime = sf::Time::Zero;

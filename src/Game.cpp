@@ -8,6 +8,15 @@ Game::Game()
 , m_stateStack(State::Context(m_window, m_textureManager, m_fontManager, m_levelManager, m_musicPlayer, m_soundPlayer))
 {
 
+	sf::ContextSettings settings = m_window.getSettings();
+
+	std::cout << "===== Window settings =====" << std::endl << std::endl;
+	std::cout << "Depth bits: " << settings.depthBits << std::endl;
+	std::cout << "Stencil bits: " << settings.stencilBits << std::endl;
+	std::cout << "Antialiasing level: " << settings.antialiasingLevel << std::endl;
+	std::cout << "OpenGL version: " << settings.majorVersion << "." << settings.minorVersion << std::endl;
+	std::cout << std::endl << "===========================" << std::endl;
+
 	// Plant the time seed
 	srand(static_cast<unsigned int>(time(0)));
 
@@ -92,6 +101,9 @@ void Game::update(sf::Time dt) {
 		std::cout << "Stack is empty, quitting." << std::endl;
 		m_window.close();
 	}
+
+	// Remove stopped sounds
+	m_soundPlayer.removeStoppedSounds();
 
 }
 void Game::render() {

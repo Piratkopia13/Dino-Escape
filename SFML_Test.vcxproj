@@ -148,6 +148,7 @@
     <ClCompile Include="src\game\HealthBar.cpp" />
     <ClCompile Include="src\game\LevelCompleteState.cpp" />
     <ClCompile Include="src\game\enemies\Enemy.cpp" />
+    <ClCompile Include="src\game\world\Entity.cpp" />
     <ClCompile Include="src\LevelManager.cpp" />
     <ClCompile Include="src\MenuState.cpp" />
     <ClCompile Include="src\MusicPlayer.cpp" />

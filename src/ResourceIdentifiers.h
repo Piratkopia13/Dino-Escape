@@ -28,6 +28,11 @@ namespace Music {
 namespace Sounds {
 	enum ID {
 		Jump,
-		Shoot
+		Shoot,
+		ShootFireball,
+		HitEnemy,
+		HitPlayer,
+		Select,
+		Pickup
 	};
 }

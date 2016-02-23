@@ -51,12 +51,12 @@ void GameWorld::handleMapObjects() {
 void GameWorld::add(Entity* entity) {
 	m_entities.push_back(std::move(Entity::EntityPtr(entity)));
 	// Let the entity know about this world
-	m_entities.back()->world = this;
+	m_entities.back()->setWorld(this);
 }
 void GameWorld::add(Entity::EntityPtr& entity) {
 	m_entities.push_back(std::move(entity));
 	// Let the entity know about this world
-	m_entities.back()->world = this;
+	m_entities.back()->setWorld(this);
 }
 
 void GameWorld::handleInput(sf::Keyboard::Key key, bool isPressed) {
@@ -77,7 +77,7 @@ void GameWorld::update(sf::Time dt) {
 
 		// Remove if entity is dead and not the player
 		// Make sure the player does not get deleted since that will cause a crash
-		if (e->isDead && !dynamic_cast<Player*>(e.get())) {
+		if (e->m_isDead && e.get() != m_player) {
 			it = m_entities.erase(it);
 			continue;
 		} else ++it;
@@ -94,9 +94,9 @@ void GameWorld::update(sf::Time dt) {
 
 		// Interpolate values to simulate acceleration
 		float stepX = e->interpolationStepOnGround.x;
-		if (!e->isGrounded) stepX = e->interpolationStepInAir.x; // Slower acceleration while in air
-		e->velocity.y = e->interpolationStepOnGround.y * e->velocity.y + (1 - e->interpolationStepOnGround.y) * e->lastVelocity.y;
-		e->velocity.x = stepX * e->velocity.x + (1 - stepX) * e->lastVelocity.x;
+		if (!e->m_isGrounded) stepX = e->interpolationStepInAir.x; // Slower acceleration while in air
+		e->velocity.y = e->interpolationStepOnGround.y * e->velocity.y + (1 - e->interpolationStepOnGround.y) * e->m_lastVelocity.y;
+		e->velocity.x = stepX * e->velocity.x + (1 - stepX) * e->m_lastVelocity.x;
 
 		// Move by velocity
 		e->getTransformable().move(e->velocity);
@@ -107,8 +107,8 @@ void GameWorld::update(sf::Time dt) {
 		if (fabs(e->velocity.y) < 0.0001f) e->velocity.y = 0.f;
 
 		// Set lastVelocity to current velocity
-		e->lastVelocity.x = e->velocity.x;
-		e->lastVelocity.y = e->velocity.y;
+		e->m_lastVelocity.x = e->velocity.x;
+		e->m_lastVelocity.y = e->velocity.y;
 	
 
 		// ================================ //
@@ -117,25 +117,31 @@ void GameWorld::update(sf::Time dt) {
 
 		sf::Vector2f velBack = m_map.resolveCollisions(*e);
 		e->getTransformable().move(velBack);
-		e->lastVelocity += velBack;
+		e->m_lastVelocity += velBack;
 
 		// Cheaty way to check if entity is on the ground
-		if (e->isGroundedNextFrame) {
-			e->isGrounded = true;
-			e->isGroundedNextFrame = false;
+		if (e->m_isGroundedNextFrame) {
+			e->m_isGrounded = true;
+			e->m_isGroundedNextFrame = false;
 		}
 		if (velBack.y < 0.f)
-			e->isGroundedNextFrame = true;
+			e->m_isGroundedNextFrame = true;
 		else 
-			e->isGrounded = false;
+			e->m_isGrounded = false;
 
 		// Reset velocity
 		e->velocity.x = 0; e->velocity.y = 0;
 		// Reset values if they are really low
-		if (fabs(e->lastVelocity.x) < 0.0001f) e->lastVelocity.x = 0.f;
-		if (fabs(e->lastVelocity.y) < 0.0001f) e->lastVelocity.y = 0.f;
+		if (fabs(e->m_lastVelocity.x) < 0.0001f) e->m_lastVelocity.x = 0.f;
+		if (fabs(e->m_lastVelocity.y) < 0.0001f) e->m_lastVelocity.y = 0.f;
 
 	}
+
+	// =========================== //
+	// ====== Update sounds ====== //
+	// =========================== //
+
+	m_context.sounds->setListenerPosition(m_player->getCenterPos());
 
 
 	// ======================================== //

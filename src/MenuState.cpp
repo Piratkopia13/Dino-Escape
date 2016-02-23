@@ -113,6 +113,9 @@ void MenuState::draw() {
 
 void MenuState::updateSelected() {
 
+	// Play select sound
+	getContext().sounds->play(Sounds::Select);
+
 	m_selectedLine.setSize(sf::Vector2f(m_optionTexts.at(m_selectedIndex).getLocalBounds().width, 4.0f));
 	sf::FloatRect bounds = m_selectedLine.getLocalBounds();
 	m_selectedLine.setOrigin(bounds.left + bounds.width / 2.0f, bounds.top + bounds.height / 2.0f);

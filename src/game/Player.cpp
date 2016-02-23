@@ -30,12 +30,15 @@ Player::Player()
 	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
 
 	// Set scale and starting position
-	m_spriteScale = 1.5f;
+	m_spriteScale = 1.55f;
 	sprite.setScale(m_spriteScale, m_spriteScale);
 	sprite.setPosition(100.0f, 200.0f);
 
 	// Set inital health
-	health = 6;
+	setHealth(6);
+
+	// Set up entity properties
+	hitByBulletXMultiplier = 4.f;
 
 	// Hardcoded bounding box size
 	m_boundingBox = sprite.getGlobalBounds();
@@ -43,7 +46,7 @@ Player::Player()
 
 }
 
-void Player::handleInput(const sf::Keyboard::Key& key, const bool isPressed) {
+void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
 
 	if (key == sf::Keyboard::W)
 		m_isJumping = isPressed;
@@ -73,21 +76,21 @@ void Player::update(const sf::Time& dt) {
 		m_inJump = false;
 		m_justJumped = false;
 	}
-	if (isGrounded) {
+	if (isGrounded()) {
 		m_inJump = false;
 		m_currentJumpTime = sf::Time::Zero;
 	}
 	if (m_isJumping) {
 
-		if (isGrounded)
+		if (isGrounded())
 			// Play jump sound
-			world->getContext().sounds->play(Sounds::ID::Jump);
+			getGameWorld().getContext().sounds->play(Sounds::ID::Jump);
 
 		m_justJumped = true;
 
 		if (m_currentJumpTime <= m_maxJumpTime) {
 
-			if (isGrounded || m_inJump) {
+			if (isGrounded() || m_inJump) {
 			
 				m_inJump = true;
 				if (m_currentJumpTime == sf::Time::Zero) {
@@ -105,7 +108,7 @@ void Player::update(const sf::Time& dt) {
 		}
 
 	}
-	if (isGrounded)
+	if (isGrounded())
 		m_currentJumpTime = sf::Time::Zero; // This needs to be here to reset the time if a new jump will occure next frame
 	
 
@@ -116,7 +119,7 @@ void Player::update(const sf::Time& dt) {
 	bool isMovingHorizintally = false;
 	if (m_isMovingLeft) {
 		isMovingHorizintally = true;
-		velocity.x += -speed;
+		velocity.x -= speed;
 
 		turn(true);
 	}
@@ -154,7 +157,7 @@ void Player::fireGun() {
 	if (m_lastBulletTime >= m_BulletCooldown) {
 
 		// Play shoot sound
-		world->getContext().sounds->play(Sounds::ID::Shoot);
+		getGameWorld().getContext().sounds->play(Sounds::ID::Shoot);
 
 		// Fire a bullet in the direction I'm looking
 		float bulletSpeed = 15.0f;
@@ -169,9 +172,9 @@ void Player::fireGun() {
 			bulletVelocity.x = bulletSpeed;
 			from.x += 15.0f;
 		}
-		bulletVelocity += lastVelocity;
+		bulletVelocity += getLastVelocity();
 
-		world->getBulletSystem().fireBullet(Bullet::NORMAL, from, bulletVelocity, this);
+		getGameWorld().getBulletSystem().fireBullet(Bullet::NORMAL, from, bulletVelocity, this);
 			
 		// Reset cooldown timer
 		m_lastBulletTime = sf::Time::Zero;

@@ -13,8 +13,6 @@ FontManager::~FontManager() {
 
 const sf::Font& FontManager::get(Fonts::ID id) {
 
-	std::cout << "Got font for id " << id << std::endl;
-
 	auto font = m_fontMap.find(id);
 
 	if (font == m_fontMap.end()) // Font not yet loaded
@@ -26,10 +24,9 @@ const sf::Font& FontManager::get(Fonts::ID id) {
 
 const sf::Font& FontManager::load(Fonts::ID id) {
 
-	std::cout << "Loaded font for id " << id << std::endl;
-
 	std::unique_ptr<sf::Font> font(new sf::Font());
-	font->loadFromFile(m_filenameMap.find(id)->second);
+	if (!font->loadFromFile(m_filenameMap.find(id)->second))
+		throw std::runtime_error("Failed to load font: " + m_filenameMap.find(id)->second);
 
 	// Insert and return font reference
 	m_fontMap.insert(std::make_pair(id, std::move(font)));
