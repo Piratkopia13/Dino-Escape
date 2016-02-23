@@ -1,12 +1,12 @@
 #include "GameState.h"
 #include "../Game.h"
 
-GameState::GameState(StateStack& stack, Context context) 
+GameState::GameState(StateStack& stack, Context& context) 
 : State(stack, context)
 , m_map(context.levels->getCurrentLevelFile()) // Load the currently set level
 , m_worldCamera(*context.window)
 , m_hudCamera(*context.window)
-, m_world(m_map, *context.textures)
+, m_world(m_map, context)
 , m_spawnClickEnt(m_world, *context.window)
 , m_spawnClickBlt(m_world, *context.window)
 , m_healthBar(context)
@@ -18,12 +18,15 @@ GameState::GameState(StateStack& stack, Context context)
 
 	m_spawnClickEnt.setSpawnType(SpawnClickEntity::EFFIE);
 
-	m_FPStext.setFont(getContext().fonts->get(FontManager::Emulogic));
+	m_FPStext.setFont(getContext().fonts->get(Fonts::ID::Main));
 	m_FPStext.setCharacterSize(15);
 	m_FPStext.setPosition(0, getContext().window->getSize().y - 20.f);
 
 	m_healthBar.setHealth(6);
 	m_healthBar.setPosition(getContext().window->mapPixelToCoords(sf::Vector2i(15.f, 15.f)));
+
+	// Play the Game music  theme
+	getContext().music->play(Music::ID::GameTheme);
 
 }
 GameState::~GameState() {

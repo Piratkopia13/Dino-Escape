@@ -5,8 +5,8 @@ LevelManager::LevelManager()
 {
 	
 	// TODO: read this from a file
-	m_levelFileNames.push_back("level1.json");
-	m_levelFileNames.push_back("level2.json");
+	m_levelFilenames.push_back("level1.json");
+	m_levelFilenames.push_back("level2.json");
 
 }
 LevelManager::~LevelManager() {
@@ -15,7 +15,7 @@ LevelManager::~LevelManager() {
 bool LevelManager::goToNextLevel() {
 
 	// Check if the last level has already been completed
-	if (m_currentLevelIndex == m_levelFileNames.size() - 1) {
+	if (m_currentLevelIndex == m_levelFilenames.size() - 1) {
 
 		// Set the first level as current
 		m_currentLevelIndex = 0;
@@ -30,9 +30,9 @@ bool LevelManager::goToNextLevel() {
 }
 
 const std::string& LevelManager::getCurrentLevelFile() const {
-	return m_levelFileNames.at(m_currentLevelIndex);
+	return m_levelFilenames.at(m_currentLevelIndex);
 }
 
-const unsigned int& LevelManager::getCurrentLevelIndex() const {
+const unsigned int LevelManager::getCurrentLevelIndex() const {
 	return m_currentLevelIndex + 1;
 }

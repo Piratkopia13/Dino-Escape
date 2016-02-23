@@ -5,7 +5,7 @@
 class DeathState : public State {
 
 public:
-	DeathState(StateStack& stack, Context context);
+	DeathState(StateStack& stack, Context& context);
 	~DeathState();
 
 	virtual bool handleEvent(const sf::Event& event);

@@ -11,7 +11,7 @@
 class GameState : public State {
 
 	public:
-		GameState(StateStack& stack, Context context);
+		GameState(StateStack& stack, Context& context);
 		~GameState();
 
 		virtual bool handleEvent(const sf::Event& event);

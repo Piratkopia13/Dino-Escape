@@ -1,6 +1,6 @@
 #include "LevelCompleteState.h"
 
-LevelCompleteState::LevelCompleteState(StateStack& stack, Context context) 
+LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context) 
 : State(stack, context)
 {
 
@@ -15,14 +15,14 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context context)
 	m_bg.setSize(sf::Vector2f(window->getSize()));
 	m_bg.setFillColor(sf::Color(16, 125, 166, 255));
 
-	m_titleText.setFont(getContext().fonts->get(FontManager::Emulogic));
+	m_titleText.setFont(getContext().fonts->get(Fonts::ID::Main));
 	m_titleText.setColor(sf::Color::Green);
 	m_titleText.setCharacterSize(50);
 	m_titleText.setString("Level " + std::to_string(currentLevel) + " complete!");
 	Utils::centerTextOrigin(m_titleText);
 	m_titleText.setPosition(window->getSize().x / 2.0f, 100.f);
 
-	m_statsTitleText.setFont(getContext().fonts->get(FontManager::Emulogic));
+	m_statsTitleText.setFont(getContext().fonts->get(Fonts::ID::Main));
 	m_statsTitleText.setColor(sf::Color::White);
 	m_statsTitleText.setCharacterSize(30);
 	m_statsTitleText.setString("Stats");
@@ -35,14 +35,14 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context context)
 	// Enemies killed +5
 	// Total score = (maxTime - Time in seconds) * constant + health*10 + enemies killed*10
 
-	m_statsText.setFont(getContext().fonts->get(FontManager::Emulogic));
+	m_statsText.setFont(getContext().fonts->get(Fonts::ID::Main));
 	m_statsText.setColor(sf::Color::White);
 	m_statsText.setCharacterSize(20);
 	m_statsText.setString("Time: 1 min 23 sec");
 	Utils::centerTextOrigin(m_statsText);
 	m_statsText.setPosition(window->getSize().x / 2.0f, 350.f);
 
-	m_continueText.setFont(getContext().fonts->get(FontManager::Emulogic));
+	m_continueText.setFont(getContext().fonts->get(Fonts::ID::Main));
 	m_continueText.setColor(sf::Color::White);
 	m_continueText.setCharacterSize(20);
 

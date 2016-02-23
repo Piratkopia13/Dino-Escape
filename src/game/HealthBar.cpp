@@ -4,7 +4,7 @@ HealthBar::HealthBar(State::Context& context)
 : m_context(context)
 {
 
-	m_healthBarAnim.setSpriteSheet(m_context.textures->get(TextureManager::HEALTH_BAR));
+	m_healthBarAnim.setSpriteSheet(m_context.textures->get(Textures::ID::HEALTH_BAR));
 	m_healthBarAnim.addFrame(sf::IntRect(0, 0, 28, 7));
 	m_healthBarAnim.addFrame(sf::IntRect(0, 7, 28, 7));
 	m_healthBarAnim.addFrame(sf::IntRect(0, 14, 28, 7));

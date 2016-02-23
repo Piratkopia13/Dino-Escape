@@ -5,6 +5,7 @@
 
 #include "TileMap.h"
 #include "BulletSystem.h"
+#include "../../states/State.h"
 #include "../Player.h"
 #include "../enemies/Effie.h"
 #include "../enemies/Blobber.h"
@@ -16,7 +17,7 @@ class GameWorld : public sf::Drawable {
 		static const float GRAVITY;
 
 	public:
-		GameWorld(TileMap& map, TextureManager& textureManager);
+		GameWorld(TileMap& map, State::Context& context);
 		~GameWorld();
 
 		void handleInput(sf::Keyboard::Key key, bool isPressed);
@@ -30,8 +31,8 @@ class GameWorld : public sf::Drawable {
 		Entity* getPlayer() const;
 		TileMap* getMap() const;
 		int getNumEntites() const;
-		TextureManager& getTextureManager();
-		const bool isLevelComplete();
+		State::Context& getContext() const;
+		const bool isLevelComplete() const;
 
 	private:
 		// Spawns entites specified by the map
@@ -46,10 +47,10 @@ class GameWorld : public sf::Drawable {
 		Entity* m_player; // Who enemies should attack and bullets collide with
 
 		TileMap& m_map;
+		State::Context& m_context;
 
 		sf::FloatRect m_mapGoalBounds;
 
-		TextureManager* m_textureManager;
 
 		bool m_isLevelComplete;
 

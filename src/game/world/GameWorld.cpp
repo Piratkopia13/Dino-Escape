@@ -2,9 +2,9 @@
 
 const float GameWorld::GRAVITY = 340.0f;
 
-GameWorld::GameWorld(TileMap& map, TextureManager& textureManager)
+GameWorld::GameWorld(TileMap& map, State::Context& context)
 : m_map(map)
-, m_textureManager(&textureManager)
+, m_context(context)
 , m_isLevelComplete(false)
 {
 	// Create the player
@@ -183,10 +183,10 @@ int GameWorld::getNumEntites() const {
 	return m_entities.size();
 }
 
-TextureManager& GameWorld::getTextureManager() {
-	return *m_textureManager;
+State::Context& GameWorld::getContext() const {
+	return m_context;
 }
 
-const bool GameWorld::isLevelComplete() {
+const bool GameWorld::isLevelComplete() const {
 	return m_isLevelComplete;
 }

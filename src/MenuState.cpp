@@ -1,6 +1,6 @@
 #include "MenuState.h"
 
-MenuState::MenuState(StateStack& stack, Context context)
+MenuState::MenuState(StateStack& stack, Context& context)
 : State(stack, context)
 {
 
@@ -9,7 +9,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 
 	float halfWindowWidth = getContext().window->getSize().x / 2.0f;
 
-	m_title.setFont(context.fonts->get(FontManager::Emulogic));
+	m_title.setFont(context.fonts->get(Fonts::ID::Main));
 	m_title.setCharacterSize(80);
 	m_title.setString("Dino Escape");
 	Utils::centerTextOrigin(m_title);
@@ -20,12 +20,12 @@ MenuState::MenuState(StateStack& stack, Context context)
 	m_titleShadow.setColor(sf::Color(0, 0, 0, 200));
 	m_titleShadow.setPosition(halfWindowWidth + 8, 158);
 
-	m_bg.setTexture(&getContext().textures->get(TextureManager::MENU_BACKGROUND));
+	m_bg.setTexture(&getContext().textures->get(Textures::ID::MENU_BACKGROUND));
 	m_bg.setSize(sf::Vector2f(getContext().window->getSize().x, getContext().window->getSize().y));
 	m_bg.setPosition(0, 0);
 
 
-	sf::Text optionText("Play", getContext().fonts->get(FontManager::Emulogic), 35);
+	sf::Text optionText("Play", getContext().fonts->get(Fonts::ID::Main), 35);
 	Utils::centerTextOrigin(optionText);
 	optionText.setPosition(halfWindowWidth, 300);
 	m_optionTexts.push_back(optionText);
@@ -41,6 +41,10 @@ MenuState::MenuState(StateStack& stack, Context context)
 	m_optionTexts.push_back(optionText);
 
 	updateSelected();
+
+
+	// Play the menu theme
+	getContext().music->play(Music::ID::MenuTheme);
 
 }
 

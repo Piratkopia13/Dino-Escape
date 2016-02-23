@@ -58,7 +58,7 @@ class StateStack {
 
 template <typename T>
 void StateStack::registerState(States::ID stateID) {
-
+	
 	m_factories[stateID] = [this]() {
 		return State::Ptr(new T(*this, m_context));
 	};

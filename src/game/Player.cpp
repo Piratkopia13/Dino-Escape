@@ -1,16 +1,18 @@
 #include "Player.h"
 
 Player::Player()
-: m_BulletCooldown(sf::seconds(.8f))
+: m_BulletCooldown(sf::seconds(.4f))
 , m_isLookingLeft(false)
 , m_maxJumpTime(sf::seconds(.1f))
 {
 
 	sprite.setFrameTime(sf::seconds(.1f));
+	sprite.pause();
+	sprite.setLooped(false);
 
 	// Load texture
 	m_spriteSheet.loadFromFile("res/textures/dino.png");
-
+	
 	// Set up animations
 	m_walkingAnimation.setSpriteSheet(m_spriteSheet);
 	m_walkingAnimation.createFrames(22, 22, 0, 22, 8);
@@ -77,6 +79,10 @@ void Player::update(const sf::Time& dt) {
 	}
 	if (m_isJumping) {
 
+		if (isGrounded)
+			// Play jump sound
+			world->getContext().sounds->play(Sounds::ID::Jump);
+
 		m_justJumped = true;
 
 		if (m_currentJumpTime <= m_maxJumpTime) {
@@ -85,7 +91,9 @@ void Player::update(const sf::Time& dt) {
 			
 				m_inJump = true;
 				if (m_currentJumpTime == sf::Time::Zero) {
+
 					velocity.y = -50.f; // Min jump height
+
 				} else {
 					velocity.y -= 1.f / (m_currentJumpTime.asSeconds() * 2.f); // Number fiddling to get the right feeling
 				}
@@ -144,6 +152,9 @@ void Player::hitByBullet(Bullet* blt) {
 void Player::fireGun() {
 
 	if (m_lastBulletTime >= m_BulletCooldown) {
+
+		// Play shoot sound
+		world->getContext().sounds->play(Sounds::ID::Shoot);
 
 		// Fire a bullet in the direction I'm looking
 		float bulletSpeed = 15.0f;

@@ -3,26 +3,21 @@
 TextureManager::TextureManager() {
 
 	// TODO: Load filenames from a file or something
-	m_filenameMap.insert({ TextureID::DINO, "res/textures/dino.png" });
-	m_filenameMap.insert({ TextureID::ENEMIES, "res/textures/enemies.png" });
-	m_filenameMap.insert({ TextureID::ITEMS, "res/textures/items.png" });
-	m_filenameMap.insert({ TextureID::MENU_BACKGROUND, "res/textures/menu_background.png" });
-	m_filenameMap.insert({ TextureID::HEALTH_BAR, "res/textures/meter.png" });
+	m_filenameMap.insert({ Textures::ID::DINO, "res/textures/dino.png" });
+	m_filenameMap.insert({ Textures::ID::ENEMIES, "res/textures/enemies.png" });
+	m_filenameMap.insert({ Textures::ID::ITEMS, "res/textures/items.png" });
+	m_filenameMap.insert({ Textures::ID::MENU_BACKGROUND, "res/textures/menu_background.png" });
+	m_filenameMap.insert({ Textures::ID::HEALTH_BAR, "res/textures/meter.png" });
 
 }
 
 TextureManager::~TextureManager() {
-
-	for (auto& p : m_textureMap) {
-		if (p.second.get() == nullptr)
-			std::cout << "Nullptr at textureID: " << p.first << std::endl;
-	}
-
-
 }
 
-const sf::Texture& TextureManager::get(const TextureID& id) {
-	
+const sf::Texture& TextureManager::get(Textures::ID id) {
+
+	int siz = m_textureMap.size();
+
 	std::cout << "Got texture for id " << id << std::endl;
 
 	auto tex = m_textureMap.find(id);
@@ -34,7 +29,7 @@ const sf::Texture& TextureManager::get(const TextureID& id) {
 
 }
 
-const sf::Texture& TextureManager::load(const TextureID& id) {
+const sf::Texture& TextureManager::load(Textures::ID id) {
 
 	std::cout << "Loaded texture for id " << id << std::endl;
 

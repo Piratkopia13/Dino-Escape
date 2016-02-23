@@ -150,6 +150,9 @@
     <ClCompile Include="src\game\enemies\Enemy.cpp" />
     <ClCompile Include="src\LevelManager.cpp" />
     <ClCompile Include="src\MenuState.cpp" />
+    <ClCompile Include="src\MusicPlayer.cpp" />
+    <ClCompile Include="src\SoundManager.cpp" />
+    <ClCompile Include="src\SoundPlayer.cpp" />
     <ClCompile Include="src\states\State.cpp" />
     <ClCompile Include="src\states\StateStack.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
@@ -178,6 +181,10 @@
     <ClInclude Include="src\game\LevelCompleteState.h" />
     <ClInclude Include="src\LevelManager.h" />
     <ClInclude Include="src\MenuState.h" />
+    <ClInclude Include="src\MusicPlayer.h" />
+    <ClInclude Include="src\ResourceIdentifiers.h" />
+    <ClInclude Include="src\SoundManager.h" />
+    <ClInclude Include="src\SoundPlayer.h" />
     <ClInclude Include="src\states\State.h" />
     <ClInclude Include="src\states\StateIdentifiers.h" />
     <ClInclude Include="src\states\StateStack.h" />

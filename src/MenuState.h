@@ -7,7 +7,7 @@
 class MenuState : public State {
 
 public:
-	MenuState(StateStack& stack, Context context);
+	MenuState(StateStack& stack, Context& context);
 	~MenuState();
 
 	virtual bool handleEvent(const sf::Event& event);

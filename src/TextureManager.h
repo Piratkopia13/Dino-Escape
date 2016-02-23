@@ -9,26 +9,17 @@
 class TextureManager {
 
 public:
-	enum TextureID {
-		DINO,
-		ENEMIES,
-		ITEMS,
-		HEALTH_BAR,
-		MENU_BACKGROUND
-	};
-
-public:
 	TextureManager();
 	~TextureManager();
 
-	const sf::Texture& get(const TextureID& id);
+	const sf::Texture& get(Textures::ID id);
 
 private:
-	const sf::Texture& load(const TextureID& id);
+	const sf::Texture& load(Textures::ID id);
 
 private:
-	std::map<TextureID, std::unique_ptr<sf::Texture>> m_textureMap;
-	std::map<TextureID, std::string> m_filenameMap;
+	std::map<Textures::ID, std::unique_ptr<sf::Texture>> m_textureMap;
+	std::map<Textures::ID, std::string> m_filenameMap;
 
 
 };

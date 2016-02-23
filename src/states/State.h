@@ -6,6 +6,8 @@
 #include "../TextureManager.h"
 #include "../FontManager.h"
 #include "../LevelManager.h"
+#include "../MusicPlayer.h"
+#include "../SoundPlayer.h"
 
 class StateStack;
 
@@ -14,16 +16,18 @@ class State {
 	public:
 		typedef std::unique_ptr<State> Ptr;
 		struct Context {
-			Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels);
+			Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels, MusicPlayer& music, SoundPlayer& sounds);
 
 			sf::RenderWindow* window;
 			TextureManager* textures;
 			FontManager* fonts;
 			LevelManager* levels;
+			MusicPlayer* music;
+			SoundPlayer* sounds;
 		};
 
 	public:
-		State(StateStack& stack, Context context);
+		State(StateStack& stack, Context& context);
 		virtual ~State();
 
 		virtual void draw() = 0;
@@ -39,6 +43,6 @@ class State {
 
 	private:
 		StateStack* m_stack;
-		Context m_context;
+		Context& m_context;
 
 };

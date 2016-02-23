@@ -5,7 +5,7 @@
 class LevelCompleteState : public State {
 
 public:
-	LevelCompleteState(StateStack& stack, Context context);
+	LevelCompleteState(StateStack& stack, Context& context);
 	~LevelCompleteState();
 
 	virtual bool handleEvent(const sf::Event& event);

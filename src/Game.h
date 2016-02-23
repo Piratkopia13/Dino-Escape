@@ -1,10 +1,12 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include "Common.h"
 
 #include "TextureManager.h"
 #include "FontManager.h"
 #include "LevelManager.h"
+#include "MusicPlayer.h"
+#include "SoundPlayer.h"
 
 #include "states/StateStack.h"
 #include "game/GameState.h"
@@ -38,6 +40,8 @@ private:
 	TextureManager m_textureManager;
 	FontManager m_fontManager;
 	LevelManager m_levelManager;
+	MusicPlayer m_musicPlayer;
+	SoundPlayer m_soundPlayer;
 
 	StateStack m_stateStack;
 

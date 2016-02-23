@@ -9,23 +9,17 @@
 class FontManager {
 
 public:
-	enum FontID {
-		Roboto,
-		Emulogic
-	};
-
-public:
 	FontManager();
 	~FontManager();
 
-	const sf::Font& get(const FontID& id);
+	const sf::Font& get(Fonts::ID id);
 
 private:
-	const sf::Font& load(const FontID& id);
+	const sf::Font& load(Fonts::ID id);
 
 private:
-	std::map<FontID, std::unique_ptr<sf::Font>> m_fontMap;
-	std::map<FontID, std::string> m_filenameMap;
+	std::map<Fonts::ID, std::unique_ptr<sf::Font>> m_fontMap;
+	std::map<Fonts::ID, std::string> m_filenameMap;
 
 
 };
