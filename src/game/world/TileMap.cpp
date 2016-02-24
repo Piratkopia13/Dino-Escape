@@ -219,15 +219,15 @@ sf::Vector2f TileMap::resolveCollisions(Entity& entity) {
 
 sf::Vector2f TileMap::getCollisionOverlap(sf::FloatRect bb) {
 
-#ifdef ENABLE_DEBUG_SHAPES
-	DebugRenderer::addShape(bb, sf::Color::Blue);
-#endif
+//#ifdef ENABLE_DEBUG_SHAPES
+//	DebugRenderer::addShape(bb, sf::Color::Blue);
+//#endif
 
 	for (sf::FloatRect tile : getCollidableTilesFor(bb)) {
 
-#ifdef ENABLE_DEBUG_SHAPES
-		DebugRenderer::addShape(tile, sf::Color::Green);
-#endif
+//#ifdef ENABLE_DEBUG_SHAPES
+//		DebugRenderer::addShape(tile, sf::Color::Green);
+//#endif
 
 		if (tile.intersects(bb)) {
 
@@ -258,8 +258,8 @@ std::vector<sf::FloatRect> TileMap::getCollidableTilesFor(const sf::FloatRect& r
 	if (!rect.intersects(getBounds()))
 		return tiles;
 
-	unsigned int xStart = static_cast<int>((rect.left * m_width)		/ (m_width	* m_tileWidth));
-	unsigned int yStart = static_cast<int>((rect.top * m_height)		/ (m_height * m_tileHeight));
+	unsigned int xStart = static_cast<int>((rect.left * m_width)				/ (m_width	* m_tileWidth));
+	unsigned int yStart = static_cast<int>((rect.top * m_height)				/ (m_height * m_tileHeight));
 	unsigned int xEnd = static_cast<int> (((rect.left + rect.width)	* m_width)	/ (m_width	* m_tileWidth));
 	unsigned int yEnd = static_cast<int> (((rect.top + rect.height)	* m_height) / (m_height * m_tileHeight));
 
@@ -350,7 +350,7 @@ bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end
 }
 
 sf::FloatRect TileMap::getBounds() const {
-	return sf::FloatRect(0, 0, m_width * m_tileWidth, m_height * m_tileHeight);
+	return sf::FloatRect(0.f, 0.f, m_width * m_tileWidth, m_height * m_tileHeight);
 }
 
 const std::vector<TileMap::Object>& TileMap::getObjects() const {

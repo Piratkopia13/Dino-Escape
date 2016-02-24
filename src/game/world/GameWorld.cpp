@@ -111,9 +111,9 @@ void GameWorld::update(sf::Time dt) {
 		e->m_lastVelocity.y = e->velocity.y;
 	
 
-		// ================================ //
-		// ====== Resolve collisions ====== //
-		// ================================ //
+		// ========================================= //
+		// ====== Resolve collisions with map ====== //
+		// ========================================= //
 
 		sf::Vector2f velBack = m_map.resolveCollisions(*e);
 		e->getTransformable().move(velBack);
@@ -135,7 +135,22 @@ void GameWorld::update(sf::Time dt) {
 		if (fabs(e->m_lastVelocity.x) < 0.0001f) e->m_lastVelocity.x = 0.f;
 		if (fabs(e->m_lastVelocity.y) < 0.0001f) e->m_lastVelocity.y = 0.f;
 
+
+		// ================================================ //
+		// ====== Resolve collisions between entites ====== //
+		// ================================================ //
+
+		for (auto& otherEnt : m_entities) {
+			// Dont check for collisions with itself
+			if (e != otherEnt) {
+				// Check for collision
+				if (e->getGlobalBounds().intersects(otherEnt->getGlobalBounds())) {
+					e->collidedWith(otherEnt.get());
+				}
+			}
+		}
 	}
+
 
 	// =========================== //
 	// ====== Update sounds ====== //

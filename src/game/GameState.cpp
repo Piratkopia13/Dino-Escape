@@ -110,6 +110,10 @@ void GameState::draw() {
 
 	window->draw(m_world);
 
+#ifdef ENABLE_DEBUG_SHAPES
+	// Draw debug shapes
+	DebugRenderer::draw(*window);
+#endif
 
 	// Apply default camera view for HUD rendering
 	window->setView(m_hudCamera.getView());

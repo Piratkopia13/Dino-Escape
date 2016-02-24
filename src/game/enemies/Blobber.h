@@ -12,6 +12,7 @@ class Blobber : public Enemy {
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		virtual void hitByBullet(Bullet* blt);
+		virtual void collidedWith(Entity* collider);
 
 		virtual sf::Transformable& getTransformable();
 		virtual sf::FloatRect getGlobalBounds();
@@ -20,10 +21,13 @@ class Blobber : public Enemy {
 		void runAI();
 
 	private:
-		Animation m_walkAnimation;
+		Animation m_walkAnimation,
+			m_splatAnimation;
+
+		sf::FloatRect m_boundingBox;
 
 		sf::RectangleShape m_debugPoint;
 
 		bool m_isMovingLeft, m_isMovingRight;
-
+		bool m_isSplatted;
 };

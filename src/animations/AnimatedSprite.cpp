@@ -145,10 +145,11 @@ void AnimatedSprite::update(sf::Time deltaTime) {
 				m_currentFrame++;
 			else {
 				// animation has ended
-				m_currentFrame = 0; // reset to start
 
 				if (!m_isLooped) {
 					m_isPaused = true;
+				} else {
+					m_currentFrame = 0; // reset to start
 				}
 
 			}

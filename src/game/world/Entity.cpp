@@ -3,9 +3,9 @@
 #include "../world/GameWorld.h"
 
 Entity::Entity()
-: m_flashTime(sf::seconds(.2f))
-
 // Set up default values
+: m_flashTime(sf::seconds(.2f))
+, invulnerableTime(sf::seconds(.01f))
 , interpolationStepOnGround(sf::Vector2f(.26f, .1f))
 , interpolationStepInAir(sf::Vector2f(.09f, .1f))
 , hitByBulletJumpValue(88.f)
@@ -20,11 +20,19 @@ Entity::Entity()
 
 void Entity::update(const sf::Time& dt) {
 
-	// Update flash timer
+	// Update timers
 	m_hitFlashTimer += dt;
+	m_invulnerableTimer += dt;
+
 	// Set color to normal if timer has expired
 	if (m_hitFlashTimer >= m_flashTime)
 		sprite.setColor(sf::Color(255, 255, 255, 255));
+
+	// Update the animation
+	if (currentAnimation != nullptr)
+		sprite.play(*currentAnimation);
+	sprite.update(dt);
+
 
 };
 
@@ -35,25 +43,13 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 void Entity::hitByBullet(Bullet* blt) {
 
-	// Play hit sound
-	if (dynamic_cast<Player*>(this))
-		m_world->getContext().sounds->play(Sounds::HitPlayer, getCenterPos());
-	else
-		m_world->getContext().sounds->play(Sounds::HitEnemy, getCenterPos());
-
-	m_hitFlashTimer = sf::Time::Zero;
-	// Change color
-	sprite.setColor(sf::Color(255, 150, 150, 255));
-	// Push the entitiy back
-	velocity += blt->getVelocity() * hitByBulletXMultiplier;
-
-	velocity.y -= hitByBulletJumpValue;
-
-
 	// TODO : make different bullet-types do different amount of damage
-	m_health -= 1;
 
-	if (m_health <= 0)
+	sf::Vector2f pushBack(blt->getVelocity() * hitByBulletXMultiplier);
+	pushBack.y -= hitByBulletJumpValue;
+	damage(1, pushBack);
+
+	if (getHealth() <= 0)
 		m_isDead = true; // Tell GameWorld to remove this entity
 
 }
@@ -68,7 +64,51 @@ void Entity::heal(const int value) {
 	m_health += value;
 }
 void Entity::damage(const int value) {
-	m_health -= value;
+	
+	if (m_invulnerableTimer >= invulnerableTime) {
+	
+		// Reset timer
+		m_invulnerableTimer = sf::Time::Zero;
+
+		// Update health
+		m_health -= value;
+
+		// Play hit sound
+		if (dynamic_cast<Player*>(this))
+			m_world->getContext().sounds->play(Sounds::HitPlayer, getCenterPos());
+		else
+			m_world->getContext().sounds->play(Sounds::HitEnemy, getCenterPos());
+
+		// Reset flash timer
+		m_hitFlashTimer = sf::Time::Zero;
+		// Change color
+		sprite.setColor(sf::Color(255, 150, 150, 255));
+	
+	}
+}
+void Entity::damage(const int value, const sf::Vector2f pushBack) {
+	
+	if (m_invulnerableTimer >= invulnerableTime) {
+	
+		// Reset velocity
+		stopMoving();
+
+		// Push the entitiy back
+		velocity += pushBack;
+	
+	}
+
+	damage(value);
+
+}
+void Entity::setVelocity(const sf::Vector2f& velocity) {
+	this->velocity = velocity;
+}
+void Entity::stopMoving() {
+	velocity.x = 0.f;
+	velocity.y = 0.f;
+	m_lastVelocity.x = 0.f;
+	m_lastVelocity.y = 0.f;
 }
 
 GameWorld& Entity::getGameWorld() const {

@@ -8,7 +8,6 @@ Player::Player()
 
 	sprite.setFrameTime(sf::seconds(.1f));
 	sprite.pause();
-	sprite.setLooped(false);
 
 	// Load texture
 	m_spriteSheet.loadFromFile("res/textures/dino.png");
@@ -24,7 +23,8 @@ Player::Player()
 	m_shootAnimation.createFrames(22, 22, 0, 44, 4);
 
 	// Set inital animation
-	sprite.setAnimation(m_standingAnimation);
+	currentAnimation = &m_standingAnimation;
+	sprite.setAnimation(*currentAnimation);
 
 	// Set origin / rotation point
 	sprite.setOrigin(sprite.getLocalBounds().width / 2.0f, sprite.getLocalBounds().height / 2.0f);
@@ -39,6 +39,7 @@ Player::Player()
 
 	// Set up entity properties
 	hitByBulletXMultiplier = 4.f;
+	invulnerableTime = sf::seconds(.3f);
 
 	// Hardcoded bounding box size
 	m_boundingBox = sprite.getGlobalBounds();
@@ -60,9 +61,6 @@ void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
 }
 
 void Player::update(const sf::Time& dt) {
-
-	// Update parent
-	Entity::update(dt);
 
 	float speed = 187.0f * dt.asSeconds();
 	sf::Vector2f targetSpeed;
@@ -130,7 +128,7 @@ void Player::update(const sf::Time& dt) {
 		turn(false);
 	}
 	if (!isMovingHorizintally && !m_isShooting)
-		sprite.play(m_standingAnimation);
+		currentAnimation = &m_standingAnimation;
 
 
 
@@ -138,10 +136,12 @@ void Player::update(const sf::Time& dt) {
 		fireGun();
 	}
 
-	sprite.update(dt);
-
 	// Update bullet cooldown
 	m_lastBulletTime += dt;
+
+
+	// Update parent
+	Entity::update(dt);
 
 }
 
@@ -180,7 +180,7 @@ void Player::fireGun() {
 		m_lastBulletTime = sf::Time::Zero;
 
 		// Play shoot animation
-		sprite.play(m_shootAnimation);
+		currentAnimation = &m_shootAnimation;
 
 		// Sync animation with bullets
 		sprite.setFrame(1, true);
@@ -191,7 +191,7 @@ void Player::fireGun() {
 void Player::turn(bool left) {
 
 	if (!m_isShooting) {
-		sprite.play(m_walkingAnimation);
+		currentAnimation = &m_walkingAnimation;
 	}
 	sprite.setScale((left) ? -m_spriteScale : m_spriteScale, m_spriteScale);
 	m_isLookingLeft = left;

@@ -4,6 +4,8 @@ int Game::m_fps = 0;
 
 Game::Game()
 : m_window(sf::VideoMode(1280, 720), "Look at me, I'm a window!")
+, m_soundPlayer() // Initialize sound after the window
+, m_musicPlayer() // Initialize music after the window
 , TimePerFrame(sf::seconds(1.0f/60.0f))
 , m_stateStack(State::Context(m_window, m_textureManager, m_fontManager, m_levelManager, m_musicPlayer, m_soundPlayer))
 {
@@ -111,11 +113,6 @@ void Game::render() {
 	m_window.clear(sf::Color(20, 20, 20));
 
 	m_stateStack.draw();
-
-#ifdef ENABLE_DEBUG_SHAPES
-	// Draw debug shapes
-	DebugRenderer::draw(m_window);
-#endif
 
 	m_window.display();
 

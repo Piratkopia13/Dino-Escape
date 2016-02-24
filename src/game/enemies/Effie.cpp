@@ -17,7 +17,9 @@ Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition)
 	m_shootAnimation.setSpriteSheet(*enemiesTexture);
 	m_shootAnimation.createFrames(16, 16, 0, 16, 3);
 
-	sprite.setAnimation(m_idleAnimation);
+	// Set default animation
+	currentAnimation = &m_idleAnimation;
+	sprite.setAnimation(*currentAnimation);
 
 	sf::FloatRect bounds = sprite.getGlobalBounds();
 	sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
@@ -30,9 +32,6 @@ Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition)
 }
 
 void Effie::update(const sf::Time& dt) {
-
-	// Update parent
-	Entity::update(dt);
 
 	sf::Vector2f myPos = sprite.getPosition();
 	sf::Vector2f playerPos = getGameWorld().getPlayer()->getCenterPos();
@@ -79,16 +78,18 @@ void Effie::update(const sf::Time& dt) {
 			m_lastFireballTime = sf::Time::Zero;
 			
 			// Play shoot animation
-			sprite.play(m_shootAnimation);
+			currentAnimation = &m_shootAnimation;
 			// Sync animation with bullets
 			sprite.setFrame(0, true);
 		}
 
 
 	} else {
-		sprite.play(m_idleAnimation);
+		currentAnimation = &m_idleAnimation;
 	}
-	sprite.update(dt);
+	
+	// Update parent
+	Entity::update(dt);
 
 }
 

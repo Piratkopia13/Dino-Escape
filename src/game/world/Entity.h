@@ -24,6 +24,8 @@ class Entity : public sf::Drawable {
 
 		// Called by BulletSystem when a bullet hits this entity
 		virtual void hitByBullet(Bullet* blt);
+		// Called by GameWorld when another entity collides with this one
+		virtual void collidedWith(Entity* collider) = 0;
 
 		// Abstract getters
 		virtual sf::Transformable& getTransformable() = 0;
@@ -35,23 +37,25 @@ class Entity : public sf::Drawable {
 		void setHealth(const int health);
 		void heal(const int value);
 		void damage(const int value);
+		void damage(const int value, const sf::Vector2f pushBack);
+		void setVelocity(const sf::Vector2f& velocity);
+		void stopMoving();
 
 		// Getters
 		GameWorld& getGameWorld() const;
 		int getHealth() const;
 		bool isGrounded() const;
 		const sf::Vector2f& getVelocity() const;
+		const sf::Vector2f& Entity::getLastVelocity() const;
 
 		// Give GameWorld access to private variables
 		// Such as m_isGrounded and m_lastVelocity
 		friend class GameWorld;
 
 	protected:
-		const sf::Vector2f& Entity::getLastVelocity() const;
-
-	protected:
 		
 		AnimatedSprite sprite;
+		Animation* currentAnimation;
 
 		sf::Vector2f velocity; // Current velocity
 
@@ -63,6 +67,9 @@ class Entity : public sf::Drawable {
 		float hitByBulletJumpValue;
 		// What the bullets velocity should be multiplied with when added to the entity velocity
 		float hitByBulletXMultiplier;
+
+		// How long the entity should not take damage after just taking damage
+		sf::Time invulnerableTime;
 
 	private:
 		// Pointer to the GameWorld that the entity is part of
@@ -79,5 +86,7 @@ class Entity : public sf::Drawable {
 		// Variables for flashing the entity red when hit by a bullet
 		sf::Time m_hitFlashTimer;
 		const sf::Time m_flashTime;
+
+		sf::Time m_invulnerableTimer;
 
 };

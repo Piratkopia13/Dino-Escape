@@ -18,6 +18,7 @@ class Player : public Entity {
 		virtual void update(const sf::Time& dt);
 
 		virtual void hitByBullet(Bullet* blt);
+		virtual void collidedWith(Entity* collider) {}
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
