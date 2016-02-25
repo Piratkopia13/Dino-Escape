@@ -140,15 +140,25 @@ void GameWorld::update(sf::Time dt) {
 		// ====== Resolve collisions between entites ====== //
 		// ================================================ //
 
-		for (auto& otherEnt : m_entities) {
-			// Dont check for collisions with itself
-			if (e != otherEnt) {
-				// Check for collision
-				if (e->getGlobalBounds().intersects(otherEnt->getGlobalBounds())) {
-					e->collidedWith(otherEnt.get());
-				}
+		// THIS IS SLOOW
+		//for (auto& otherEnt : m_entities) {
+		//	// Dont check for collisions with itself
+		//	if (e != otherEnt) {
+		//		// Check for collision
+		//		if (e->getGlobalBounds().intersects(otherEnt->getGlobalBounds())) {
+		//			e->collidedWith(otherEnt.get());
+		//		}
+		//	}
+		//}
+		// THIS IS FASTER, only check with the player since thats the only collision that gets handled atm
+		if (e.get() != m_player) {
+			// Check for collision
+			if (e->getGlobalBounds().intersects(m_player->getGlobalBounds())) {
+				e->collidedWith(m_player);
 			}
 		}
+
+
 	}
 
 

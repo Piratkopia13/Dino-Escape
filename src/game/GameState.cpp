@@ -16,11 +16,16 @@ GameState::GameState(StateStack& stack, Context& context)
 	m_worldCamera.setConstraints(m_map.getBounds());
 	m_worldCamera.lockHeight(192.f);
 
-	m_spawnClickEnt.setSpawnType(SpawnClickEntity::EFFIE);
+	m_spawnClickEnt.setSpawnType(SpawnClickEntity::BLOBBER);
 
 	m_FPStext.setFont(getContext().fonts->get(Fonts::ID::Main));
 	m_FPStext.setCharacterSize(15);
 	m_FPStext.setPosition(0, getContext().window->getSize().y - 20.f);
+
+
+	m_entityCountText.setFont(getContext().fonts->get(Fonts::ID::Main));
+	m_entityCountText.setCharacterSize(15);
+	m_entityCountText.setPosition(0, getContext().window->getSize().y - 40.f);
 
 	m_healthBar.setHealth(6);
 	m_healthBar.setPosition(getContext().window->mapPixelToCoords(sf::Vector2i(15.f, 15.f)));
@@ -52,6 +57,7 @@ bool GameState::handleEvent(const sf::Event& event) {
 
 		window->setView(m_hudCamera.getView());
 		m_FPStext.setPosition(window->mapPixelToCoords(sf::Vector2i(0, window->getSize().y - 20.f)));
+		m_entityCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0, window->getSize().y - 40.f)));
 		m_healthBar.setPosition(window->mapPixelToCoords(sf::Vector2i(15.f, 15.f)));
 
 		break;
@@ -91,6 +97,9 @@ bool GameState::update(sf::Time dt) {
 	// Update FPSText
 	m_FPStext.setString("FPS: " + std::to_string(Game::getFPS()));
 
+	// Update entity count text
+	m_entityCountText.setString("Num entities: " + std::to_string(m_world.getNumEntites()));
+
 	int playerHP = m_world.getPlayer()->getHealth();
 	m_healthBar.setHealth(playerHP);
 	if (playerHP == 0) {
@@ -122,5 +131,7 @@ void GameState::draw() {
 
 	// Render FPS
 	window->draw(m_FPStext);
+	// Render entity count
+	window->draw(m_entityCountText);
 
 }

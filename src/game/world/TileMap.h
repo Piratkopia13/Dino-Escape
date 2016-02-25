@@ -41,7 +41,7 @@ public:
 	// Returns the distance between the FloatRect's center and the tile's center on collision
 	sf::Vector2f getCollisionOverlap(sf::FloatRect bb);
 	// Returns a list of all tiles that set FloatRect could possibly collide with
-	std::vector<sf::FloatRect> getCollidableTilesFor(const sf::FloatRect& rect) const;
+	void getCollidableTilesFor(const sf::FloatRect& rect, std::vector<sf::FloatRect>& out) const;
 
 	// Returns true if set point is colliding with a tile
 	bool isPointColliding(const sf::Vector2f& point) const;

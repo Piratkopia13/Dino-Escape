@@ -2,7 +2,7 @@
 
 TileMap::TileMap(std::string filePath) {
 
-	m_va.setPrimitiveType(sf::PrimitiveType::Triangles);
+	m_va.setPrimitiveType(sf::PrimitiveType::Quads);
 
 	// Load map from json file
 	std::string rawJson = Utils::readFile(("res/maps/" + filePath).c_str());
@@ -108,26 +108,25 @@ TileMap::TileMap(std::string filePath) {
 						float tileHeight = curSet.tileHeight / static_cast<float>(curSet.imgHeight); // Tile height in pixels
 						float tileWidth = curSet.tileWidth / static_cast<float>(curSet.imgWidth);	// Tile width in pixels
 
+						sf::Vertex vert;
 
-						// Triangle 1 (left)
-						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width, static_cast<float>(y) * height),
-							sf::Vector2f(texX * curSet.imgWidth, texY * curSet.imgHeight)));
+						// Add .1 pixels to avoid artifacts when scrolling
 
-						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width + width, static_cast<float>(y) * height),
-							sf::Vector2f((texX + tileWidth) * curSet.imgWidth, texY * curSet.imgHeight)));
+						vert.position = sf::Vector2f(static_cast<float>(x) * width + width, static_cast<float>(y) * height + height);
+						vert.texCoords = sf::Vector2f((texX + tileWidth) * curSet.imgWidth, (texY + tileHeight) * curSet.imgHeight) + sf::Vector2f(-.1f, -.1f);
+						m_va.append(vert);
 
-						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width, static_cast<float>(y) * height + height),
-							sf::Vector2f(texX * curSet.imgWidth, (texY + tileHeight) * curSet.imgHeight)));
+						vert.position = sf::Vector2f(static_cast<float>(x) * width + width, static_cast<float>(y) * height);
+						vert.texCoords = sf::Vector2f((texX + tileWidth) * curSet.imgWidth, texY * curSet.imgHeight) + sf::Vector2f(-.1f, .1f);
+						m_va.append(vert);
 
-						// Triangle 2 (right)
-						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width + width, static_cast<float>(y) * height),
-							sf::Vector2f((texX + tileWidth) * curSet.imgWidth, (texY) * curSet.imgHeight)));
+						vert.position = sf::Vector2f(static_cast<float>(x) * width, static_cast<float>(y) * height);
+						vert.texCoords = sf::Vector2f(texX * curSet.imgWidth, texY * curSet.imgHeight) + sf::Vector2f(.1f, .1f);
+						m_va.append(vert);
 
-						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width + width, static_cast<float>(y) * height + height),
-							sf::Vector2f((texX + tileWidth) * curSet.imgWidth, (texY + tileHeight) * curSet.imgHeight)));
-
-						m_va.append(sf::Vertex(sf::Vector2f(static_cast<float>(x) * width, static_cast<float>(y) * height + height),
-							sf::Vector2f(texX * curSet.imgWidth, (texY + tileHeight) * curSet.imgHeight)));
+						vert.position = sf::Vector2f(static_cast<float>(x) * width, static_cast<float>(y) * height + height);
+						vert.texCoords = sf::Vector2f(texX * curSet.imgWidth, (texY + tileHeight) * curSet.imgHeight) + sf::Vector2f(.1f, -.1f);
+						m_va.append(vert);
 
 					}
 				}
@@ -219,15 +218,18 @@ sf::Vector2f TileMap::resolveCollisions(Entity& entity) {
 
 sf::Vector2f TileMap::getCollisionOverlap(sf::FloatRect bb) {
 
-//#ifdef ENABLE_DEBUG_SHAPES
-//	DebugRenderer::addShape(bb, sf::Color::Blue);
-//#endif
+#ifdef ENABLE_DEBUG_SHAPES
+	DebugRenderer::addShape(bb, sf::Color::Blue);
+#endif
 
-	for (sf::FloatRect tile : getCollidableTilesFor(bb)) {
+	std::vector<sf::FloatRect> tiles;
+	getCollidableTilesFor(bb, tiles);
 
-//#ifdef ENABLE_DEBUG_SHAPES
-//		DebugRenderer::addShape(tile, sf::Color::Green);
-//#endif
+	for (sf::FloatRect tile : tiles) {
+
+#ifdef ENABLE_DEBUG_SHAPES
+		DebugRenderer::addShape(tile, sf::Color::Green);
+#endif
 
 		if (tile.intersects(bb)) {
 
@@ -250,13 +252,11 @@ sf::Vector2f TileMap::getCollisionOverlap(sf::FloatRect bb) {
 
 }
 
-std::vector<sf::FloatRect> TileMap::getCollidableTilesFor(const sf::FloatRect& rect) const {
-
-	std::vector<sf::FloatRect> tiles;
+void TileMap::getCollidableTilesFor(const sf::FloatRect& rect, std::vector<sf::FloatRect>& out) const {
 
 	// Make sure the rect is on the map
 	if (!rect.intersects(getBounds()))
-		return tiles;
+		return;
 
 	unsigned int xStart = static_cast<int>((rect.left * m_width)				/ (m_width	* m_tileWidth));
 	unsigned int yStart = static_cast<int>((rect.top * m_height)				/ (m_height * m_tileHeight));
@@ -277,13 +277,13 @@ std::vector<sf::FloatRect> TileMap::getCollidableTilesFor(const sf::FloatRect& r
 	for (unsigned int y = yStart; y <= yEnd; y++) {
 		for (unsigned int x = xStart; x <= xEnd; x++) {
 			if (m_collisionGrid[x][y]) // If maptile is collidable
-				tiles.push_back(sf::FloatRect(static_cast<float>(x * m_tileWidth), static_cast<float>(y * m_tileHeight), 
+				out.push_back(sf::FloatRect(static_cast<float>(x * m_tileWidth), static_cast<float>(y * m_tileHeight),
 					static_cast<float>(m_tileWidth), static_cast<float>((m_tileHeight))));
 		}
 	}
 
 
-	return tiles;
+	return;
 
 }
 
@@ -350,7 +350,7 @@ bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end
 }
 
 sf::FloatRect TileMap::getBounds() const {
-	return sf::FloatRect(0.f, 0.f, m_width * m_tileWidth, m_height * m_tileHeight);
+	return sf::FloatRect(0, 0, m_width * m_tileWidth, m_height * m_tileHeight);
 }
 
 const std::vector<TileMap::Object>& TileMap::getObjects() const {
