@@ -21,6 +21,8 @@
 //
 ////////////////////////////////////////////////////////////
 
+// This file is modified and not the original written by Maximilian Wagenbach 
+
 #include "Animation.hpp"
 
 Animation::Animation() : m_texture(NULL) {

@@ -2,7 +2,7 @@
 
 const float GameWorld::GRAVITY = 340.0f;
 
-GameWorld::GameWorld(TileMap& map, State::Context& context)
+GameWorld::GameWorld(TileMap& map, Context& context)
 : m_map(map)
 , m_context(context)
 , m_isLevelComplete(false)
@@ -173,9 +173,17 @@ void GameWorld::update(sf::Time dt) {
 	// ====== Check if player is in goal ====== //
 	// ======================================== //
 
-	if (m_player->getGlobalBounds().intersects(m_mapGoalBounds))
-		m_isLevelComplete = true;
+	if (m_player->getGlobalBounds().intersects(m_mapGoalBounds)) {
 
+		// Set stats
+		m_stats.health = m_player->getHealth();
+		getContext().levels->setStats(m_stats);
+		// Set level as complete, next frame will show the LevelCompleteState
+		m_isLevelComplete = true;
+	}
+
+	// Update time stat
+	m_stats.finishTime += dt;
 
 	// ============================ //
 	// ====== Update bullets ====== //
@@ -214,10 +222,15 @@ int GameWorld::getNumEntites() const {
 	return m_entities.size();
 }
 
-State::Context& GameWorld::getContext() const {
+Context& GameWorld::getContext() const {
 	return m_context;
 }
 
 const bool GameWorld::isLevelComplete() const {
 	return m_isLevelComplete;
+}
+
+void GameWorld::playerKilledEntity() {
+	// Update stats
+	m_stats.enemiesKilled++;
 }

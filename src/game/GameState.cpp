@@ -56,9 +56,9 @@ bool GameState::handleEvent(const sf::Event& event) {
 		m_hudCamera.handleResize(event.size);
 
 		window->setView(m_hudCamera.getView());
-		m_FPStext.setPosition(window->mapPixelToCoords(sf::Vector2i(0, window->getSize().y - 20.f)));
-		m_entityCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0, window->getSize().y - 40.f)));
-		m_healthBar.setPosition(window->mapPixelToCoords(sf::Vector2i(15.f, 15.f)));
+		m_FPStext.setPosition(window->mapPixelToCoords(sf::Vector2i(0.f, window->getSize().y - 20.f)));
+		m_entityCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0.f, window->getSize().y - 40.f)));
+		m_healthBar.setPosition(window->mapPixelToCoords(sf::Vector2i(15, 15)));
 
 		break;
 

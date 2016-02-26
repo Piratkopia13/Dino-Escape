@@ -2,6 +2,7 @@
 
 LevelManager::LevelManager()
 : m_currentLevelIndex(0)
+, m_currentStats(sf::seconds(0.f), 0, 0)
 {
 	
 	// TODO: read this from a file
@@ -35,4 +36,19 @@ const std::string& LevelManager::getCurrentLevelFile() const {
 
 const unsigned int LevelManager::getCurrentLevelIndex() const {
 	return m_currentLevelIndex + 1;
+}
+
+
+LevelManager::Stats::Stats(const sf::Time& finishTime, unsigned int health, unsigned int enemiesKilled)
+	: finishTime(finishTime)
+	, health(health)
+	, enemiesKilled(enemiesKilled) {
+
+}
+
+void LevelManager::setStats(const Stats& stats) {
+	m_currentStats = stats;
+}
+LevelManager::Stats LevelManager::getCurrentStats() const {
+	return m_currentStats;
 }

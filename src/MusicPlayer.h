@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 
-#include <SFML\Audio\Music.hpp>
+#include <SFML/Audio.hpp>
 #include "Common.h"
 
 class MusicPlayer {

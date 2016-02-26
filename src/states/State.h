@@ -15,16 +15,6 @@ class State {
 
 	public:
 		typedef std::unique_ptr<State> Ptr;
-		struct Context {
-			Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels, MusicPlayer& music, SoundPlayer& sounds);
-
-			sf::RenderWindow* window;
-			TextureManager* textures;
-			FontManager* fonts;
-			LevelManager* levels;
-			MusicPlayer* music;
-			SoundPlayer* sounds;
-		};
 
 	public:
 		State(StateStack& stack, Context& context);

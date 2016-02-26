@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include "Common.h"
-#include <SFML\Audio\SoundBuffer.hpp>
+#include <SFML/Audio.hpp>
 
 class SoundManager {
 

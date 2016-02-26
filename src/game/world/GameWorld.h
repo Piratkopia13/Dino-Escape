@@ -17,7 +17,7 @@ class GameWorld : public sf::Drawable {
 		static const float GRAVITY;
 
 	public:
-		GameWorld(TileMap& map, State::Context& context);
+		GameWorld(TileMap& map, Context& context);
 		~GameWorld();
 
 		void handleInput(sf::Keyboard::Key key, bool isPressed);
@@ -31,9 +31,11 @@ class GameWorld : public sf::Drawable {
 		Entity* getPlayer() const;
 		TileMap* getMap() const;
 		int getNumEntites() const;
-		State::Context& getContext() const;
+		Context& getContext() const;
 		const bool isLevelComplete() const;
-
+		
+		void playerKilledEntity();
+	
 	private:
 		// Spawns entites specified by the map
 		// Also moves the player to the specified spawn
@@ -47,11 +49,11 @@ class GameWorld : public sf::Drawable {
 		Entity* m_player; // Who enemies should attack and bullets collide with
 
 		TileMap& m_map;
-		State::Context& m_context;
+		Context& m_context;
 
 		sf::FloatRect m_mapGoalBounds;
 
-
+		LevelManager::Stats m_stats;
 		bool m_isLevelComplete;
 
 };

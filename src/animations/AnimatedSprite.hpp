@@ -21,6 +21,8 @@
 //
 ////////////////////////////////////////////////////////////
 
+// This file is modified and not the original written by Maximilian Wagenbach 
+
 #ifndef ANIMATEDSPRITE_INCLUDE
 #define ANIMATEDSPRITE_INCLUDE
 

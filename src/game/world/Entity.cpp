@@ -49,8 +49,13 @@ void Entity::hitByBullet(Bullet* blt) {
 	pushBack.y -= hitByBulletJumpValue;
 	damage(1, pushBack);
 
-	if (getHealth() <= 0)
+	if (getHealth() <= 0) {
 		m_isDead = true; // Tell GameWorld to remove this entity
+
+		// Check if the level stats has to be updated / player killed an enemy
+		if (blt->getOwner() == getGameWorld().getPlayer())
+			getGameWorld().playerKilledEntity();
+	}
 
 }
 

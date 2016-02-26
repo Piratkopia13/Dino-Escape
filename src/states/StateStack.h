@@ -20,7 +20,7 @@ class StateStack {
 		};
 
 	public:
-		StateStack(State::Context context);
+		StateStack(Context context);
 
 		template <typename T>
 		void registerState(States::ID stateID);
@@ -50,7 +50,7 @@ class StateStack {
 	private:
 		std::vector<State::Ptr> m_stack;
 		std::vector<PendingChange> m_pendingList;
-		State::Context m_context;
+		Context m_context;
 		std::map<States::ID, std::function<State::Ptr()>> m_factories;
 
 

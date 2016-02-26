@@ -128,7 +128,7 @@ void MenuState::setPositions() {
 
 	int width = window->getSize().x;
 	int height = window->getSize().y;
-	window->setView(sf::View(sf::FloatRect(0, 0, width, height)));
+	window->setView(sf::View(sf::FloatRect(0.f, 0.f, width, height)));
 
 	float halfWindowWidth = window->getSize().x / 2.0f;
 

@@ -2,6 +2,7 @@
 
 LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context) 
 : State(stack, context)
+, m_stats(getContext().levels->getCurrentStats())
 {
 
 	const unsigned int currentLevel = context.levels->getCurrentLevelIndex();
@@ -14,17 +15,11 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context)
 
 	m_bg.setFillColor(sf::Color(16, 125, 166, 255));
 
-	m_titleText.setFont(getContext().fonts->get(Fonts::ID::Main));
-	m_titleText.setColor(sf::Color::Green);
-	m_titleText.setCharacterSize(50);
-	m_titleText.setString("Level " + std::to_string(currentLevel) + " complete!");
-	Utils::centerTextOrigin(m_titleText);
+	Utils::createCenteredText(m_titleText, sf::Color::Green, 50,
+		"Level " + std::to_string(currentLevel) + " complete!", getContext());
 
-	m_statsTitleText.setFont(getContext().fonts->get(Fonts::ID::Main));
-	m_statsTitleText.setColor(sf::Color::White);
-	m_statsTitleText.setCharacterSize(30);
-	m_statsTitleText.setString("Stats");
-	Utils::centerTextOrigin(m_statsTitleText);
+	Utils::createCenteredText(m_statsTitleText, sf::Color::White, 30,
+		"Stats", getContext());
 
 	// Stats 
 	// Time
@@ -32,15 +27,27 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context)
 	// Enemies killed +5
 	// Total score = (maxTime - Time in seconds) * constant + health*10 + enemies killed*10
 
-	m_statsText.setFont(getContext().fonts->get(Fonts::ID::Main));
-	m_statsText.setColor(sf::Color::White);
-	m_statsText.setCharacterSize(20);
-	m_statsText.setString("Time: 1 min 23 sec");
-	Utils::centerTextOrigin(m_statsText);
+	// Calculate score
+	int totalScore = (300 - m_stats.finishTime.asSeconds()) * 0.3f;
+	totalScore += m_stats.health * 10;
+	totalScore += m_stats.enemiesKilled * 10;
 
-	m_continueText.setFont(getContext().fonts->get(Fonts::ID::Main));
-	m_continueText.setColor(sf::Color::White);
-	m_continueText.setCharacterSize(20);
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(2) << m_stats.finishTime.asSeconds();
+	std::string time = stream.str();
+
+	Utils::createText(m_statsTimeTitleText, sf::Color::White, 20, "Time:", getContext());
+	Utils::createText(m_statsTimeText, sf::Color::White, 20, time + " sec", getContext());
+
+	Utils::createText(m_statsHealthTitleText, sf::Color::White, 20, "Remaining health:", getContext());
+	Utils::createText(m_statsHealthText, sf::Color::White, 20, std::to_string(m_stats.health), getContext());
+
+	Utils::createText(m_statsKilledTitleText, sf::Color::White, 20, "Enemies killed:", getContext());
+	Utils::createText(m_statsKilledText, sf::Color::White, 20, std::to_string(m_stats.enemiesKilled), getContext());
+
+	Utils::createCenteredText(m_statsScoreText, sf::Color::Yellow, 25, "Total score: " + std::to_string(totalScore), getContext());
+
+	Utils::createCenteredText(m_continueText, sf::Color::White, 20, "", getContext());
 
 	if (notLastLevel)
 		m_continueText.setString("Press 'Enter' to start level " + std::to_string(nextLevel));
@@ -68,8 +75,19 @@ void LevelCompleteState::setPositions() {
 	m_bg.setSize(sf::Vector2f(window->getSize()));
 
 	m_titleText.setPosition(halfWindowWidth, 100.f);
-	m_statsTitleText.setPosition(halfWindowWidth, 300.f);
-	m_statsText.setPosition(halfWindowWidth, 350.f);
+	m_statsTitleText.setPosition(halfWindowWidth, 250.f);
+	m_statsScoreText.setPosition(halfWindowWidth, 500.f);
+	
+
+	m_statsTimeTitleText.setPosition(halfWindowWidth - 300.f, 330.f);
+	m_statsHealthTitleText.setPosition(halfWindowWidth - 300.f, 380.f);
+	m_statsKilledTitleText.setPosition(halfWindowWidth - 300.f, 430.f);
+
+	m_statsTimeText.setPosition(halfWindowWidth + 100.f, 330.f);
+	m_statsHealthText.setPosition(halfWindowWidth + 100.f, 380.f);
+	m_statsKilledText.setPosition(halfWindowWidth + 100.f, 430.f);
+
+	
 	m_continueText.setPosition(halfWindowWidth, window->getSize().y - 50.f);
 
 }
@@ -103,7 +121,17 @@ void LevelCompleteState::draw() {
 	window->draw(m_bg);
 	window->draw(m_titleText);
 	window->draw(m_statsTitleText);
-	window->draw(m_statsText);
+
+	window->draw(m_statsScoreText);
+
+	window->draw(m_statsTimeTitleText);
+	window->draw(m_statsHealthTitleText);
+	window->draw(m_statsKilledTitleText);
+
+	window->draw(m_statsTimeText);
+	window->draw(m_statsHealthText);
+	window->draw(m_statsKilledText);
+	
 	window->draw(m_continueText);
 
 }

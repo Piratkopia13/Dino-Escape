@@ -21,6 +21,8 @@
 //
 ////////////////////////////////////////////////////////////
 
+// This file is modified and not the original written by Maximilian Wagenbach 
+
 #ifndef ANIMATION_INCLUDE
 #define ANIMATION_INCLUDE
 

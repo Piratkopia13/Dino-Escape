@@ -1,7 +1,7 @@
 #include "State.h"
 #include "StateStack.h"
 
-State::Context::Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels, MusicPlayer& music, SoundPlayer& sounds)
+Context::Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels, MusicPlayer& music, SoundPlayer& sounds)
 : window(&window)
 , textures(&textures)
 , fonts(&fonts)
@@ -30,6 +30,6 @@ void State::requestStackClear() {
 	m_stack->clearStack();
 }
 
-State::Context& State::getContext() {
+Context& State::getContext() {
 	return m_context;
 }

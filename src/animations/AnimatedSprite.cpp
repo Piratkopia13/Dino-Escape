@@ -21,6 +21,8 @@
 //
 ////////////////////////////////////////////////////////////
 
+// This file is modified and not the original written by Maximilian Wagenbach 
+
 #include "AnimatedSprite.hpp"
 
 AnimatedSprite::AnimatedSprite(sf::Time frameTime, bool paused, bool looped) :
@@ -119,10 +121,11 @@ void AnimatedSprite::setFrame(std::size_t newFrame, bool resetTime) {
 		float top = static_cast<float>(rect.top);
 		float bottom = top + static_cast<float>(rect.height);
 
-		m_vertices[0].texCoords = sf::Vector2f(left, top);
-		m_vertices[1].texCoords = sf::Vector2f(left, bottom);
-		m_vertices[2].texCoords = sf::Vector2f(right, bottom);
-		m_vertices[3].texCoords = sf::Vector2f(right, top);
+		// Add ore remove .1 pixels to avoid artifacts when scrolling
+		m_vertices[0].texCoords = sf::Vector2f(left, top) + sf::Vector2f(.1f, .1f);
+		m_vertices[1].texCoords = sf::Vector2f(left, bottom) + sf::Vector2f(.1f, -.1f);
+		m_vertices[2].texCoords = sf::Vector2f(right, bottom) + sf::Vector2f(-.1f, -.1f);
+		m_vertices[3].texCoords = sf::Vector2f(right, top) + sf::Vector2f(-.1f, .1f);
 	}
 
 	if (resetTime)

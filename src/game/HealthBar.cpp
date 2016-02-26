@@ -1,6 +1,6 @@
 #include "HealthBar.h"
 
-HealthBar::HealthBar(State::Context& context)
+HealthBar::HealthBar(Context& context)
 : m_context(context)
 {
 

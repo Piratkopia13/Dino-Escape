@@ -71,7 +71,7 @@ void DeathState::draw() {
 	int width = window->getSize().x;
 	int height = window->getSize().y;
 
-	window->setView(sf::View(sf::FloatRect(0, 0, width, height)));
+	window->setView(sf::View(sf::FloatRect(0.f, 0.f, width, height)));
 
 	window->draw(m_bg);
 	window->draw(m_deadText);

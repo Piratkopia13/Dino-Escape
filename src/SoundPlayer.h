@@ -2,8 +2,7 @@
 
 #include <list>
 
-#include <SFML\Audio\Sound.hpp>
-#include <SFML\Audio\Listener.hpp>
+#include <SFML/Audio.hpp>
 #include "SoundManager.h"
 #include "Common.h"
 

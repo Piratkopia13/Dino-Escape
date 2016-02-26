@@ -6,6 +6,8 @@
 
 #include <SFML\Graphics.hpp>
 
+struct Context;
+
 // Contains various static utility methods
 class Utils {
 
@@ -13,49 +15,17 @@ public:
 
 	// Reads a file into a std::string
 	// Returned string is allocated on heap and needs to be deleted by client
-	static std::string readFile(const char* filepath) {
+	static std::string readFile(const char* filepath);
+	static float linearInterpolation(float from, float to, float step);
+	static sf::Vector2f linearInterpolation(const sf::Vector2f& from, const sf::Vector2f& to, float step);
 
-		std::ifstream t(filepath);
-		std::string str;
+	static sf::Vector2f normalize(sf::Vector2f& vec);
 
-		t.seekg(0, std::ios::end);
-		str.reserve((unsigned int)t.tellg());
-		t.seekg(0, std::ios::beg);
+	static std::string vecToString(const sf::Vector2f& vec);
 
-		str.assign((std::istreambuf_iterator<char>(t)),
-			std::istreambuf_iterator<char>());
+	static void centerTextOrigin(sf::Text& text);
 
-		return str;
-
-	}
-
-	static float linearInterpolation(float from, float to, float step) {
-		return (from*(1 - step) + to*step);
-	}
-	static sf::Vector2f linearInterpolation(const sf::Vector2f& from, const sf::Vector2f& to, float step) {
-		return sf::Vector2f(linearInterpolation(from.x, to.x, step), linearInterpolation(from.y, to.y, step));
-	}
-
-
-	static sf::Vector2f normalize(sf::Vector2f& vec) {
-		float length = sqrt((vec.x * vec.x) + (vec.y * vec.y));
-		if (length != 0)
-			return sf::Vector2f(vec.x / length, vec.y / length);
-		else
-			return vec;
-	}
-
-	static std::string vecToString(const sf::Vector2f& vec) {
-		std::string str = "{";
-		str += std::to_string(vec.x); str += ", "; str += std::to_string(vec.y); str += "}";
-		return str;
-	}
-
-	static void centerTextOrigin(sf::Text& text) {
-
-		sf::FloatRect bounds = text.getLocalBounds();
-		text.setOrigin(bounds.left + bounds.width / 2.0f, bounds.top + bounds.height / 2.0f);
-
-	}
+	static void createCenteredText(sf::Text& theText, const sf::Color& color, unsigned int charSize, const std::string& content, const Context& context);
+	static void createText(sf::Text& theText, const sf::Color& color, unsigned int charSize, const std::string& content, const Context& context);
 
 };

@@ -3,7 +3,7 @@
 SoundPlayer::SoundPlayer()
 : m_soundManager()
 , m_listenerZ(300.f)
-, m_attenuation(8.f)
+, m_attenuation(3.f)
 , m_minDistance2D(200.f)
 , m_minDistance3D(std::sqrt(m_minDistance2D*m_minDistance2D + m_listenerZ*m_listenerZ))
 {

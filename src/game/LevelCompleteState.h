@@ -1,5 +1,9 @@
 #pragma once
 
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+
 #include "../states/State.h"
 
 class LevelCompleteState : public State {
@@ -17,10 +21,20 @@ private:
 	void setPositions();
 
 private:
+	LevelManager::Stats m_stats;
+
 	sf::RectangleShape m_bg;
 	sf::Text m_titleText;
 	sf::Text m_continueText;
 	sf::Text m_statsTitleText;
-	sf::Text m_statsText;
+
+	sf::Text m_statsTimeTitleText;
+	sf::Text m_statsHealthTitleText;
+	sf::Text m_statsKilledTitleText;
+
+	sf::Text m_statsTimeText;
+	sf::Text m_statsHealthText;
+	sf::Text m_statsKilledText;
+	sf::Text m_statsScoreText;
 
 };

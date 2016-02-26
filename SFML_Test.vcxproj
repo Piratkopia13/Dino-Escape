@@ -163,6 +163,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\game\Player.cpp" />
     <ClCompile Include="src\game\world\TileMap.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\animations\AnimatedSprite.hpp" />
