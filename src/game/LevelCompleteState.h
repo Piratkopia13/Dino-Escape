@@ -13,6 +13,10 @@ public:
 	virtual void draw();
 
 private:
+	// Sets positions of all rendered texts and images to fit the current window size
+	void setPositions();
+
+private:
 	sf::RectangleShape m_bg;
 	sf::Text m_titleText;
 	sf::Text m_continueText;

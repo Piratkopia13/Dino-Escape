@@ -12,7 +12,6 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context)
 
 	sf::RenderWindow* window = getContext().window;
 
-	m_bg.setSize(sf::Vector2f(window->getSize()));
 	m_bg.setFillColor(sf::Color(16, 125, 166, 255));
 
 	m_titleText.setFont(getContext().fonts->get(Fonts::ID::Main));
@@ -20,14 +19,12 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context)
 	m_titleText.setCharacterSize(50);
 	m_titleText.setString("Level " + std::to_string(currentLevel) + " complete!");
 	Utils::centerTextOrigin(m_titleText);
-	m_titleText.setPosition(window->getSize().x / 2.0f, 100.f);
 
 	m_statsTitleText.setFont(getContext().fonts->get(Fonts::ID::Main));
 	m_statsTitleText.setColor(sf::Color::White);
 	m_statsTitleText.setCharacterSize(30);
 	m_statsTitleText.setString("Stats");
 	Utils::centerTextOrigin(m_statsTitleText);
-	m_statsTitleText.setPosition(window->getSize().x / 2.0f, 300.f);
 
 	// Stats 
 	// Time
@@ -40,7 +37,6 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context)
 	m_statsText.setCharacterSize(20);
 	m_statsText.setString("Time: 1 min 23 sec");
 	Utils::centerTextOrigin(m_statsText);
-	m_statsText.setPosition(window->getSize().x / 2.0f, 350.f);
 
 	m_continueText.setFont(getContext().fonts->get(Fonts::ID::Main));
 	m_continueText.setColor(sf::Color::White);
@@ -52,11 +48,30 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context)
 		m_continueText.setString("No more levels, press 'Enter' to replay from level 1");
 
 	Utils::centerTextOrigin(m_continueText);
-	m_continueText.setPosition(window->getSize().x / 2.0f, window->getSize().y - 50.f);
 
+	setPositions();
 
 }
 LevelCompleteState::~LevelCompleteState() {
+}
+
+void LevelCompleteState::setPositions() {
+
+	sf::RenderWindow* window = getContext().window;
+
+	int width = window->getSize().x;
+	int height = window->getSize().y;
+	window->setView(sf::View(sf::FloatRect(0, 0, width, height)));
+
+	float halfWindowWidth = window->getSize().x / 2.0f;
+
+	m_bg.setSize(sf::Vector2f(window->getSize()));
+
+	m_titleText.setPosition(halfWindowWidth, 100.f);
+	m_statsTitleText.setPosition(halfWindowWidth, 300.f);
+	m_statsText.setPosition(halfWindowWidth, 350.f);
+	m_continueText.setPosition(halfWindowWidth, window->getSize().y - 50.f);
+
 }
 
 bool LevelCompleteState::handleEvent(const sf::Event& event) {
@@ -67,6 +82,11 @@ bool LevelCompleteState::handleEvent(const sf::Event& event) {
 			requestStackPop();
 			requestStackPush(States::Game);
 		}
+
+	} else if (event.type == sf::Event::Resized) {
+
+		// Update text positions
+		setPositions();
 
 	}
 

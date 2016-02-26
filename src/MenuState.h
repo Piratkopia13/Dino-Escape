@@ -15,6 +15,9 @@ public:
 	virtual void draw();
 
 private:
+	// Sets positions of all rendered texts and images to fit the current window size
+	void setPositions();
+	// Updates the position of the bar under the selected option text
 	void updateSelected();
 
 private:
