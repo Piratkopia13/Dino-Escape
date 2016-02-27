@@ -23,27 +23,32 @@ void GameWorld::handleMapObjects() {
 	auto objects = m_map.getObjects();
 	for (auto obj : objects) {
 
-		for (auto prop : obj.properties) {
+		if (obj.type == "Spawn") {
 
-			if (prop.name == "spawn") {
-
-				if (prop.value == "player")
-					m_player->getTransformable().setPosition(obj.x, obj.y - m_player->getGlobalBounds().height);
-				if (prop.value == "effie")
-					add(new Effie(*this, sf::Vector2f(obj.x, obj.y)));
-				if (prop.value == "blobber")
-					add(new Blobber(*this, sf::Vector2f(obj.x, obj.y)));
-				
-			}
-
-			if (prop.name == "goal") {
-				m_mapGoalBounds.left = obj.x;
-				m_mapGoalBounds.top = obj.y;
-				m_mapGoalBounds.width = obj.width;
-				m_mapGoalBounds.height = obj.height;
-			}
+			if (obj.name == "Player")
+				m_player->getTransformable().setPosition(obj.x, obj.y - m_player->getGlobalBounds().height);
+			else if (obj.name == "Effie")
+				add(new Effie(*this, sf::Vector2f(obj.x, obj.y)));
+			else if(obj.name == "Blobber")
+				add(new Blobber(*this, sf::Vector2f(obj.x, obj.y)));
 
 		}
+
+		if (obj.name == "Goal") {
+			m_mapGoalBounds.left = obj.x;
+			m_mapGoalBounds.top = obj.y;
+			m_mapGoalBounds.width = obj.width;
+			m_mapGoalBounds.height = obj.height;
+		}
+
+		if (obj.name == "DamageArea") {
+			unsigned int dmg = 1;
+			if (obj.properties.size() > 0 && obj.properties.at(0).name == "Damage")
+				dmg = stoi(obj.properties.at(0).value);
+			m_damageAreas.push_back(sf::FloatRect(obj.x, obj.y, obj.width, obj.height));
+			m_areaDamages.push_back(dmg);
+		}
+
 
 	}
 }
@@ -157,6 +162,19 @@ void GameWorld::update(sf::Time dt) {
 				e->collidedWith(m_player);
 			}
 		}
+
+		// Check for collision with damage areas
+		for (unsigned int i = 0; i < m_damageAreas.size(); i++) {
+			auto& area = m_damageAreas.at(i);
+			auto& dmg = m_areaDamages.at(i);
+			if (e->getGlobalBounds().intersects(area)) {
+				e->damage(dmg);
+			}
+		}
+
+		// Kill entities outside the map
+		if (!m_map.getBounds().intersects(e->getGlobalBounds()))
+			e->destroy();
 
 
 	}

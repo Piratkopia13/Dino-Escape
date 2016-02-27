@@ -52,6 +52,8 @@ class GameWorld : public sf::Drawable {
 		Context& m_context;
 
 		sf::FloatRect m_mapGoalBounds;
+		std::vector<sf::FloatRect> m_damageAreas;
+		std::vector<unsigned int> m_areaDamages;
 
 		LevelManager::Stats m_stats;
 		bool m_isLevelComplete;

@@ -50,8 +50,6 @@ void Entity::hitByBullet(Bullet* blt) {
 	damage(1, pushBack);
 
 	if (getHealth() <= 0) {
-		m_isDead = true; // Tell GameWorld to remove this entity
-
 		// Check if the level stats has to be updated / player killed an enemy
 		if (blt->getOwner() == getGameWorld().getPlayer())
 			getGameWorld().playerKilledEntity();
@@ -71,12 +69,15 @@ void Entity::heal(const int value) {
 void Entity::damage(const int value) {
 	
 	if (m_invulnerableTimer >= invulnerableTime) {
-	
+
 		// Reset timer
 		m_invulnerableTimer = sf::Time::Zero;
 
 		// Update health
 		m_health -= value;
+
+		if (getHealth() <= 0)
+			m_isDead = true; // Tell GameWorld to remove this entity
 
 		// Play hit sound
 		if (dynamic_cast<Player*>(this))
@@ -105,6 +106,10 @@ void Entity::damage(const int value, const sf::Vector2f pushBack) {
 
 	damage(value);
 
+}
+void Entity::destroy() {
+	m_health = 0;
+	m_isDead = true;
 }
 void Entity::setVelocity(const sf::Vector2f& velocity) {
 	this->velocity = velocity;

@@ -143,6 +143,8 @@ TileMap::TileMap(std::string filePath) {
 				
 				// Create the object
 				struct Object object;
+				object.name = (*obj)["name"].GetString();
+				object.type = (*obj)["type"].GetString();
 				object.x = (*obj)["x"].GetDouble() * m_renderScale;
 				object.y = (*obj)["y"].GetDouble() * m_renderScale;
 				object.width = (*obj)["width"].GetDouble() * m_renderScale;

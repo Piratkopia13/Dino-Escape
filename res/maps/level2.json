@@ -19,13 +19,13 @@
                 {
                  "height":0,
                  "id":11,
-                 "name":"",
+                 "name":"Player",
                  "properties":
                     {
-                     "spawn":"player"
+
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"Spawn",
                  "visible":true,
                  "width":0,
                  "x":32,
@@ -34,13 +34,13 @@
                 {
                  "height":0,
                  "id":13,
-                 "name":"",
+                 "name":"Blobber",
                  "properties":
                     {
-                     "spawn":"blobber"
+
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"Spawn",
                  "visible":true,
                  "width":0,
                  "x":136,
@@ -49,13 +49,13 @@
                 {
                  "height":0,
                  "id":14,
-                 "name":"",
+                 "name":"Effie",
                  "properties":
                     {
-                     "spawn":"effie"
+
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"Spawn",
                  "visible":true,
                  "width":0,
                  "x":51,
@@ -64,13 +64,13 @@
                 {
                  "height":0,
                  "id":15,
-                 "name":"",
+                 "name":"Blobber",
                  "properties":
                     {
-                     "spawn":"blobber"
+
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"Spawn",
                  "visible":true,
                  "width":0,
                  "x":256,
@@ -79,13 +79,13 @@
                 {
                  "height":0,
                  "id":16,
-                 "name":"",
+                 "name":"Effie",
                  "properties":
                     {
-                     "spawn":"effie"
+
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"Spawn",
                  "visible":true,
                  "width":0,
                  "x":312,
@@ -94,25 +94,37 @@
                 {
                  "height":0,
                  "id":21,
-                 "name":"",
+                 "name":"Effie",
                  "properties":
                     {
-                     "spawn":"effie"
+
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"Spawn",
                  "visible":true,
                  "width":0,
                  "x":88,
                  "y":112
-                }, 
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":20,
+         "name":"Areas",
+         "objects":[
                 {
                  "height":32,
                  "id":23,
-                 "name":"",
+                 "name":"Goal",
                  "properties":
                     {
-                     "goal":"1"
+
                     },
                  "rotation":0,
                  "type":"",
@@ -120,6 +132,36 @@
                  "width":4,
                  "x":316,
                  "y":80
+                }, 
+                {
+                 "height":25,
+                 "id":25,
+                 "name":"DamageArea",
+                 "properties":
+                    {
+                     "Damage":"999"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":64,
+                 "y":295
+                }, 
+                {
+                 "height":57,
+                 "id":27,
+                 "name":"DamageArea",
+                 "properties":
+                    {
+                     "Damage":"999"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":224,
+                 "y":263
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -128,7 +170,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":24,
+ "nextobjectid":28,
  "orientation":"orthogonal",
  "properties":
     {
@@ -138,6 +180,7 @@
  "tileheight":16,
  "tilesets":[
         {
+         "columns":9,
          "firstgid":1,
          "image":"res\/textures\/tiles.png",
          "imageheight":80,

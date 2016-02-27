@@ -26,6 +26,7 @@ public:
 		float height, width;
 		float x, y;
 		std::string name;
+		std::string type;
 		std::vector<TileMap::Property> properties;
 	};
 

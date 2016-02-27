@@ -38,6 +38,7 @@ class Entity : public sf::Drawable {
 		void heal(const int value);
 		void damage(const int value);
 		void damage(const int value, const sf::Vector2f pushBack);
+		void destroy();
 		void setVelocity(const sf::Vector2f& velocity);
 		void stopMoving();
 
@@ -47,7 +48,6 @@ class Entity : public sf::Drawable {
 		bool isGrounded() const;
 		const sf::Vector2f& getVelocity() const;
 		const sf::Vector2f& Entity::getLastVelocity() const;
-
 		// Give GameWorld access to private variables
 		// Such as m_isGrounded and m_lastVelocity
 		friend class GameWorld;

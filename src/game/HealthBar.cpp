@@ -27,9 +27,10 @@ void HealthBar::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 void HealthBar::setHealth(int hp) {
 
-	if (hp > 0 && hp <= 6) {
+	if (hp > 0 && hp <= 6)
 		m_healthBar.setFrame(hp - 1);
-	}
+	else 
+		m_healthBar.setFrame(0);
 
 
 }

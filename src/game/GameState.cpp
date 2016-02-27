@@ -116,7 +116,7 @@ bool GameState::update(sf::Time dt) {
 	m_healthBar.setHealth(playerHP);
 
 	// Switch to death state when player dies
-	if (playerHP == 0)
+	if (playerHP <= 0)
 		requestStackPush(States::Death);
 	
 
