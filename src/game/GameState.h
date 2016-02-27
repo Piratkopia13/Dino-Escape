@@ -30,4 +30,6 @@ class GameState : public State {
 		
 		HealthBar m_healthBar;
 
+		bool m_isPaused;
+
 };

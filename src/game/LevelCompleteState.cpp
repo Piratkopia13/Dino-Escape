@@ -21,12 +21,6 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context)
 	Utils::createCenteredText(m_statsTitleText, sf::Color::White, 30,
 		"Stats", getContext());
 
-	// Stats 
-	// Time
-	// Health +6
-	// Enemies killed +5
-	// Total score = (maxTime - Time in seconds) * constant + health*10 + enemies killed*10
-
 	// Calculate score
 	int totalScore = (300 - m_stats.finishTime.asSeconds()) * 0.3f;
 	totalScore += m_stats.health * 10;

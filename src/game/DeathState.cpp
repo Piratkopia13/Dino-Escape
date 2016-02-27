@@ -17,7 +17,7 @@ DeathState::DeathState(StateStack& stack, Context& context)
 	m_restartText.setFont(getContext().fonts->get(Fonts::ID::Main));
 	m_restartText.setColor(sf::Color::White);
 	m_restartText.setCharacterSize(20);
-	m_restartText.setString("Press 'R' to come back from the dead");
+	m_restartText.setString("Press 'R' to restart level");
 	Utils::centerTextOrigin(m_restartText);
 
 	setPositions();
@@ -47,7 +47,9 @@ bool DeathState::handleEvent(const sf::Event& event) {
 	if (event.type == sf::Event::KeyPressed) {
 
 		if (event.key.code == sf::Keyboard::R) {
-			requestStackPop();
+			requestStackPop(); // Pop this state
+			requestStackPop(); // Pop the underlying GameState
+			requestStackPush(States::Game); // Create a new GameState to restart the level
 		}
 
 	} else if (event.type == sf::Event::Resized) {

@@ -10,6 +10,7 @@ GameState::GameState(StateStack& stack, Context& context)
 , m_spawnClickEnt(m_world, *context.window)
 , m_spawnClickBlt(m_world, *context.window)
 , m_healthBar(context)
+, m_isPaused(false)
 {
 
 	// Set the cameras constraints to map border
@@ -45,6 +46,13 @@ bool GameState::handleEvent(const sf::Event& event) {
 
 	case sf::Event::KeyPressed:
 		m_world.handleInput(event.key.code, true);
+
+		// Pause when escape is pressed
+		if (!m_isPaused && m_world.getPlayer()->getHealth() > 0 && event.key.code == sf::Keyboard::Escape) {
+			requestStackPush(States::Pause);
+			m_isPaused = true;
+		}
+
 		break;
 
 	case sf::Event::KeyReleased:
@@ -81,6 +89,10 @@ bool GameState::handleEvent(const sf::Event& event) {
 }
 bool GameState::update(sf::Time dt) {
 
+	// Set paused to false
+	// This only runs when the pause menu is not active
+	m_isPaused = false;
+
 	sf::RenderWindow* window = getContext().window;
 
 	m_world.update(dt);
@@ -102,10 +114,10 @@ bool GameState::update(sf::Time dt) {
 
 	int playerHP = m_world.getPlayer()->getHealth();
 	m_healthBar.setHealth(playerHP);
-	if (playerHP == 0) {
+
+	// Switch to death state when player dies
+	if (playerHP == 0)
 		requestStackPush(States::Death);
-		m_world.getPlayer()->setHealth(6);
-	}
 	
 
 	return true;

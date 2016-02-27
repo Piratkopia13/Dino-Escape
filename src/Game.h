@@ -13,6 +13,7 @@
 #include "MenuState.h"
 #include "game/DeathState.h"
 #include "game/LevelCompleteState.h"
+#include "PauseState.h"
 
 #include "debug/DebugRenderer.h"
 
