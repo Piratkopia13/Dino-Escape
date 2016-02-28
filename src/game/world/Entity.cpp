@@ -76,8 +76,12 @@ void Entity::damage(const int value) {
 		// Update health
 		m_health -= value;
 
-		if (getHealth() <= 0)
-			m_isDead = true; // Tell GameWorld to remove this entity
+		if (getHealth() <= 0) {
+			// Tell GameWorld to remove this entity
+			m_isDead = true;
+			// Add a particle system from the current animation frame
+			m_world->addParticleSystem(getCenterPos(), sprite.copyTextureToImage(), sprite.getTextureRect(), sprite.getScale());
+		}
 
 		// Play hit sound
 		if (dynamic_cast<Player*>(this))

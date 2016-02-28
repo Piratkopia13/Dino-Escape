@@ -42,7 +42,7 @@ void Game::registerStates() {
 void Game::run() {
 
 	// Enable VSYNC
-	m_window.setVerticalSyncEnabled(true);
+	//m_window.setVerticalSyncEnabled(true);
 
 	sf::Clock clock, fpsClock;
 	sf::Time elapsedTime = sf::Time::Zero;

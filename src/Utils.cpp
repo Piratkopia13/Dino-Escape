@@ -64,3 +64,15 @@ void Utils::createText(sf::Text& theText, const sf::Color& color, unsigned int c
 	theText.setCharacterSize(charSize);
 
 }
+
+float Utils::random(float min, float max) {
+
+	// x is in [0,1[
+	float x = rand() / static_cast<float>(RAND_MAX + 1);
+
+	// [0,1[ * (max - min) + min is in [min,max[
+	float that = min + x * (max - min);
+
+	return that;
+
+}

@@ -55,6 +55,9 @@ public:
 	sf::Time getFrameTime() const;
 	void setFrame(std::size_t newFrame, bool resetTime = true);
 
+	sf::Image copyTextureToImage() const;
+	const sf::IntRect& getTextureRect() const;
+
 private:
 	const Animation* m_animation;
 	sf::Time m_frameTime;

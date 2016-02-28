@@ -210,6 +210,25 @@ void GameWorld::update(sf::Time dt) {
 	m_bulletSystem.update(dt);
 	m_bulletSystem.resolveCollisions(m_map, m_entities);
 
+
+	// ===================================== //
+	// ====== Update particle systems ====== //
+	// ===================================== //
+
+	for (auto it = m_particleSystems.begin(); it != m_particleSystems.end();) {
+		
+		auto& p = *it;
+
+		// Update
+		p->update(dt, m_map);
+
+		// Remove if system has no particles left
+		if (p->shouldBeRemoved()) {
+			it = m_particleSystems.erase(it);
+		} else ++it;
+
+	}
+
 }
 
 void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -223,6 +242,17 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 	// Draw bullets
 	m_bulletSystem.draw(target, states);
+
+	// Draw particles
+	for (auto& p : m_particleSystems)
+		target.draw(*p, states);
+
+}
+
+void GameWorld::addParticleSystem(const sf::Vector2f& centerPosition, const sf::Image& image, const sf::IntRect& imageRect, const sf::Vector2f& scale) {
+
+	std::unique_ptr<ParticleSystem> system(new ParticleSystem(centerPosition, image, imageRect, scale));
+	m_particleSystems.push_back(std::move(system));
 
 }
 
@@ -238,6 +268,15 @@ TileMap* GameWorld::getMap() const {
 
 int GameWorld::getNumEntites() const {
 	return m_entities.size();
+}
+int GameWorld::getNumParticleSystems() const {
+	return m_particleSystems.size();
+}
+int GameWorld::getNumParticles() const {
+	int count = 0;
+	for (auto& p : m_particleSystems)
+		count += p->getNumParticles();
+	return count;
 }
 
 Context& GameWorld::getContext() const {

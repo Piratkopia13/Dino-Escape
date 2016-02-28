@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <streambuf>
+#include <cstdlib>
 
 #include <SFML\Graphics.hpp>
 
@@ -27,5 +28,7 @@ public:
 
 	static void createCenteredText(sf::Text& theText, const sf::Color& color, unsigned int charSize, const std::string& content, const Context& context);
 	static void createText(sf::Text& theText, const sf::Color& color, unsigned int charSize, const std::string& content, const Context& context);
+
+	static float random(float min, float max);
 
 };

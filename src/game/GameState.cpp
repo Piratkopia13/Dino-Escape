@@ -28,6 +28,11 @@ GameState::GameState(StateStack& stack, Context& context)
 	m_entityCountText.setCharacterSize(15);
 	m_entityCountText.setPosition(0, getContext().window->getSize().y - 40.f);
 
+	m_particleCountText.setFont(getContext().fonts->get(Fonts::ID::Main));
+	m_particleCountText.setCharacterSize(15);
+	m_particleCountText.setPosition(0, getContext().window->getSize().y - 60.f);
+
+
 	m_healthBar.setHealth(6);
 	m_healthBar.setPosition(getContext().window->mapPixelToCoords(sf::Vector2i(15.f, 15.f)));
 
@@ -66,6 +71,7 @@ bool GameState::handleEvent(const sf::Event& event) {
 		window->setView(m_hudCamera.getView());
 		m_FPStext.setPosition(window->mapPixelToCoords(sf::Vector2i(0.f, window->getSize().y - 20.f)));
 		m_entityCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0.f, window->getSize().y - 40.f)));
+		m_particleCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0.f, window->getSize().y - 60.f)));
 		m_healthBar.setPosition(window->mapPixelToCoords(sf::Vector2i(15, 15)));
 
 		break;
@@ -104,13 +110,16 @@ bool GameState::update(sf::Time dt) {
 		requestStackPush(States::LevelComplete);
 	}
 
+	// Move the camera interpolated
 	m_worldCamera.moveTo(m_world.getPlayer()->getCenterPos());
 
 	// Update FPSText
 	m_FPStext.setString("FPS: " + std::to_string(Game::getFPS()));
 
 	// Update entity count text
-	m_entityCountText.setString("Num entities: " + std::to_string(m_world.getNumEntites()));
+	m_entityCountText.setString("Entities: " + std::to_string(m_world.getNumEntites()));
+	// Update particle count text
+	m_particleCountText.setString("Particles: " + std::to_string(m_world.getNumParticles()) + "/" + std::to_string(m_world.getNumParticleSystems()));
 
 	int playerHP = m_world.getPlayer()->getHealth();
 	m_healthBar.setHealth(playerHP);
@@ -145,5 +154,7 @@ void GameState::draw() {
 	window->draw(m_FPStext);
 	// Render entity count
 	window->draw(m_entityCountText);
+	// Render particle count
+	window->draw(m_particleCountText);
 
 }

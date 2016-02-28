@@ -152,6 +152,7 @@
     <ClCompile Include="src\LevelManager.cpp" />
     <ClCompile Include="src\MenuState.cpp" />
     <ClCompile Include="src\MusicPlayer.cpp" />
+    <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\PauseState.cpp" />
     <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\SoundPlayer.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="src\LevelManager.h" />
     <ClInclude Include="src\MenuState.h" />
     <ClInclude Include="src\MusicPlayer.h" />
+    <ClInclude Include="src\ParticleSystem.h" />
     <ClInclude Include="src\PauseState.h" />
     <ClInclude Include="src\ResourceIdentifiers.h" />
     <ClInclude Include="src\SoundManager.h" />

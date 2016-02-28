@@ -5,6 +5,7 @@
 
 #include "TileMap.h"
 #include "BulletSystem.h"
+#include "../../ParticleSystem.h"
 #include "../../states/State.h"
 #include "../Player.h"
 #include "../enemies/Effie.h"
@@ -23,6 +24,7 @@ class GameWorld : public sf::Drawable {
 		void handleInput(sf::Keyboard::Key key, bool isPressed);
 		void add(Entity* entity);
 		void add(Entity::EntityPtr& entity);
+		void addParticleSystem(const sf::Vector2f& centerPosition, const sf::Image& image, const sf::IntRect& imageRect, const sf::Vector2f& scale);
 
 		void update(sf::Time dt);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -31,6 +33,8 @@ class GameWorld : public sf::Drawable {
 		Entity* getPlayer() const;
 		TileMap* getMap() const;
 		int getNumEntites() const;
+		int getNumParticleSystems() const;
+		int getNumParticles() const;
 		Context& getContext() const;
 		const bool isLevelComplete() const;
 		
@@ -45,6 +49,8 @@ class GameWorld : public sf::Drawable {
 	private:
 		std::vector<Entity::EntityPtr> m_entities;
 		BulletSystem m_bulletSystem;
+
+		std::vector<std::unique_ptr<ParticleSystem>> m_particleSystems;
 
 		Entity* m_player; // Who enemies should attack and bullets collide with
 

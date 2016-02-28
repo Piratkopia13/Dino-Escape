@@ -170,3 +170,11 @@ void AnimatedSprite::draw(sf::RenderTarget& target, sf::RenderStates states) con
 		target.draw(m_vertices, 4, sf::Quads, states);
 	}
 }
+
+sf::Image AnimatedSprite::copyTextureToImage() const {
+	return m_texture->copyToImage();
+}
+
+const sf::IntRect& AnimatedSprite::getTextureRect() const {
+	return m_animation->getFrame(m_currentFrame);
+}

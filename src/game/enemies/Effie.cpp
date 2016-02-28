@@ -66,8 +66,8 @@ void Effie::update(const sf::Time& dt) {
 			bulletStart.y += 6.0f; // Shoot from the mouth
 
 			// Apply slight randomization to bullet direction
-			dir.x += rand() / ((float)RAND_MAX + 1) * 40 - 20.0f;
-			dir.y += rand() / ((float)RAND_MAX + 1) * 40 - 20.0f;
+			dir.x += Utils::random(-20.f, 20.f);
+			dir.y += Utils::random(-20.f, 20.f);
 
 			sf::Vector2f bulletDir = Utils::normalize(dir);
 

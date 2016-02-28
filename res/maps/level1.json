@@ -165,7 +165,19 @@
                  "width":0,
                  "x":400,
                  "y":224
-                }, 
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":30,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":20,
+         "name":"Areas",
+         "objects":[
                 {
                  "height":32,
                  "id":13,
