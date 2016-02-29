@@ -31,7 +31,9 @@ void BulletSystem::fireBullet(const Bullet::BulletType type, const sf::Vector2f&
 
 void BulletSystem::update(sf::Time dt) {
 	
-	m_shapeFireball.update(dt); // tmp
+	// Update the animation
+	m_shapeFireball.play(m_animFireball);
+	m_shapeFireball.update(dt);
 
 	for (auto it = m_bullets.begin(); it != m_bullets.end();) {
 
@@ -62,14 +64,14 @@ void BulletSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			break;
 		case Bullet::FIREBALL:
 
-			const_cast<AnimatedSprite&>(m_shapeFireball).setPosition(b.getPosition());
-			const_cast<AnimatedSprite&>(m_shapeFireball).setRotation(b.getRotation());
+			m_shapeFireball.setPosition(b.getPosition());
+			m_shapeFireball.setRotation(b.getRotation());
 			
 			// Change animation if the bullet has hit and is lingering
 			if (b.hasHit())
-				const_cast<AnimatedSprite&>(m_shapeFireball).setAnimation(m_animFireballHit);
+				m_shapeFireball.play(m_animFireballHit);
 			else
-				const_cast<AnimatedSprite&>(m_shapeFireball).setAnimation(m_animFireball);
+				m_shapeFireball.play(m_animFireball);
 
 			target.draw(m_shapeFireball);
 

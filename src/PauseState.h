@@ -25,6 +25,7 @@ private:
 
 	enum Options {
 		Resume,
+		RestartLevel,
 		Quit,
 		OptionsCount
 	};

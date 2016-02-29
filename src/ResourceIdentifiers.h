@@ -33,6 +33,8 @@ namespace Sounds {
 		HitEnemy,
 		HitPlayer,
 		Select,
-		Pickup
+		Pickup,
+		WinJingle,
+		LoseJingle
 	};
 }

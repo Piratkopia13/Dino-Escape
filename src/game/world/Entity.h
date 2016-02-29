@@ -45,6 +45,7 @@ class Entity : public sf::Drawable {
 		// Getters
 		GameWorld& getGameWorld() const;
 		int getHealth() const;
+		bool isDead() const;
 		bool isGrounded() const;
 		const sf::Vector2f& getVelocity() const;
 		const sf::Vector2f& Entity::getLastVelocity() const;

@@ -220,18 +220,14 @@ sf::Vector2f TileMap::resolveCollisions(Entity& entity) {
 
 sf::Vector2f TileMap::getCollisionOverlap(sf::FloatRect bb) {
 
-#ifdef ENABLE_DEBUG_SHAPES
-	DebugRenderer::addShape(bb, sf::Color::Blue);
-#endif
+	ADD_DEBUG_SHAPE_IF_ENABLED(bb, sf::Color::Blue);
 
 	std::vector<sf::FloatRect> tiles;
 	getCollidableTilesFor(bb, tiles);
 
 	for (sf::FloatRect tile : tiles) {
 
-#ifdef ENABLE_DEBUG_SHAPES
-		DebugRenderer::addShape(tile, sf::Color::Green);
-#endif
+		ADD_DEBUG_SHAPE_IF_ENABLED(tile, sf::Color::Green);
 
 		if (tile.intersects(bb)) {
 

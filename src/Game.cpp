@@ -111,7 +111,7 @@ void Game::update(sf::Time dt) {
 }
 void Game::render() {
 
-	m_window.clear(sf::Color(20, 20, 20));
+	m_window.clear(sf::Color(2, 23, 33));
 
 	m_stateStack.draw();
 

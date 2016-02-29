@@ -52,6 +52,12 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context)
 
 	setPositions();
 
+
+	// Stop music
+	getContext().music->stop();
+	// Play win jingle
+	getContext().sounds->play(Sounds::WinJingle);
+
 }
 LevelCompleteState::~LevelCompleteState() {
 }

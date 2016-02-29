@@ -5,10 +5,32 @@ Camera::Camera(const sf::RenderWindow& window)
 , m_window(window)
 , m_constraints(0,0,0,0)
 , m_zoom(1.f)
+, m_currentZoom(1.f)
 , m_hasConstraints(false)
 , m_lockedWidth(0.f)
 , m_lockedHeight(0.f)
 {
+}
+
+void Camera::update(sf::Time& dt) {
+
+	// Interpolate
+	float step = .2f * dt.asSeconds() * 60.f;
+	sf::Vector2f interp = step * m_center + (1 - step) * m_view.getCenter();
+
+	// Reset values if they are really low
+	if (fabs(interp.x) < 0.0001f) interp.x = 0.f;
+	if (fabs(interp.y) < 0.0001f) interp.y = 0.f;
+
+	m_view.setCenter(interp);
+
+	// Interpolate zoom
+	step = .05f * dt.asSeconds() * 60.f;
+	float z = step * m_zoom + (1 - step) * m_currentZoom;
+	if (fabs(z) < 0.0001f) z = 0.f;
+	m_view.setSize(m_size * z);
+	m_currentZoom = z;
+
 }
 
 void Camera::setConstraints(const sf::FloatRect& constraints) {
@@ -49,37 +71,29 @@ void Camera::checkSize() {
 		m_view.setSize(m_constraints.height * aspectRatio, m_constraints.height);
 	}
 
+	m_size = m_view.getSize();
+
 }
 
 void Camera::moveTo(const sf::Vector2f& position) {
 
 	const sf::Vector2f& halfViewSize = m_view.getSize() / 2.f;
-	sf::Vector2f newPos = position;
+	m_center = position;
 
 	// If constraint is set
 	if (m_constraints.width != 0) {
 
 		// Lock position to the constraints
-		if (newPos.x - halfViewSize.x < m_constraints.left)
-			newPos.x = halfViewSize.x;
-		else if (newPos.x + halfViewSize.x > m_constraints.left + m_constraints.width)
-			newPos.x = m_constraints.left + m_constraints.width - halfViewSize.x;
-		if (newPos.y - halfViewSize.y < m_constraints.top)
-			newPos.y = halfViewSize.y;
-		else if (newPos.y + halfViewSize.y > m_constraints.top + m_constraints.height)
-			newPos.y = m_constraints.top + m_constraints.height - halfViewSize.y;
+		if (m_center.x - halfViewSize.x < m_constraints.left)
+			m_center.x = halfViewSize.x;
+		else if (m_center.x + halfViewSize.x > m_constraints.left + m_constraints.width)
+			m_center.x = m_constraints.left + m_constraints.width - halfViewSize.x;
+		if (m_center.y - halfViewSize.y < m_constraints.top)
+			m_center.y = halfViewSize.y;
+		else if (m_center.y + halfViewSize.y > m_constraints.top + m_constraints.height)
+			m_center.y = m_constraints.top + m_constraints.height - halfViewSize.y;
 
 	}
-
-
-	// Interpolate
-	sf::Vector2f interp = 0.2f * newPos + (1 - 0.2f) * m_view.getCenter();
-
-	// Reset values if they are really low
-	if (fabs(interp.x) < 0.0001f) interp.x = 0.f;
-	if (fabs(interp.y) < 0.0001f) interp.y = 0.f;
-
-	m_view.setCenter(interp);
 
 }
 
@@ -101,13 +115,13 @@ void Camera::handleResize(const sf::Event::SizeEvent& size) {
 
 	if (m_hasConstraints)
 		checkSize();
-	m_view.zoom(m_zoom);
+	//m_view.zoom(m_zoom);
 
 }
 
 void Camera::zoom(const float& amount) {
 	m_zoom = amount;
-	m_view.zoom(m_zoom);
+	/*m_view.zoom(m_zoom);*/
 }
 
 const sf::View& Camera::getView() const {

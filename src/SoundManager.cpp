@@ -10,6 +10,8 @@ SoundManager::SoundManager()
 	m_filenameMap.insert({ Sounds::ID::HitPlayer, "res/sounds/Hit_01.ogg" });
 	m_filenameMap.insert({ Sounds::ID::Pickup, "res/sounds/pickup.ogg" });
 	m_filenameMap.insert({ Sounds::ID::Select, "res/sounds/Menu_Navigate_03.ogg" });
+	m_filenameMap.insert({ Sounds::ID::WinJingle, "res/sounds/Jingle_Win.ogg" });
+	m_filenameMap.insert({ Sounds::ID::LoseJingle, "res/sounds/Jingle_Lose.ogg" });
 
 }
 

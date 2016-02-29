@@ -16,6 +16,9 @@ PauseState::PauseState(StateStack& stack, Context& context)
 	Utils::createCenteredText(m_optionTexts[Resume], sf::Color::White, 35,
 		"Resume", getContext());
 
+	Utils::createCenteredText(m_optionTexts[RestartLevel], sf::Color::White, 35,
+		"Restart Level", getContext());
+
 	Utils::createCenteredText(m_optionTexts[Quit], sf::Color::White, 35,
 		"Quit", getContext());
 
@@ -57,6 +60,11 @@ bool PauseState::handleEvent(const sf::Event& event) {
 			case Options::Resume:
 				// Resume game
 				resumeGame();
+				break;
+			case Options::RestartLevel:
+				requestStackPop(); // Pop this state
+				requestStackPop(); // Pop the underlying GameState
+				requestStackPush(States::Game); // Create a new GameState to restart the level
 				break;
 			case Options::Quit:
 				// Clear the stack and quit the game
@@ -142,8 +150,11 @@ void PauseState::setPositions() {
 	Utils::centerTextOrigin(m_optionTexts[Resume]);
 	m_optionTexts[Resume].setPosition(halfWindowWidth, 300.f);
 
+	Utils::centerTextOrigin(m_optionTexts[RestartLevel]);
+	m_optionTexts[RestartLevel].setPosition(halfWindowWidth, 400.f);
+
 	Utils::centerTextOrigin(m_optionTexts[Quit]);
-	m_optionTexts[Quit].setPosition(halfWindowWidth, 400.f);
+	m_optionTexts[Quit].setPosition(halfWindowWidth, 500.f);
 
 
 }

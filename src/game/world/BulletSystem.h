@@ -31,10 +31,10 @@ class BulletSystem : sf::Drawable {
 		// How long the bullet should be visible after it has hit somthing
 		const sf::Time m_bulletMaxDeadTime;
 
-		sf::RectangleShape m_shapeNormal;
+		mutable sf::RectangleShape m_shapeNormal;
 
 		sf::Texture m_texFireball;
 		Animation m_animFireball, m_animFireballHit;
-		AnimatedSprite m_shapeFireball;
+		mutable AnimatedSprite m_shapeFireball;
 
 };

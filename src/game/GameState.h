@@ -32,5 +32,10 @@ class GameState : public State {
 		HealthBar m_healthBar;
 
 		bool m_isPaused;
+		bool m_hasStartedDeathAnimation;
+		bool m_hasFinishedDeathAnimation;
+
+		sf::Time m_timeDead;
+		const sf::Time m_deathTimer;
 
 };

@@ -7,6 +7,9 @@ class Camera {
 public:
 	Camera(const sf::RenderWindow& window);
 
+	// Updates the camera position and zoom
+	void update(sf::Time& dt);
+
 	// Resizes the viewport to the new aspect ratio
 	void handleResize(const sf::Event::SizeEvent& size);
 	// Interpolates and moves the camera to the specified position
@@ -34,9 +37,12 @@ private:
 private:
 	sf::View m_view;
 	const sf::RenderWindow& m_window;
+
 	sf::FloatRect m_constraints;
-	float m_zoom;
 	bool m_hasConstraints;
+
+	float m_zoom, m_currentZoom;
+	sf::Vector2f m_size;
 	sf::Vector2f m_center;
 
 	float m_lockedWidth, m_lockedHeight;

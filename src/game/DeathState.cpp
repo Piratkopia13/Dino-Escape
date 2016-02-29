@@ -6,7 +6,7 @@ DeathState::DeathState(StateStack& stack, Context& context)
 
 	sf::RenderWindow* window = getContext().window;
 
-	m_bg.setFillColor(sf::Color(0, 0, 0, 200));
+	m_bg.setFillColor(sf::Color(0, 0, 0, 0));
 
 	m_deadText.setFont(getContext().fonts->get(Fonts::ID::Main));
 	m_deadText.setColor(sf::Color::Red);
@@ -64,7 +64,15 @@ bool DeathState::handleEvent(const sf::Event& event) {
 
 bool DeathState::update(sf::Time dt) {
 
-	return false;
+	// Fade in background
+	sf::Color c = m_bg.getFillColor();
+	if (c.a < 200u) {
+		c.a += dt.asMilliseconds() / 3u;
+		std::min(c.a, static_cast<sf::Uint8>(200U)); // 200 Max value
+		m_bg.setFillColor(c);
+	}
+
+	return true;
 }
 
 void DeathState::draw() {

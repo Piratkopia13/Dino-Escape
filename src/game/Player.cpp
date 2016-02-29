@@ -62,6 +62,10 @@ void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
 
 void Player::update(const sf::Time& dt) {
 
+	// Do nothing if dead
+	if (getHealth() <= 0)
+		return;
+
 	float speed = 187.0f * dt.asSeconds();
 	sf::Vector2f targetSpeed;
 
@@ -200,7 +204,9 @@ void Player::turn(bool left) {
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
-	//DebugRenderer::addShape(sprite.getPosition(), sprite.getGlobalBounds(), sf::Color::Red);
+	// Dont render anything if dead
+	if (getHealth() <= 0)
+		return;
 
 	// Draw sprite from parent
 	Entity::draw(target, states);

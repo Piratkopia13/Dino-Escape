@@ -73,26 +73,27 @@ void GameWorld::handleInput(sf::Keyboard::Key key, bool isPressed) {
 
 void GameWorld::update(sf::Time dt) {
 
-#ifdef ENABLE_DEBUG_SHAPES
-	DebugRenderer::addShape(m_mapGoalBounds, sf::Color::Cyan);
-#endif
+	ADD_DEBUG_SHAPE_IF_ENABLED(m_mapGoalBounds, sf::Color::Cyan);
 
 	for (auto it = m_entities.begin(); it != m_entities.end();) {
 		auto& e = *it;
 
 		// Remove if entity is dead and not the player
 		// Make sure the player does not get deleted since that will cause a crash
-		if (e->m_isDead && e.get() != m_player) {
+		if (e->isDead() && e.get() != m_player) {
 			it = m_entities.erase(it);
-			continue;
 		} else ++it;
+
+		// Skip if entity is dead
+		if (e->isDead())
+			continue;
 
 		// Update
 		e->update(dt);
 
-		// ======================================== //
-		// == Apply gravity and move by velocity == //
-		// ======================================== //
+		// ================================================ //
+		// ====== Apply gravity and move by velocity ====== //
+		// ================================================ //
 
 		// Apply gravity
 		e->velocity.y += GRAVITY * dt.asSeconds();

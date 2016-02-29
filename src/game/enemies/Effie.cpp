@@ -34,10 +34,11 @@ Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition)
 void Effie::update(const sf::Time& dt) {
 
 	sf::Vector2f myPos = sprite.getPosition();
-	sf::Vector2f playerPos = getGameWorld().getPlayer()->getCenterPos();
+	Entity* player = getGameWorld().getPlayer();
+	sf::Vector2f playerPos = player->getCenterPos();
 
 	// Raycast
-	bool rayIntersects = getGameWorld().getMap()->isLineColliding(myPos, playerPos);
+	bool rayIntersects = player->isDead() || getGameWorld().getMap()->isLineColliding(myPos, playerPos);
 
 	if (!rayIntersects) {
 

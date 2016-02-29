@@ -11,6 +11,7 @@ GameState::GameState(StateStack& stack, Context& context)
 , m_spawnClickBlt(m_world, *context.window)
 , m_healthBar(context)
 , m_isPaused(false)
+, m_deathTimer(sf::seconds(2.0f))
 {
 
 	// Set the cameras constraints to map border
@@ -101,8 +102,28 @@ bool GameState::update(sf::Time dt) {
 
 	sf::RenderWindow* window = getContext().window;
 
+	// Update the player death "animation"
+	if (m_hasStartedDeathAnimation && !m_hasFinishedDeathAnimation) {
+		// Increase timer
+		m_timeDead += dt;
+
+		// If timer is done
+		if (m_timeDead >= m_deathTimer) {
+			// Switch to the death state
+			requestStackPush(States::Death);
+			m_hasFinishedDeathAnimation = true;
+		}
+
+		// Player has died, but the animation is not complete
+		// Slooow moootiiooon!
+		dt *= .2f;
+
+	}
+
+	// Update the world
 	m_world.update(dt);
 	
+	// Check if the player has completed the level
 	if (m_world.isLevelComplete()) {
 		// Destroy this GameState instance
 		// and show the level complete screen
@@ -110,24 +131,37 @@ bool GameState::update(sf::Time dt) {
 		requestStackPush(States::LevelComplete);
 	}
 
-	// Move the camera interpolated
+	// Move the camera to the player's position
 	m_worldCamera.moveTo(m_world.getPlayer()->getCenterPos());
 
 	// Update FPSText
 	m_FPStext.setString("FPS: " + std::to_string(Game::getFPS()));
-
 	// Update entity count text
 	m_entityCountText.setString("Entities: " + std::to_string(m_world.getNumEntites()));
 	// Update particle count text
 	m_particleCountText.setString("Particles: " + std::to_string(m_world.getNumParticles()) + "/" + std::to_string(m_world.getNumParticleSystems()));
 
-	int playerHP = m_world.getPlayer()->getHealth();
-	m_healthBar.setHealth(playerHP);
+	// Update healthbar
+	Entity* player = m_world.getPlayer();
+	m_healthBar.setHealth(player->getHealth());
+
 
 	// Switch to death state when player dies
-	if (playerHP <= 0)
-		requestStackPush(States::Death);
+	if (player->isDead() && !m_hasStartedDeathAnimation) {
+
+		// Zoom in
+		m_worldCamera.zoom(.7f);
+
+		// Stop music
+		getContext().music->stop();
+		// Play lose jingle
+		getContext().sounds->play(Sounds::LoseJingle);
+
+		m_hasStartedDeathAnimation = true;
+	}
 	
+	// Update world camera
+	m_worldCamera.update(dt);
 
 	return true;
 }
@@ -140,10 +174,7 @@ void GameState::draw() {
 
 	window->draw(m_world);
 
-#ifdef ENABLE_DEBUG_SHAPES
-	// Draw debug shapes
-	DebugRenderer::draw(*window);
-#endif
+	DRAW_DEBUG_IF_ENABLED(*window);
 
 	// Apply default camera view for HUD rendering
 	window->setView(m_hudCamera.getView());

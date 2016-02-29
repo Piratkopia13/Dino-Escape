@@ -81,6 +81,8 @@ void Entity::damage(const int value) {
 			m_isDead = true;
 			// Add a particle system from the current animation frame
 			m_world->addParticleSystem(getCenterPos(), sprite.copyTextureToImage(), sprite.getTextureRect(), sprite.getScale());
+			// Reset velocity
+			stopMoving();
 		}
 
 		// Play hit sound
@@ -130,6 +132,9 @@ GameWorld& Entity::getGameWorld() const {
 }
 int Entity::getHealth() const {
 	return m_health;
+}
+bool Entity::isDead() const {
+	return m_isDead;
 }
 bool Entity::isGrounded() const {
 	return m_isGrounded;
