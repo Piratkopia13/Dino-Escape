@@ -24,14 +24,19 @@ void GameWorld::handleMapObjects() {
 	auto objects = m_map.getObjects();
 	for (auto obj : objects) {
 
+		// Get facing direction from property
+		bool facingRight = true;
+		if (obj.properties.size() > 0 && obj.properties.at(0).name == "Facing" && obj.properties.at(0).value == "left")
+			facingRight = false;
+
 		if (obj.type == "Spawn") {
 
 			if (obj.name == "Player")
 				m_player->getTransformable().setPosition(obj.x, obj.y - m_player->getGlobalBounds().height);
 			else if (obj.name == "Effie")
-				add(new Effie(*this, sf::Vector2f(obj.x, obj.y)));
+				add(new Effie(*this, sf::Vector2f(obj.x, obj.y), facingRight));
 			else if(obj.name == "Blobber")
-				add(new Blobber(*this, sf::Vector2f(obj.x, obj.y)));
+				add(new Blobber(*this, sf::Vector2f(obj.x, obj.y), facingRight));
 
 		}
 

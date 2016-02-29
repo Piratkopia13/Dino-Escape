@@ -37,7 +37,7 @@
                  "name":"Blobber",
                  "properties":
                     {
-
+                     "Facing":"right"
                     },
                  "rotation":0,
                  "type":"Spawn",
@@ -52,7 +52,7 @@
                  "name":"Effie",
                  "properties":
                     {
-
+                     "Facing":"right"
                     },
                  "rotation":0,
                  "type":"Spawn",
@@ -67,7 +67,7 @@
                  "name":"Blobber",
                  "properties":
                     {
-
+                     "Facing":"left"
                     },
                  "rotation":0,
                  "type":"Spawn",
@@ -82,7 +82,7 @@
                  "name":"Effie",
                  "properties":
                     {
-
+                     "Facing":"left"
                     },
                  "rotation":0,
                  "type":"Spawn",
@@ -97,7 +97,7 @@
                  "name":"Effie",
                  "properties":
                     {
-
+                     "Facing":"left"
                     },
                  "rotation":0,
                  "type":"Spawn",
@@ -170,7 +170,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":28,
+ "nextobjectid":29,
  "orientation":"orthogonal",
  "properties":
     {

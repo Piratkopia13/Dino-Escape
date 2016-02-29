@@ -17,6 +17,15 @@ std::string Utils::readFile(const char* filepath) {
 
 }
 
+void Utils::splitString(const std::string& str, char delim, std::vector<std::string>& output) {
+
+	std::stringstream ss(str);
+	std::string item;
+	while (std::getline(ss, item, delim))
+		output.push_back(item);
+
+}
+
 float Utils::linearInterpolation(float from, float to, float step) {
 	return (from*(1 - step) + to*step);
 }

@@ -3,6 +3,9 @@
 #include <string>
 #include <fstream>
 #include <streambuf>
+#include <sstream>
+#include <iterator>
+
 #include <cstdlib>
 
 #include <SFML\Graphics.hpp>
@@ -15,8 +18,9 @@ class Utils {
 public:
 
 	// Reads a file into a std::string
-	// Returned string is allocated on heap and needs to be deleted by client
 	static std::string readFile(const char* filepath);
+	static void splitString(const std::string& str, char delim, std::vector<std::string>& output);
+
 	static float linearInterpolation(float from, float to, float step);
 	static sf::Vector2f linearInterpolation(const sf::Vector2f& from, const sf::Vector2f& to, float step);
 

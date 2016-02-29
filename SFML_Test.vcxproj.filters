@@ -230,5 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="res\maps\level.order" />
   </ItemGroup>
 </Project>

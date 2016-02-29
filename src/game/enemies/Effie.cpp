@@ -1,14 +1,11 @@
 #include "Effie.h"
 
-Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition)
+Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition, bool facingRight)
 : Enemy(world)
 , m_fireballCooldown(sf::seconds(.9f)) // How often Effie can shoot when he sees the player
 {
 	// Inital health
 	setHealth(2);
-
-	// Move to the set position
-	sprite.move(bottomCenterPosition);
 
 	// Possible idle animation, make it slow tho
 	m_idleAnimation.setSpriteSheet(*enemiesTexture);
@@ -23,10 +20,17 @@ Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition)
 
 	sf::FloatRect bounds = sprite.getGlobalBounds();
 	sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
-	sprite.setScale(spriteScale);
+
+	// Set facing direction
+	if (!facingRight)
+		sprite.setScale(-spriteScale.x, spriteScale.y);
+	else
+		sprite.setScale(spriteScale);
 
 	sprite.setFrameTime(sf::seconds(0.3f));
 
+	// Move to the set position
+	sprite.move(bottomCenterPosition);
 	sprite.move(0, -bounds.height);
 
 }
@@ -48,7 +52,7 @@ void Effie::update(const sf::Time& dt) {
 			sprite.setScale(-spriteScale.x, spriteScale.y);
 		} else {
 			// Flip back
-			sprite.setScale(spriteScale.x, spriteScale.y);
+			sprite.setScale(spriteScale);
 		}
 
 

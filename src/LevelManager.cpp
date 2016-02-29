@@ -5,9 +5,9 @@ LevelManager::LevelManager()
 , m_currentStats(sf::seconds(0.f), 0, 0)
 {
 	
-	// TODO: read this from a file
-	m_levelFilenames.push_back("level1.json");
-	m_levelFilenames.push_back("level2.json");
+	// Load map order from file
+	std::string levelOrderData = Utils::readFile("res/maps/level.order");
+	Utils::splitString(levelOrderData, '\n', m_levelFilenames);
 
 }
 LevelManager::~LevelManager() {

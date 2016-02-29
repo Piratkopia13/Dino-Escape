@@ -6,7 +6,7 @@
 class Effie : public Enemy {
 
 public:
-	Effie(GameWorld& world, sf::Vector2f position = sf::Vector2f(0, 0));
+	Effie(GameWorld& world, sf::Vector2f position = sf::Vector2f(0, 0), bool facingRight = true);
 
 	virtual void update(const sf::Time& dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

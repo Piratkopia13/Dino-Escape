@@ -1,16 +1,12 @@
 #include "Blobber.h"
 
-Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition)
+Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition, bool facingRight)
 : Enemy(world)
 , m_isSplatted(false)
 {
 
 	// Set initial health
 	setHealth(5);
-
-	// Move to the set position
-	sprite.move(bottomCenterPosition);
-
 
 	// Set up animations
 	m_walkAnimation.setSpriteSheet(*enemiesTexture);
@@ -27,11 +23,17 @@ Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition)
 	spriteScale = sf::Vector2f(1.7f, 1.7f);
 	sprite.setScale(spriteScale);
 
+	// Set facing direction
+	if (!facingRight) {
+		m_isMovingLeft = true;
+		m_isMovingRight = false;
+	} else {
+		m_isMovingRight = true;
+		m_isMovingLeft = false;
+	}
+
 	m_debugPoint.setSize(sf::Vector2f(1.0f, 1.0f));
 	m_debugPoint.setFillColor(sf::Color::Red);
-
-	m_isMovingRight = true;
-
 
 	// Set up properties
 
@@ -41,6 +43,8 @@ Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition)
 	hitByBulletXMultiplier = 3.0f; // Raise this since the x interpolation is low
 
 
+	// Move to the set position
+	sprite.move(bottomCenterPosition);
 	// Move up by bounds height since original position is defined as the bottom center pos
 	sf::FloatRect bounds = sprite.getGlobalBounds();
 	sprite.move(0, -bounds.height);
