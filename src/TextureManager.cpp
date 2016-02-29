@@ -2,11 +2,12 @@
 
 TextureManager::TextureManager() {
 
-	m_filenameMap.insert({ Textures::ID::DINO, "res/textures/dino.png" });
-	m_filenameMap.insert({ Textures::ID::ENEMIES, "res/textures/enemies.png" });
-	m_filenameMap.insert({ Textures::ID::ITEMS, "res/textures/items.png" });
-	m_filenameMap.insert({ Textures::ID::MENU_BACKGROUND, "res/textures/menu_background.png" });
-	m_filenameMap.insert({ Textures::ID::HEALTH_BAR, "res/textures/meter.png" });
+	m_filenameMap.insert({ Textures::ID::Dino, "res/textures/dino.png" });
+	m_filenameMap.insert({ Textures::ID::Enemies, "res/textures/enemies.png" });
+	m_filenameMap.insert({ Textures::ID::Items, "res/textures/items.png" });
+	m_filenameMap.insert({ Textures::ID::MenuBackground, "res/textures/menu_background.png" });
+	m_filenameMap.insert({ Textures::ID::HealthBar, "res/textures/meter.png" });
+	m_filenameMap.insert({ Textures::ID::Default, "res/textures/default.png" });
 
 }
 

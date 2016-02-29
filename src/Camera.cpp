@@ -127,3 +127,7 @@ void Camera::zoom(const float& amount) {
 const sf::View& Camera::getView() const {
 	return m_view;
 }
+
+const sf::Vector2f& Camera::getSize() const {
+	return m_view.getSize();
+}

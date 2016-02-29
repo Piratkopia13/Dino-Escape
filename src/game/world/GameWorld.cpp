@@ -6,6 +6,7 @@ GameWorld::GameWorld(TileMap& map, Context& context)
 : m_map(map)
 , m_context(context)
 , m_isLevelComplete(false)
+, m_bulletSystem(context)
 {
 	// Create the player
 	add(new Player());
@@ -252,7 +253,7 @@ void GameWorld::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 void GameWorld::addParticleSystem(const sf::Vector2f& centerPosition, const sf::Image& image, const sf::IntRect& imageRect, const sf::Vector2f& scale) {
 
-	std::unique_ptr<ParticleSystem> system(new ParticleSystem(centerPosition, image, imageRect, scale));
+	std::unique_ptr<ParticleSystem> system(new ParticleSystem(m_context, centerPosition, image, imageRect, scale));
 	m_particleSystems.push_back(std::move(system));
 
 }

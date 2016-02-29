@@ -170,7 +170,8 @@ TileMap::~TileMap() {
 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
-	target.draw(m_va, &m_tilesets.back().tilesheet);
+	states.texture = &m_tilesets.back().tilesheet;
+	target.draw(m_va, states);
 
 }
 

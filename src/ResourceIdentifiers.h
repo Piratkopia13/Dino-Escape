@@ -10,11 +10,12 @@ namespace Fonts {
 
 namespace Textures {
 	enum ID {
-		DINO,
-		ENEMIES,
-		ITEMS,
-		HEALTH_BAR,
-		MENU_BACKGROUND
+		Dino,
+		Enemies,
+		Items,
+		HealthBar,
+		MenuBackground,
+		Default
 	};
 }
 
@@ -36,5 +37,11 @@ namespace Sounds {
 		Pickup,
 		WinJingle,
 		LoseJingle
+	};
+}
+
+namespace PostEffects {
+	enum ID {
+		Vignette
 	};
 }

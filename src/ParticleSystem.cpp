@@ -1,21 +1,25 @@
 #include "ParticleSystem.h"
 
-ParticleSystem::ParticleSystem(const sf::Vector2f& centerPosition, const float speed, const sf::Color& color, const sf::Time lifetime)
+ParticleSystem::ParticleSystem(Context& context, const sf::Vector2f& centerPosition, const float speed, const sf::Color& color, const sf::Time lifetime)
 : m_position(centerPosition)
 , m_speed(speed)
 , m_color(color)
 , m_lifetime(lifetime)
 , m_scale(2.f, 2.f)
 , m_isImageBased(false)
+, m_context(context)
+, m_texture(&m_context.textures->get(Textures::Default))
 {
 	m_va.setPrimitiveType(sf::Quads);
 }
 
-ParticleSystem::ParticleSystem(const sf::Vector2f& centerPosition, const sf::Image& image, const sf::IntRect& imageRect, const sf::Vector2f& scale)
+ParticleSystem::ParticleSystem(Context& context, const sf::Vector2f& centerPosition, const sf::Image& image, const sf::IntRect& imageRect, const sf::Vector2f& scale)
 : m_speed(1.f)
 , m_lifetime(sf::seconds(4.f))
 , m_scale(scale)
 , m_isImageBased(true)
+, m_context(context) 
+, m_texture(&m_context.textures->get(Textures::Default))
 {
 
 	m_va.setPrimitiveType(sf::Quads);
@@ -84,6 +88,7 @@ void ParticleSystem::update(sf::Time dt, const TileMap& map) {
 
 		p.position += p.velocity;
 		p.color.a = std::max(255u - p.lifetime.asSeconds() / m_lifetime.asSeconds() * 255u, 0.f);
+
 	}
 
 	m_needsVAUpdate = true;
@@ -114,7 +119,8 @@ void ParticleSystem::draw(sf::RenderTarget& target, sf::RenderStates states) con
 		updateVA();
 		m_needsVAUpdate = false;
 	}
-
+	
+	states.texture = m_texture;
 	target.draw(m_va, states);
 
 }

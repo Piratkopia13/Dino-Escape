@@ -17,8 +17,8 @@ struct Particle {
 class ParticleSystem : public sf::Drawable {
 
 	public:
-		ParticleSystem(const sf::Vector2f& centerPosition, const float speed, const sf::Color& color, const sf::Time lifetime);
-		ParticleSystem(const sf::Vector2f& centerPosition, const sf::Image& image, const sf::IntRect& imageRect, const sf::Vector2f& scale);
+		ParticleSystem(Context& context, const sf::Vector2f& centerPosition, const float speed, const sf::Color& color, const sf::Time lifetime);
+		ParticleSystem(Context& context, const sf::Vector2f& centerPosition, const sf::Image& image, const sf::IntRect& imageRect, const sf::Vector2f& scale);
 		
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		void update(sf::Time dt, const TileMap& map);
@@ -35,6 +35,9 @@ class ParticleSystem : public sf::Drawable {
 		sf::Vector2f m_position;
 		float m_speed;
 		sf::Vector2f m_scale;
+
+		Context& m_context;
+		const sf::Texture* m_texture;
 
 		std::deque<Particle> m_particles;
 

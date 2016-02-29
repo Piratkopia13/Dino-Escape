@@ -16,7 +16,7 @@ MenuState::MenuState(StateStack& stack, Context& context)
 	m_titleShadow = m_title;
 	m_titleShadow.setColor(sf::Color(0, 0, 0, 200));
 
-	m_bg.setTexture(&getContext().textures->get(Textures::ID::MENU_BACKGROUND));
+	m_bg.setTexture(&getContext().textures->get(Textures::ID::MenuBackground));
 
 	sf::Text optionText("Play", getContext().fonts->get(Fonts::ID::Main), 35);
 	Utils::centerTextOrigin(optionText);

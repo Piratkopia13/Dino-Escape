@@ -1,12 +1,14 @@
 #include "BulletSystem.h"
 
-BulletSystem::BulletSystem()
+BulletSystem::BulletSystem(Context& context)
 : m_bulletMaxLifetime(sf::seconds(10.0f)) // Bullets will be destroyed after this time
 , m_bulletMaxDeadTime(sf::seconds(.05f))
+, m_context(context)
 {
 
 	m_shapeNormal.setFillColor(sf::Color::Yellow);
 	m_shapeNormal.setSize(sf::Vector2f(1.5f, 1.5f));
+	m_shapeNormal.setTexture(&context.textures->get(Textures::Default));
 
 	m_texFireball.loadFromFile("res/textures/items.png");
 
@@ -59,7 +61,7 @@ void BulletSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		case Bullet::NORMAL:
 
 			const_cast<sf::RectangleShape&>(m_shapeNormal).setPosition(b.getPosition());
-			target.draw(m_shapeNormal);
+			target.draw(m_shapeNormal, states);
 
 			break;
 		case Bullet::FIREBALL:
@@ -73,7 +75,7 @@ void BulletSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			else
 				m_shapeFireball.play(m_animFireball);
 
-			target.draw(m_shapeFireball);
+			target.draw(m_shapeFireball, states);
 
 			break;
 		}

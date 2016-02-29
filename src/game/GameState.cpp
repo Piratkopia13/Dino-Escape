@@ -18,6 +18,10 @@ GameState::GameState(StateStack& stack, Context& context)
 	m_worldCamera.setConstraints(m_map.getBounds());
 	m_worldCamera.lockHeight(192.f);
 
+	// Update resolution in shader
+	getContext().shaders->reload();
+	getContext().shaders->get(PostEffects::Vignette).setParameter("resolution", sf::Vector2f(getContext().window->getSize()));
+
 	m_spawnClickEnt.setSpawnType(SpawnClickEntity::BLOBBER);
 
 	m_FPStext.setFont(getContext().fonts->get(Fonts::ID::Main));
@@ -33,9 +37,10 @@ GameState::GameState(StateStack& stack, Context& context)
 	m_particleCountText.setCharacterSize(15);
 	m_particleCountText.setPosition(0, getContext().window->getSize().y - 60.f);
 
-
 	m_healthBar.setHealth(6);
 	m_healthBar.setPosition(getContext().window->mapPixelToCoords(sf::Vector2i(15.f, 15.f)));
+
+	m_vignetteShader = &context.shaders->get(PostEffects::Vignette);
 
 	// Play the Game music  theme
 	getContext().music->play(Music::ID::GameTheme);
@@ -74,6 +79,9 @@ bool GameState::handleEvent(const sf::Event& event) {
 		m_entityCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0.f, window->getSize().y - 40.f)));
 		m_particleCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0.f, window->getSize().y - 60.f)));
 		m_healthBar.setPosition(window->mapPixelToCoords(sf::Vector2i(15, 15)));
+
+		// Update resolution in shader
+		getContext().shaders->get(PostEffects::Vignette).setParameter("resolution", sf::Vector2f(event.size.width, event.size.height));
 
 		break;
 
@@ -172,7 +180,12 @@ void GameState::draw() {
 	// Apply world camera view
 	window->setView(m_worldCamera.getView());
 
-	window->draw(m_world);
+	try {
+		m_vignetteShader = &getContext().shaders->get(PostEffects::Vignette);
+	} catch (std::exception e) {
+		std::cout << e.what() << std::endl;
+	}
+	window->draw(m_world, m_vignetteShader);
 
 	DRAW_DEBUG_IF_ENABLED(*window);
 

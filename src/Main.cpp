@@ -10,7 +10,17 @@ int main() {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	Game game;
-	game.run();
+
+	try {
+
+		game.run();
+
+	} catch (std::exception e) {
+
+		std::cout << e.what() << std::endl;
+		system("pause");
+
+	}
 
 	return 0;
 }

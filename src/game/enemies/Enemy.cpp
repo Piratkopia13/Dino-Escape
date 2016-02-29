@@ -6,6 +6,6 @@ Enemy::Enemy(GameWorld& world) {
 	setWorld(&world);
 
 	// Set default enemy texture
-	enemiesTexture = &getGameWorld().getContext().textures->get(Textures::ID::ENEMIES);
+	enemiesTexture = &getGameWorld().getContext().textures->get(Textures::ID::Enemies);
 
 }

@@ -7,7 +7,7 @@ Game::Game()
 , m_soundPlayer() // Initialize sound after the window
 , m_musicPlayer() // Initialize music after the window
 , TimePerFrame(sf::seconds(1.0f/60.0f))
-, m_stateStack(Context(m_window, m_textureManager, m_fontManager, m_levelManager, m_musicPlayer, m_soundPlayer))
+, m_stateStack(Context(m_window, m_textureManager, m_fontManager, m_levelManager, m_musicPlayer, m_soundPlayer, m_postEffectManager))
 {
 
 	sf::ContextSettings settings = m_window.getSettings();

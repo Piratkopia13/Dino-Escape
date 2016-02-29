@@ -30,9 +30,10 @@ class FontManager;
 class LevelManager;
 class MusicPlayer;
 class SoundPlayer;
+class PostEffectManager;
 
 struct Context {
-	Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels, MusicPlayer& music, SoundPlayer& sounds);
+	Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels, MusicPlayer& music, SoundPlayer& sounds, PostEffectManager& shaders);
 
 	sf::RenderWindow* window;
 	TextureManager* textures;
@@ -40,4 +41,5 @@ struct Context {
 	LevelManager* levels;
 	MusicPlayer* music;
 	SoundPlayer* sounds;
+	PostEffectManager* shaders;
 };

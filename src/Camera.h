@@ -29,6 +29,8 @@ public:
 
 	// Returns the view to be applied to the window using sf::RenderWindow.setView(view);
 	const sf::View& getView() const;
+	// Returns the size of the view
+	const sf::Vector2f& getSize() const;
 
 private:
 	// Makes sure that the camera is not larger in any direction than the set constraints

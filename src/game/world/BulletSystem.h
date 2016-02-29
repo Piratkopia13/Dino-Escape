@@ -5,11 +5,12 @@
 #include "TileMap.h"
 #include "Bullet.h"
 #include "../../animations/AnimatedSprite.hpp"
+#include "../../PostEffectManager.h"
 
 class BulletSystem : sf::Drawable {
 
 	public:
-		BulletSystem();
+		BulletSystem(Context& context);
 
 		void fireBullet(const Bullet::BulletType type, const sf::Vector2f& from, const sf::Vector2f velocity, const Entity* owner);
 
@@ -25,6 +26,8 @@ class BulletSystem : sf::Drawable {
 
 	private:
 		std::vector<Bullet> m_bullets;
+
+		Context& m_context;
 
 		// Lifetime for bullets if they dont collide before it
 		const sf::Time m_bulletMaxLifetime;

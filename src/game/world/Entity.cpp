@@ -38,7 +38,7 @@ void Entity::update(const sf::Time& dt) {
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	// Draw the sprite
-	target.draw(sprite);
+	target.draw(sprite, states);
 }
 
 void Entity::hitByBullet(Bullet* blt) {

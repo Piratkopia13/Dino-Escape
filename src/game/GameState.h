@@ -28,6 +28,8 @@ class GameState : public State {
 		SpawnClickEntity m_spawnClickEnt;
 		SpawnClickBullet m_spawnClickBlt;
 		GameWorld m_world;
+
+		const sf::Shader* m_vignetteShader;
 		
 		HealthBar m_healthBar;
 

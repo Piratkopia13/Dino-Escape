@@ -7,6 +7,7 @@
 #include "LevelManager.h"
 #include "MusicPlayer.h"
 #include "SoundPlayer.h"
+#include "PostEffectManager.h"
 
 #include "states/StateStack.h"
 #include "game/GameState.h"
@@ -43,6 +44,7 @@ private:
 	LevelManager m_levelManager;
 	MusicPlayer m_musicPlayer;
 	SoundPlayer m_soundPlayer;
+	PostEffectManager m_postEffectManager;
 
 	StateStack m_stateStack;
 

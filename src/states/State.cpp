@@ -1,13 +1,14 @@
 #include "State.h"
 #include "StateStack.h"
 
-Context::Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels, MusicPlayer& music, SoundPlayer& sounds)
+Context::Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels, MusicPlayer& music, SoundPlayer& sounds, PostEffectManager& shaders)
 : window(&window)
 , textures(&textures)
 , fonts(&fonts)
 , levels(&levels)
 , music(&music)
 , sounds(&sounds)
+, shaders(&shaders)
 { }
 
 State::State(StateStack& stack, Context& context) 
