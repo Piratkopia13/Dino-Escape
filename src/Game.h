@@ -23,6 +23,8 @@ class Game {
 	public:
 		Game();
 		void run();
+
+		// Returns the current FPS
 		static int getFPS();
 
 	public:

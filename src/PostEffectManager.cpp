@@ -39,8 +39,6 @@ sf::Shader& PostEffectManager::load(PostEffects::ID id) {
 		//throw new std::exception("Failed to load fragment shader: " + filenames.second);
 		throw std::runtime_error("Failed to load fragment shader: " + filenames.second);
 
-	std::cout << "loaded shader" << std::endl;
-
 	// Insert and return shader reference
 	m_shaderMap.insert(std::make_pair(id, std::move(shader)));
 

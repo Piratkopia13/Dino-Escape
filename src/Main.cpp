@@ -17,7 +17,7 @@ int main() {
 
 	} catch (std::exception e) {
 
-		std::cout << e.what() << std::endl;
+		std::cout << "ERROR CATCHED:" << std::endl << e.what() << std::endl;
 		system("pause");
 
 	}

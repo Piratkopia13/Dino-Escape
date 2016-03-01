@@ -64,6 +64,33 @@ bool GameState::handleEvent(const sf::Event& event) {
 			m_isPaused = true;
 		}
 
+		// Toggle debug texts
+		if (event.key.code == sf::Keyboard::F1)
+			m_showDebugTexts = !m_showDebugTexts;
+
+		// Disable FPS limit
+		if (event.key.code == sf::Keyboard::F2)
+			window->setFramerateLimit(0);
+
+		// Enable FPS limit
+		if (event.key.code == sf::Keyboard::F3)
+			window->setFramerateLimit(100);
+
+		// Toggle VSYNC
+		if (event.key.code == sf::Keyboard::F4) {
+			m_vsync = !m_vsync;
+			window->setVerticalSyncEnabled(m_vsync);
+		}
+
+		// REMOVE THIS BIND ON FINAL PRODUCT!
+		// Go to next level
+		if (event.key.code == sf::Keyboard::PageUp) {
+			getContext().levels->goToNextLevel();
+			requestStackPop();
+			requestStackPush(States::Game);
+		}
+
+
 		break;
 
 	case sf::Event::KeyReleased:
@@ -143,7 +170,7 @@ bool GameState::update(sf::Time dt) {
 	m_worldCamera.moveTo(m_world.getPlayer()->getCenterPos());
 
 	// Update FPSText
-	m_FPStext.setString("FPS: " + std::to_string(Game::getFPS()));
+	m_FPStext.setString("FPS: " + std::to_string(Game::getFPS()) + ((m_vsync) ? " VSync on" : ""));
 	// Update entity count text
 	m_entityCountText.setString("Entities: " + std::to_string(m_world.getNumEntites()));
 	// Update particle count text
@@ -194,11 +221,13 @@ void GameState::draw() {
 
 	window->draw(m_healthBar);
 
-	// Render FPS
-	window->draw(m_FPStext);
-	// Render entity count
-	window->draw(m_entityCountText);
-	// Render particle count
-	window->draw(m_particleCountText);
+	if (m_showDebugTexts) {
+		// Render FPS
+		window->draw(m_FPStext);
+		// Render entity count
+		window->draw(m_entityCountText);
+		// Render particle count
+		window->draw(m_particleCountText);
+	}
 
 }

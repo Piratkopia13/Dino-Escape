@@ -24,6 +24,8 @@ class GameState : public State {
 		sf::Text m_FPStext,
 			m_entityCountText,
 			m_particleCountText;
+		bool m_showDebugTexts;
+		bool m_vsync;
 
 		SpawnClickEntity m_spawnClickEnt;
 		SpawnClickBullet m_spawnClickBlt;

@@ -44,13 +44,27 @@ void Game::run() {
 	// Enable VSYNC
 	//m_window.setVerticalSyncEnabled(true);
 
-	sf::Clock clock, fpsClock;
-	sf::Time elapsedTime = sf::Time::Zero;
+	// Set FPS limit
+	m_window.setFramerateLimit(100);
+
+	sf::Clock updateClock, fpsClock;
+	sf::Time elapsedUpdateTime = sf::Time::Zero;
 
 	int frames = 0;
 	sf::Time startTime = sf::Time::Zero;
 
 	while (m_window.isOpen()) {
+
+		// Update using a fixed timestep of TimePerFrame (1/60)
+		elapsedUpdateTime += updateClock.restart();
+		while (elapsedUpdateTime > TimePerFrame) {
+			elapsedUpdateTime -= TimePerFrame;
+
+			// Process events
+			processEvents();
+			// Update all the stuff
+			update(TimePerFrame);
+		}
 
 		// Calculate FPS every 1/4th second
 		if ((fpsClock.getElapsedTime() - startTime).asSeconds() > 0.25f && frames > 10) {
@@ -60,18 +74,7 @@ void Game::run() {
 		}
 		frames++;
 
-		// Update using a fixed timestep of TimePerFrame (1/60)
-		elapsedTime += clock.restart();
-		while (elapsedTime > TimePerFrame) {
-			elapsedTime -= TimePerFrame;
-
-			// Process events
-			processEvents();
-			// Update all the stuff
-			update(TimePerFrame);
-		}
-
-		// Render
+		// Render all the stuff
 		render();
 
 	}

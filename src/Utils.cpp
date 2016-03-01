@@ -21,8 +21,10 @@ void Utils::splitString(const std::string& str, char delim, std::vector<std::str
 
 	std::stringstream ss(str);
 	std::string item;
-	while (std::getline(ss, item, delim))
-		output.push_back(item);
+	while (std::getline(ss, item, delim)) {
+		if (item != "")
+			output.push_back(item);
+	}
 
 }
 
