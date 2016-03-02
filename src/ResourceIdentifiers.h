@@ -15,6 +15,7 @@ namespace Textures {
 		Items,
 		HealthBar,
 		MenuBackground,
+		ControlsBackground,
 		Default
 	};
 }

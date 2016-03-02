@@ -35,6 +35,7 @@ void Game::registerStates() {
 	m_stateStack.registerState<DeathState>(States::Death);
 	m_stateStack.registerState<LevelCompleteState>(States::LevelComplete);
 	m_stateStack.registerState<MenuState>(States::Menu);
+	m_stateStack.registerState<ControlsState>(States::Controls);
 	m_stateStack.registerState<PauseState>(States::Pause);
 
 }

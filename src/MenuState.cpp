@@ -70,6 +70,9 @@ bool MenuState::handleEvent(const sf::Event& event) {
 				requestStackPop();
 				requestStackPush(States::Game);
 				break;
+			case Options::Controls:
+				requestStackPush(States::Controls);
+				break;
 			case Options::Exit:
 				requestStackPop();
 				break;

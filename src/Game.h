@@ -12,6 +12,7 @@
 #include "states/StateStack.h"
 #include "game/GameState.h"
 #include "MenuState.h"
+#include "ControlsState.h"
 #include "game/DeathState.h"
 #include "game/LevelCompleteState.h"
 #include "PauseState.h"
