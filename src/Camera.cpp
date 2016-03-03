@@ -75,6 +75,15 @@ void Camera::checkSize() {
 
 }
 
+void Camera::setPosition(const sf::Vector2f& position) {
+
+	// Set m_center to the new position
+	moveTo(position);
+	// Strictly move the view's center to m_center
+	m_view.setCenter(m_center);
+
+}
+
 void Camera::moveTo(const sf::Vector2f& position) {
 
 	const sf::Vector2f& halfViewSize = m_view.getSize() / 2.f;

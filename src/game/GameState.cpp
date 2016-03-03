@@ -17,6 +17,7 @@ GameState::GameState(StateStack& stack, Context& context)
 	// Set the cameras constraints to map border
 	m_worldCamera.setConstraints(m_map.getBounds());
 	m_worldCamera.lockHeight(192.f);
+	m_worldCamera.setPosition(m_world.getPlayer()->getCenterPos());
 
 	// Update resolution in shader
 	getContext().shaders->reload();

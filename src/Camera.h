@@ -14,6 +14,8 @@ public:
 	void handleResize(const sf::Event::SizeEvent& size);
 	// Interpolates and moves the camera to the specified position
 	void moveTo(const sf::Vector2f& position);
+	// Sets the cameras center position with no interpolation
+	void setPosition(const sf::Vector2f& position);
 
 	// Sets contraints that the camera always will be inside
 	void setConstraints(const sf::FloatRect& constraints);
@@ -35,7 +37,7 @@ public:
 private:
 	// Makes sure that the camera is not larger in any direction than the set constraints
 	void checkSize();
-
+	
 private:
 	sf::View m_view;
 	const sf::RenderWindow& m_window;
