@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 Camera::Camera(const sf::RenderWindow& window)
-: m_view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y))
+: m_view(sf::FloatRect(0.f, 0.f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y)))
 , m_window(window)
 , m_constraints(0,0,0,0)
 , m_zoom(1.f)
@@ -118,7 +118,7 @@ void Camera::handleResize(const sf::Event::SizeEvent& size) {
 
 	} else {
 		// No special with set, just resize to the new window size
-		m_view.setSize(size.width, size.height);
+		m_view.setSize(static_cast<float>(size.width), static_cast<float>(size.height));
 
 	}
 

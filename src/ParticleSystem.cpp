@@ -87,7 +87,7 @@ void ParticleSystem::update(sf::Time dt, const TileMap& map) {
 			p.velocity.y += 8.f * dt.asSeconds(); // Apply gravity to particles
 
 		p.position += p.velocity;
-		p.color.a = std::max(255u - p.lifetime.asSeconds() / m_lifetime.asSeconds() * 255u, 0.f);
+		p.color.a = sf::Uint8(std::max(255u - p.lifetime.asSeconds() / m_lifetime.asSeconds() * 255u, 0.f));
 
 	}
 

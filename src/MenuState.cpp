@@ -131,7 +131,7 @@ void MenuState::setPositions() {
 
 	int width = window->getSize().x;
 	int height = window->getSize().y;
-	window->setView(sf::View(sf::FloatRect(0.f, 0.f, width, height)));
+	window->setView(sf::View(sf::FloatRect(0.f, 0.f, static_cast<float>(width), static_cast<float>(height))));
 
 	float halfWindowWidth = window->getSize().x / 2.0f;
 
@@ -148,9 +148,9 @@ void MenuState::setPositions() {
 	float aspectRatio = imgHeight / (float)imgWidth;
 
 	if (height < width * aspectRatio)
-		m_bg.setSize(sf::Vector2f(width, width * aspectRatio));
+		m_bg.setSize(sf::Vector2f(static_cast<float>(width), width * aspectRatio));
 	else
-		m_bg.setSize(sf::Vector2f(height * (1.f / aspectRatio), height));
+		m_bg.setSize(sf::Vector2f(height * (1.f / aspectRatio), static_cast<float>(height)));
 	m_bg.setPosition(0, 0);
 
 

@@ -105,7 +105,7 @@ void PauseState::draw() {
 	int width = window->getSize().x;
 	int height = window->getSize().y;
 
-	window->setView(sf::View(sf::FloatRect(0.f, 0.f, width, height)));
+	window->setView(sf::View(sf::FloatRect(0.f, 0.f, static_cast<float>(width), static_cast<float>(height))));
 
 	window->draw(m_bg);
 	window->draw(m_title);
@@ -142,7 +142,7 @@ void PauseState::setPositions() {
 	m_title.setPosition(halfWindowWidth, 150);
 	Utils::centerTextOrigin(m_title);
 
-	m_bg.setSize(sf::Vector2f(width, height));
+	m_bg.setSize(sf::Vector2f(static_cast<float>(width), static_cast<float>(height)));
 	m_bg.setPosition(0.f, 0.f);
 
 	// Update positions for options texts

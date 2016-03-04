@@ -145,10 +145,10 @@ TileMap::TileMap(std::string filePath) {
 				struct Object object;
 				object.name = (*obj)["name"].GetString();
 				object.type = (*obj)["type"].GetString();
-				object.x = (*obj)["x"].GetDouble() * m_renderScale;
-				object.y = (*obj)["y"].GetDouble() * m_renderScale;
-				object.width = (*obj)["width"].GetDouble() * m_renderScale;
-				object.height = (*obj)["height"].GetDouble() * m_renderScale;
+				object.x = static_cast<float>((*obj)["x"].GetDouble()) * m_renderScale;
+				object.y = static_cast<float>((*obj)["y"].GetDouble()) * m_renderScale;
+				object.width = static_cast<float>((*obj)["width"].GetDouble()) * m_renderScale;
+				object.height = static_cast<float>((*obj)["height"].GetDouble()) * m_renderScale;
 
 				// Loop through all properties
 				for (rapidjson::Value::ConstMemberIterator prop = (*obj)["properties"].MemberBegin(); prop != (*obj)["properties"].MemberEnd(); ++prop)
@@ -349,7 +349,7 @@ bool TileMap::isLineColliding(const sf::Vector2f& start, const sf::Vector2f& end
 }
 
 sf::FloatRect TileMap::getBounds() const {
-	return sf::FloatRect(0, 0, m_width * m_tileWidth, m_height * m_tileHeight);
+	return sf::FloatRect(0.f, 0.f, static_cast<float>(m_width * m_tileWidth), static_cast<float>(m_height * m_tileHeight));
 }
 
 const std::vector<TileMap::Object>& TileMap::getObjects() const {

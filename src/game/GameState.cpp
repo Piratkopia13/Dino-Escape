@@ -39,7 +39,7 @@ GameState::GameState(StateStack& stack, Context& context)
 	m_particleCountText.setPosition(0, getContext().window->getSize().y - 60.f);
 
 	m_healthBar.setHealth(6);
-	m_healthBar.setPosition(getContext().window->mapPixelToCoords(sf::Vector2i(15.f, 15.f)));
+	m_healthBar.setPosition(getContext().window->mapPixelToCoords(sf::Vector2i(15, 15)));
 
 	m_vignetteShader = &context.shaders->get(PostEffects::Vignette);
 
@@ -103,13 +103,13 @@ bool GameState::handleEvent(const sf::Event& event) {
 		m_hudCamera.handleResize(event.size);
 
 		window->setView(m_hudCamera.getView());
-		m_FPStext.setPosition(window->mapPixelToCoords(sf::Vector2i(0.f, window->getSize().y - 20.f)));
-		m_entityCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0.f, window->getSize().y - 40.f)));
-		m_particleCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0.f, window->getSize().y - 60.f)));
+		m_FPStext.setPosition(window->mapPixelToCoords(sf::Vector2i(0, window->getSize().y - 20)));
+		m_entityCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0, window->getSize().y - 40)));
+		m_particleCountText.setPosition(window->mapPixelToCoords(sf::Vector2i(0, window->getSize().y - 60)));
 		m_healthBar.setPosition(window->mapPixelToCoords(sf::Vector2i(15, 15)));
 
 		// Update resolution in shader
-		getContext().shaders->get(PostEffects::Vignette).setParameter("resolution", sf::Vector2f(event.size.width, event.size.height));
+		getContext().shaders->get(PostEffects::Vignette).setParameter("resolution", sf::Vector2f(static_cast<float>(event.size.width), static_cast<float>(event.size.height)));
 
 		break;
 

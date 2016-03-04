@@ -62,7 +62,7 @@ void ControlsState::setPositions() {
 
 	int width = window->getSize().x;
 	int height = window->getSize().y;
-	window->setView(sf::View(sf::FloatRect(0.f, 0.f, width, height)));
+	window->setView(sf::View(sf::FloatRect(0.f, 0.f, static_cast<float>(width), static_cast<float>(height))));
 
 	float halfWindowWidth = width / 2.0f;
 
@@ -70,10 +70,10 @@ void ControlsState::setPositions() {
 	int imgHeight = m_bgImg.getTexture()->getSize().y;
 	float aspectRatio = (float)imgWidth / imgHeight;
 
-	m_bgImg.setSize(sf::Vector2f(height * aspectRatio, height));
+	m_bgImg.setSize(sf::Vector2f(height * aspectRatio, static_cast<float>(height)));
 	m_bgImg.setPosition(halfWindowWidth - m_bgImg.getSize().x / 2.f, 0.f);
 
-	m_bg.setSize(sf::Vector2f(width, height));
+	m_bg.setSize(sf::Vector2f(static_cast<float>(width), static_cast<float>(height)));
 
 
 	// Update positions for back text

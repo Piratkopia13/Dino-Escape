@@ -22,7 +22,7 @@ LevelCompleteState::LevelCompleteState(StateStack& stack, Context& context)
 		"Stats", getContext());
 
 	// Calculate score
-	int totalScore = (300 - m_stats.finishTime.asSeconds()) * 0.3f;
+	int totalScore = static_cast<int>((300 - m_stats.finishTime.asSeconds()) * 0.3f);
 	totalScore += m_stats.health * 10;
 	totalScore += m_stats.enemiesKilled * 10;
 
@@ -68,7 +68,7 @@ void LevelCompleteState::setPositions() {
 
 	int width = window->getSize().x;
 	int height = window->getSize().y;
-	window->setView(sf::View(sf::FloatRect(0, 0, width, height)));
+	window->setView(sf::View(sf::FloatRect(0.f, 0.f, static_cast<float>(width), static_cast<float>(height))));
 
 	float halfWindowWidth = window->getSize().x / 2.0f;
 
