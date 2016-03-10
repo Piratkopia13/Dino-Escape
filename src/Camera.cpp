@@ -34,26 +34,35 @@ void Camera::update(sf::Time& dt) {
 }
 
 void Camera::setConstraints(const sf::FloatRect& constraints) {
-	m_constraints = constraints;
-	checkSize();
-	m_view.zoom(m_zoom);
-	m_hasConstraints = true;
 
+	// Set the constraints
+	m_constraints = constraints;
+	// Set the zoom value
+	m_view.zoom(m_zoom);
+	// Flag that we now have contraints
+	m_hasConstraints = true;
+	// Make sure the camera is not showing anything outside the contraints
 	checkSize();
+
 }
 
 void Camera::lockWidth(const float width) {
+
+	// Set the locked with value
 	m_lockedWidth = width;
 	// Set size to width and height depending on aspect ratio
 	m_view.setSize(width, width * m_window.getSize().y / m_window.getSize().x);
-
+	// Make sure the camera is not showing anything outside the contraints
 	checkSize();
+
 }
 void Camera::lockHeight(const float height) {
+
+	// Set the locked height value
 	m_lockedHeight = height;
 	// Set size to height and width depending on aspect ratio
 	m_view.setSize(height * m_window.getSize().x / m_window.getSize().y, height);
-
+	// Make sure the camera is not showing anything outside the contraints
 	checkSize();
 }
 
@@ -71,6 +80,7 @@ void Camera::checkSize() {
 		m_view.setSize(m_constraints.height * aspectRatio, m_constraints.height);
 	}
 
+	// Update the member variable containing the size
 	m_size = m_view.getSize();
 
 }
@@ -86,7 +96,9 @@ void Camera::setPosition(const sf::Vector2f& position) {
 
 void Camera::moveTo(const sf::Vector2f& position) {
 
-	const sf::Vector2f& halfViewSize = m_view.getSize() / 2.f;
+	// Store half the view's size
+	sf::Vector2f halfViewSize = m_view.getSize() / 2.f;
+	// Update the center position
 	m_center = position;
 
 	// If constraint is set
@@ -117,20 +129,19 @@ void Camera::handleResize(const sf::Event::SizeEvent& size) {
 		m_view.setSize(m_lockedHeight * m_window.getSize().x / m_window.getSize().y, m_lockedHeight);
 
 	} else {
-		// No special with set, just resize to the new window size
+		// No dimension is locked, just resize to the new window size
 		m_view.setSize(static_cast<float>(size.width), static_cast<float>(size.height));
 
 	}
 
 	if (m_hasConstraints)
+		// Make sure the camera is not showing anything outside the contraints
 		checkSize();
-	//m_view.zoom(m_zoom);
 
 }
 
 void Camera::zoom(const float& amount) {
 	m_zoom = amount;
-	/*m_view.zoom(m_zoom);*/
 }
 
 const sf::View& Camera::getView() const {

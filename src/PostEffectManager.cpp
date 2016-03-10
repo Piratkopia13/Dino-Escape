@@ -2,11 +2,9 @@
 
 PostEffectManager::PostEffectManager() {
 
+	// Map filenames to IDs
 	m_filenameMap.insert({ PostEffects::ID::Vignette, {"res/shaders/vignette.vert", "res/shaders/vignette.frag"} });
 
-}
-
-PostEffectManager::~PostEffectManager() {
 }
 
 void PostEffectManager::reload() {
@@ -15,14 +13,15 @@ void PostEffectManager::reload() {
 
 sf::Shader& PostEffectManager::get(PostEffects::ID id) {
 
-	int size = m_shaderMap.size();
-
 	auto shader = m_shaderMap.find(id);
 
-	if (shader == m_shaderMap.end()) // Shader not yet loaded
-		return load(id); // Load and return
-	else // Shader already loaded
-		return *shader->second; // Return loaded shader
+	// Check if the shader has not yet been loaded
+	if (shader == m_shaderMap.end())
+		// Load and return
+		return load(id);
+	else
+		// Return loaded shader
+		return *shader->second;
 
 }
 
@@ -32,16 +31,15 @@ sf::Shader& PostEffectManager::load(PostEffects::ID id) {
 
 	auto& filenames = m_filenameMap.find(id)->second;
 
+	// Check if the load failed
 	if (!shader->loadFromFile(filenames.first, sf::Shader::Vertex))
-		//throw new std::exception(std::string("Failed to load vertex shader: " + filenames.first).c_str());
-		throw std::runtime_error("Failed to load vertex shader: " + filenames.first);
+		throw std::logic_error("Failed to load vertex shader: " + filenames.first);
+
+	// Check if the load failed
 	if (!shader->loadFromFile(filenames.second, sf::Shader::Fragment))
-		//throw new std::exception("Failed to load fragment shader: " + filenames.second);
-		throw std::runtime_error("Failed to load fragment shader: " + filenames.second);
+		throw std::logic_error("Failed to load fragment shader: " + filenames.second);
 
 	// Insert and return shader reference
-	m_shaderMap.insert(std::make_pair(id, std::move(shader)));
-
-	auto t = m_shaderMap.find(id);
-	return *t->second;
+	auto insertedPair = m_shaderMap.insert(std::make_pair(id, std::move(shader)));
+	return *insertedPair.first->second;
 }

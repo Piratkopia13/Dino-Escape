@@ -1,8 +1,8 @@
 #include "SoundManager.h"
 
-SoundManager::SoundManager()
-{
+SoundManager::SoundManager() {
 
+	// Map filenames to IDs
 	m_filenameMap.insert({ Sounds::ID::Shoot, "res/sounds/Shoot_02.ogg" });
 	m_filenameMap.insert({ Sounds::ID::ShootFireball, "res/sounds/Shoot_01.ogg" });
 	m_filenameMap.insert({ Sounds::ID::Jump, "res/sounds/Jump_00.ogg" });
@@ -15,29 +15,29 @@ SoundManager::SoundManager()
 
 }
 
-SoundManager::~SoundManager() {
-}
-
 const sf::SoundBuffer& SoundManager::get(Sounds::ID id) {
 
 	auto sound = m_soundMap.find(id);
 
-	if (sound == m_soundMap.end()) // Sound not yet loaded
-		return load(id); // Load and return
-	else // Sound already loaded
-		return *sound->second; // Return loaded sound
+	// Check if the sound buffer has not yet been loaded
+	if (sound == m_soundMap.end())
+		// Load and return
+		return load(id);
+	else
+		// Return loaded sound
+		return *sound->second;
 
 }
 
 const sf::SoundBuffer& SoundManager::load(Sounds::ID id) {
 
 	std::unique_ptr<sf::SoundBuffer> sound(new sf::SoundBuffer());
+
+	// Check if the load faled
 	if (!sound->loadFromFile(m_filenameMap.find(id)->second))
-		throw std::runtime_error("Failed to load sound: " + m_filenameMap.find(id)->second);
+		throw std::logic_error("Failed to load sound: " + m_filenameMap.find(id)->second);
 
-	// Insert and return sound reference
-	m_soundMap.insert(std::make_pair(id, std::move(sound)));
-
-	auto t = m_soundMap.find(id);
-	return *t->second;
+	// Insert and return sound buffer reference
+	auto insertedPair = m_soundMap.insert(std::make_pair(id, std::move(sound)));
+	return *insertedPair.first->second;
 }

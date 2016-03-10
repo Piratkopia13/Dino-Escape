@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
 #include <map>
 #include <functional>
 #include <rapidjson\document.h>
@@ -15,13 +14,29 @@
 #include "../world/Entity.h"
 #include "../../debug/DebugRenderer.h"
 
+// A drawable TileMap
+// Loads from a json file exported from the Tiled editor (http://www.mapeditor.org/)
+// Uses the rapidjson library for parsing of the file
+// Note: currenly limitations are as follows:
+//		 Can only handle one tileset
+//		 The tileset must be defined in the json file, not in an external .tmx
+// Creation of maps:
+//		Mark tiles with the property "collidable" and a value of "1" to make them collidable in the game
+//		Spawnpoints are defined by an object with the type "Spawn" and a name of either "Player" or an enemy "Effie" or "Blobber"
+//		Spawnpoints can have a property "Facing" with a value of "left" or "right" which will define what direction the entity will face on spawn
+//		Only the position of spawnpoints are taken into account
+//		Areas where entities will take damage can be defined by objects with the name "DamageArea"
+//		Damage area objects can have a property named "Damage" with a value of how much damage entites should take while in it (default is 1)
+//		The map goal is defined by an object named "Goal"
 class TileMap : public sf::Drawable {
 
 public:
+	// A tile or object property
 	struct Property {
 		std::string name;
 		std::string value;
 	};
+	// An object
 	struct Object {
 		float height, width;
 		float x, y;
@@ -31,17 +46,17 @@ public:
 	};
 
 public:
+	// Creates a map from the specified path to a Tiled json file
 	TileMap(std::string filePath);
-	~TileMap();
 	
-	// Renders the map using its own Vertex Array
+	// Renders the map
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	// Resolves collision between this map and the entity
 	sf::Vector2f resolveCollisions(Entity& entity);
 	// Returns the distance between the FloatRect's center and the tile's center on collision
 	sf::Vector2f getCollisionOverlap(sf::FloatRect bb);
-	// Returns a list of all tiles that set FloatRect could possibly collide with
+	// Outputs a list of all tiles that set FloatRect could possibly collide with
 	void getCollidableTilesFor(const sf::FloatRect& rect, std::vector<sf::FloatRect>& out) const;
 
 	// Returns true if set point is colliding with a tile
@@ -54,6 +69,7 @@ public:
 	// Returns the max bounds for the map
 	sf::FloatRect getBounds() const;
 
+	// Returns a reference to all objects defined on the map
 	const std::vector<TileMap::Object>& getObjects() const;
 
 private:
@@ -83,7 +99,8 @@ private:
 	// 2D vector to store which tiles are collidable
 	std::vector< std::vector<bool> > m_collisionGrid;
 
-	const int m_renderScale = 2;
+	// What scale the tiles should be rendered in
+	const int m_renderScale;
 	
 
 };

@@ -8,6 +8,7 @@
 
 // You may NOT modify anything below
 
+// Define handy macros for usage of the debug renderer
 #ifdef ENABLE_DEBUG_SHAPES
 
 #define DRAW_DEBUG_IF_ENABLED(x) DebugRenderer::draw(x)
@@ -25,6 +26,7 @@
 #include "ResourceIdentifiers.h"
 #include "Utils.h"
 
+// Forward declaration of the classes that the context needs
 class TextureManager;
 class FontManager;
 class LevelManager;
@@ -32,6 +34,7 @@ class MusicPlayer;
 class SoundPlayer;
 class PostEffectManager;
 
+// The context contains pointers to data that all states in the game should be able to access
 struct Context {
 	Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels, MusicPlayer& music, SoundPlayer& sounds, PostEffectManager& shaders);
 

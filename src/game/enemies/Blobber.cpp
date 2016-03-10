@@ -111,7 +111,7 @@ void Blobber::runAI() {
 	m_debugPoint.setPosition(sideCheckPoint);
 
 	// Check if we need to turn to avoid falling
-	if (!getGameWorld().getMap()->isPointColliding(bottomCheckPoint)) {
+	if (!getGameWorld().getMap().isPointColliding(bottomCheckPoint)) {
 		
 		// Reverse horizontal movement
 		//velocity.x *= -1.f;
@@ -124,7 +124,7 @@ void Blobber::runAI() {
 	}
 
 	// Check if we need to turn to avoid getting stuck in a wall
-	if (getGameWorld().getMap()->isPointColliding(sideCheckPoint)) {
+	if (getGameWorld().getMap().isPointColliding(sideCheckPoint)) {
 
 		// Reverse horizontal movement
 		//velocity.x *= -1.f;

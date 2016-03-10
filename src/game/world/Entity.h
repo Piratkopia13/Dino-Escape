@@ -7,8 +7,11 @@
 #include "Bullet.h"
 #include "../../TextureManager.h"
 
+// Forward declare the GameWorld
 class GameWorld;
 
+// The base class of all entities in the game
+// Should be added to the GameWorld
 class Entity : public sf::Drawable {
 
 	public:
@@ -17,9 +20,11 @@ class Entity : public sf::Drawable {
 	public:
 		Entity();
 
+		// Update the entity
 		virtual void update(const sf::Time& dt);
+		// Called when a key is pressed or released
 		virtual void handleInput(sf::Keyboard::Key key, bool isPressed) = 0;
-
+		// Draws the entity
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		// Called by BulletSystem when a bullet hits this entity
@@ -49,39 +54,49 @@ class Entity : public sf::Drawable {
 		bool isGrounded() const;
 		const sf::Vector2f& getVelocity() const;
 		const sf::Vector2f& Entity::getLastVelocity() const;
+
 		// Give GameWorld access to private variables
 		// Such as m_isGrounded and m_lastVelocity
 		friend class GameWorld;
 
 	protected:
 		
+		// The sprite of the entity
 		AnimatedSprite sprite;
+		// A pointer to the current animation, if there is one
 		Animation* currentAnimation;
 
-		sf::Vector2f velocity; // Current velocity
+		// Current velocity
+		sf::Vector2f velocity;
 
-		// Interpolation step values. Modifies how "slippery" an entity should be
+		// Interpolation step values
+		// Modifies how "slippery" an entity should move
 		sf::Vector2f interpolationStepOnGround;
 		sf::Vector2f interpolationStepInAir;
 
 		// How heigh the entity should jump when hit by a bullet
 		float hitByBulletJumpValue;
-		// What the bullets velocity should be multiplied with when added to the entity velocity
+		// What the bullets velocity should be multiplied with when added to the entity's velocity
 		float hitByBulletXMultiplier;
 
-		// How long the entity should not take damage after just taking damage
+		// How long the entity should not take damage after just having taken damage
 		sf::Time invulnerableTime;
 
 	private:
 		// Pointer to the GameWorld that the entity is part of
 		GameWorld* m_world;
 
-		sf::Vector2f m_lastVelocity; // Velocity last frame, used for interpolation
+		// Velocity last frame, used for interpolation
+		sf::Vector2f m_lastVelocity;
 
-		bool m_isGrounded; // Set by GameWorld, indicates if the object is standing on ground or is in air
+		// Set by GameWorld, indicates if the object is standing on ground or is in air
+		bool m_isGrounded;
 		bool m_isGroundedNextFrame;
-		bool m_isDead; // Flag indicating if GameWorld should remove this entity
 
+		// Flag indicating if GameWorld should remove this entity
+		bool m_isDead;
+
+		// The health of the entity
 		int m_health;
 
 		// Variables for flashing the entity red when hit by a bullet

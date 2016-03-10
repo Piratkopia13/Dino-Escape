@@ -6,21 +6,24 @@ BulletSystem::BulletSystem(Context& context)
 , m_context(context)
 {
 
+	// Set up the rendering shape for normal bullets
 	m_shapeNormal.setFillColor(sf::Color::Yellow);
 	m_shapeNormal.setSize(sf::Vector2f(1.5f, 1.5f));
 	m_shapeNormal.setTexture(&context.textures->get(Textures::Default));
 
-	m_texFireball.loadFromFile("res/textures/items.png");
-
-	m_animFireball.setSpriteSheet(m_texFireball);
+	// Set up the animation for flying fireballs
+	m_animFireball.setSpriteSheet(context.textures->get(Textures::Items));
 	m_animFireball.createFrames(16, 16, 0, 32, 3);
 
-	// TODO: use this animation when bullet hit something
-	m_animFireballHit.setSpriteSheet(m_texFireball);
+	// Set up the animation for fireballs that has hit something
+	m_animFireballHit.setSpriteSheet(context.textures->get(Textures::Items));
 	m_animFireballHit.createFrames(16, 16, 48, 32, 1);
 
+	// Set the default animation
 	m_shapeFireball.play(m_animFireball);
+	// Fast updates
 	m_shapeFireball.setFrameTime(sf::seconds(.1f));
+	// Move the origin to the center for rotations and collision to work better
 	m_shapeFireball.setOrigin(m_shapeFireball.getLocalBounds().width / 2.0f, m_shapeFireball.getLocalBounds().height / 2.0f);
 
 }
@@ -37,6 +40,7 @@ void BulletSystem::update(sf::Time dt) {
 	m_shapeFireball.play(m_animFireball);
 	m_shapeFireball.update(dt);
 
+	// Loop through all bullets
 	for (auto it = m_bullets.begin(); it != m_bullets.end();) {
 
 		// Update bullet
@@ -57,16 +61,21 @@ void BulletSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	// Range based loop since the method is const
 	for (auto const& b : m_bullets) {
 
+		// Draw depending on what type the bullet is
 		switch (b.getType()) {
 		case Bullet::NORMAL:
 
-			const_cast<sf::RectangleShape&>(m_shapeNormal).setPosition(b.getPosition());
+			// Update the position of the shape
+			m_shapeNormal.setPosition(b.getPosition());
+			// Draw it
 			target.draw(m_shapeNormal, states);
 
 			break;
 		case Bullet::FIREBALL:
 
+			// Update the position of the shape
 			m_shapeFireball.setPosition(b.getPosition());
+			// Update the rotation of the shape
 			m_shapeFireball.setRotation(b.getRotation());
 			
 			// Change animation if the bullet has hit and is lingering
@@ -75,6 +84,7 @@ void BulletSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			else
 				m_shapeFireball.play(m_animFireball);
 
+			// Draw it
 			target.draw(m_shapeFireball, states);
 
 			break;
@@ -87,7 +97,8 @@ void BulletSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void BulletSystem::resolveCollisions(TileMap& map, std::vector<Entity::EntityPtr>& entites) {
 
 	// TODO: Create a tree structure and only check for collisions with entities in same cell
-	// TODO: Dont delete too many bullets per frame sice vector.erase is slow as f***, mark the bullets to not render and remove a couple every frame
+	// TODO: Dont delete too many bullets per frame sice vector.erase is really expensive, mark the bullets to not render and remove a couple every frame.
+	//		 Possible other solution is to find a better std list type
 	
 	for (auto it = m_bullets.begin(); it != m_bullets.end();) {
 
@@ -129,8 +140,7 @@ void BulletSystem::resolveCollisions(TileMap& map, std::vector<Entity::EntityPtr
 			}
 		}
 
-		// Check collision with map
-		// TODO : check bullet bounds instead of just position
+		// Check map collision with the center point of the bullet
 		if (map.isPointColliding(it->getPosition()))
 			markCurrentAsHit = true;
 

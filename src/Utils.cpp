@@ -7,7 +7,7 @@ std::string Utils::readFile(const char* filepath) {
 	std::string str;
 
 	t.seekg(0, std::ios::end);
-	str.reserve((unsigned int)t.tellg());
+	str.reserve(static_cast<unsigned int>(t.tellg()));
 	t.seekg(0, std::ios::beg);
 
 	str.assign((std::istreambuf_iterator<char>(t)),
@@ -22,7 +22,7 @@ void Utils::splitString(const std::string& str, char delim, std::vector<std::str
 	std::stringstream ss(str);
 	std::string item;
 	while (std::getline(ss, item, delim)) {
-		if (item != "")
+		if (item != "") // Ignore empty lines
 			output.push_back(item);
 	}
 
@@ -82,8 +82,8 @@ float Utils::random(float min, float max) {
 	float x = rand() / static_cast<float>(RAND_MAX + 1);
 
 	// [0,1[ * (max - min) + min is in [min,max[
-	float that = min + x * (max - min);
+	float val = min + x * (max - min);
 
-	return that;
+	return val;
 
 }

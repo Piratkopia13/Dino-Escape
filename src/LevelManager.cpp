@@ -7,15 +7,14 @@ LevelManager::LevelManager()
 	
 	// Load map order from file
 	std::string levelOrderData = Utils::readFile("res/maps/level.order");
+	// Store individual lines in m_levelFilenames
 	Utils::splitString(levelOrderData, '\n', m_levelFilenames);
 
-}
-LevelManager::~LevelManager() {
 }
 
 bool LevelManager::goToNextLevel() {
 
-	// Check if the last level has already been completed
+	// Check if the current level was the last one
 	if (m_currentLevelIndex == m_levelFilenames.size() - 1) {
 
 		// Set the first level as current
@@ -49,6 +48,6 @@ LevelManager::Stats::Stats(const sf::Time& finishTime, unsigned int health, unsi
 void LevelManager::setStats(const Stats& stats) {
 	m_currentStats = stats;
 }
-LevelManager::Stats LevelManager::getCurrentStats() const {
+const LevelManager::Stats& LevelManager::getCurrentStats() const {
 	return m_currentStats;
 }

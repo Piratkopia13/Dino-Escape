@@ -7,11 +7,14 @@
 #include "../../animations/AnimatedSprite.hpp"
 #include "../../PostEffectManager.h"
 
+// A system of bullets
+// Handles collisions, rendering etc.
 class BulletSystem : sf::Drawable {
 
 	public:
 		BulletSystem(Context& context);
 
+		// Fires a new bullet
 		void fireBullet(const Bullet::BulletType type, const sf::Vector2f& from, const sf::Vector2f velocity, const Entity* owner);
 
 		// Updates the position of all bullets
@@ -25,8 +28,10 @@ class BulletSystem : sf::Drawable {
 		void resolveCollisions(TileMap& map, std::vector<Entity::EntityPtr>& entites);
 
 	private:
+		// A list of bullets
 		std::vector<Bullet> m_bullets;
 
+		// Reference to the context
 		Context& m_context;
 
 		// Lifetime for bullets if they dont collide before it
@@ -34,10 +39,12 @@ class BulletSystem : sf::Drawable {
 		// How long the bullet should be visible after it has hit somthing
 		const sf::Time m_bulletMaxDeadTime;
 
+		// The shape for normal bullets
 		mutable sf::RectangleShape m_shapeNormal;
 
-		sf::Texture m_texFireball;
+		// Animations for the fireball bullet
 		Animation m_animFireball, m_animFireballHit;
+		// The sprite for the fireball bullet
 		mutable AnimatedSprite m_shapeFireball;
 
 };

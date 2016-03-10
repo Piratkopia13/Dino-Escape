@@ -39,16 +39,26 @@ private:
 	void checkSize();
 	
 private:
+	// The acual sfml view instance
 	sf::View m_view;
+	// Reference to the active render window
 	const sf::RenderWindow& m_window;
 
+	// Constraints that limit what the camera can show
 	sf::FloatRect m_constraints;
+	// Whether or not the camera has constraints
 	bool m_hasConstraints;
 
-	float m_zoom, m_currentZoom;
+	// The target zoom value
+	float m_zoom;
+	// The current zoom value, used to interpolate towards the target zoom value
+	float m_currentZoom;
+	// The viewport size of the camera
 	sf::Vector2f m_size;
+	// The center position of the camera
 	sf::Vector2f m_center;
 
+	// Whether the size of one dimension is locked or not
 	float m_lockedWidth, m_lockedHeight;
 
 };

@@ -42,7 +42,7 @@ void Effie::update(const sf::Time& dt) {
 	sf::Vector2f playerPos = player->getCenterPos();
 
 	// Raycast
-	bool rayIntersects = player->isDead() || getGameWorld().getMap()->isLineColliding(myPos, playerPos);
+	bool rayIntersects = player->isDead() || getGameWorld().getMap().isLineColliding(myPos, playerPos);
 
 	if (!rayIntersects) {
 

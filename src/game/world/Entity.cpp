@@ -43,10 +43,9 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 void Entity::hitByBullet(Bullet* blt) {
 
-	// TODO : make different bullet-types do different amount of damage
-
 	sf::Vector2f pushBack(blt->getVelocity() * hitByBulletXMultiplier);
 	pushBack.y -= hitByBulletJumpValue;
+	// All bullets do 1 damage
 	damage(1, pushBack);
 
 	if (getHealth() <= 0) {
@@ -68,6 +67,7 @@ void Entity::heal(const int value) {
 }
 void Entity::damage(const int value) {
 	
+	// Check if the entity is currently invulnerable
 	if (m_invulnerableTimer >= invulnerableTime) {
 
 		// Reset timer
@@ -100,6 +100,7 @@ void Entity::damage(const int value) {
 }
 void Entity::damage(const int value, const sf::Vector2f pushBack) {
 	
+	// Check if the entity is currently invulnerable
 	if (m_invulnerableTimer >= invulnerableTime) {
 	
 		// Reset velocity

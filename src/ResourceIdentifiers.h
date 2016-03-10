@@ -1,5 +1,6 @@
 #pragma once
 
+// Resource identifiers specified below
 
 namespace Fonts {
 	enum ID {

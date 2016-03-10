@@ -1,25 +1,26 @@
 #include "Player.h"
 
-Player::Player()
-: m_BulletCooldown(sf::seconds(.4f))
+Player::Player(GameWorld& world)
+: m_bulletCooldown(sf::seconds(.4f))
 , m_isLookingLeft(false)
 , m_maxJumpTime(sf::seconds(.1f))
 {
 
+	// Set the world
+	setWorld(&world);
+
+	// Set up sprite settings
 	sprite.setFrameTime(sf::seconds(.1f));
 	sprite.pause();
-
-	// Load texture
-	m_spriteSheet.loadFromFile("res/textures/dino.png");
 	
 	// Set up animations
-	m_walkingAnimation.setSpriteSheet(m_spriteSheet);
+	m_walkingAnimation.setSpriteSheet(getGameWorld().getContext().textures->get(Textures::Dino));
 	m_walkingAnimation.createFrames(22, 22, 0, 22, 8);
 
-	m_standingAnimation.setSpriteSheet(m_spriteSheet);
+	m_standingAnimation.setSpriteSheet(getGameWorld().getContext().textures->get(Textures::Dino));
 	m_standingAnimation.createFrames(22, 22, 0, 0, 8);
 
-	m_shootAnimation.setSpriteSheet(m_spriteSheet);
+	m_shootAnimation.setSpriteSheet(getGameWorld().getContext().textures->get(Textures::Dino));
 	m_shootAnimation.createFrames(22, 22, 0, 44, 4);
 
 	// Set inital animation
@@ -97,10 +98,12 @@ void Player::update(const sf::Time& dt) {
 				m_inJump = true;
 				if (m_currentJumpTime == sf::Time::Zero) {
 
-					velocity.y = -50.f; // Min jump height
+					// Min jump height
+					velocity.y = -50.f;
 
 				} else {
-					velocity.y -= 1.f / (m_currentJumpTime.asSeconds() * 2.f); // Number fiddling to get the right feeling
+					// Number fiddling to get the right feeling
+					velocity.y -= 1.f / (m_currentJumpTime.asSeconds() * 2.f);
 				}
 
 				m_currentJumpTime += dt;
@@ -111,7 +114,8 @@ void Player::update(const sf::Time& dt) {
 
 	}
 	if (isGrounded())
-		m_currentJumpTime = sf::Time::Zero; // This needs to be here to reset the time if a new jump will occure next frame
+		// This needs to be here to reset the time if a new jump will occure next frame
+		m_currentJumpTime = sf::Time::Zero;
 	
 
 	// ================================= //
@@ -158,7 +162,8 @@ void Player::hitByBullet(Bullet* blt) {
 
 void Player::fireGun() {
 
-	if (m_lastBulletTime >= m_BulletCooldown) {
+	// If the cooldown is inactive
+	if (m_lastBulletTime >= m_bulletCooldown) {
 
 		// Play shoot sound
 		getGameWorld().getContext().sounds->play(Sounds::ID::Shoot);
@@ -224,6 +229,7 @@ sf::FloatRect Player::getGlobalBounds() {
 	m_boundingBox.top = bb.top;
 
 	return m_boundingBox;
+
 }
 sf::Vector2f Player::getCenterPos() const {
 	return sprite.getPosition();
