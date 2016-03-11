@@ -7,10 +7,11 @@ Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition, bool facingRig
 	// Inital health
 	setHealth(2);
 
-	// Possible idle animation, make it slow tho
+	// Set up idle animation
 	m_idleAnimation.setSpriteSheet(*enemiesTexture);
 	m_idleAnimation.createFrames(16, 16, 16, 16, 2);
 
+	// Set up shoot animation
 	m_shootAnimation.setSpriteSheet(*enemiesTexture);
 	m_shootAnimation.createFrames(16, 16, 0, 16, 3);
 
@@ -19,17 +20,19 @@ Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition, bool facingRig
 	sprite.setAnimation(*currentAnimation);
 
 	sf::FloatRect bounds = sprite.getGlobalBounds();
+	// Move the origin to the center of the sprite
 	sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
 
-	// Set facing direction
+	// Set facing direction and scale
 	if (!facingRight)
 		sprite.setScale(-spriteScale.x, spriteScale.y);
 	else
 		sprite.setScale(spriteScale);
 
+	// Set animation frame time
 	sprite.setFrameTime(sf::seconds(0.3f));
 
-	// Move to the set position
+	// Move into position
 	sprite.move(bottomCenterPosition);
 	sprite.move(0, -bounds.height);
 
@@ -37,13 +40,17 @@ Effie::Effie(GameWorld& world, sf::Vector2f bottomCenterPosition, bool facingRig
 
 void Effie::update(const sf::Time& dt) {
 
-	sf::Vector2f myPos = sprite.getPosition();
+	// Store the current position of the effie
+	const sf::Vector2f& myPos = sprite.getPosition();
+	// Store a pointer to the player
 	Entity* player = getGameWorld().getPlayer();
+	// Store the position of the player
 	sf::Vector2f playerPos = player->getCenterPos();
 
-	// Raycast
+	// Raycast from the effies position to the player position and see if it intersects with any map tile
 	bool rayIntersects = player->isDead() || getGameWorld().getMap().isLineColliding(myPos, playerPos);
 
+	// Check if the effie can see the player/ray is not intersecting
 	if (!rayIntersects) {
 
 		// Check what direction effie is looking
@@ -67,16 +74,20 @@ void Effie::update(const sf::Time& dt) {
 			float bulletSpeed = 4.0f;
 			sf::Vector2f dir = playerPos - myPos;
 
-			sf::Vector2f bulletStart = myPos + Utils::normalize(dir) * 5.0f; // Add an offset from the center
+			// Set the starting position for the bullet. Add an offset from the center
+			sf::Vector2f bulletStart = myPos + Utils::normalize(dir) * 5.0f;
 			bulletStart.y += 6.0f; // Shoot from the mouth
 
 			// Apply slight randomization to bullet direction
 			dir.x += Utils::random(-20.f, 20.f);
 			dir.y += Utils::random(-20.f, 20.f);
 
+			// Normalize the value to make all bullets go the same speed
 			sf::Vector2f bulletDir = Utils::normalize(dir);
 
+			// Set the bullet velocity
 			sf::Vector2f bulletVelocity = bulletSpeed * bulletDir;
+			// Fire the bullet
 			getGameWorld().getBulletSystem().fireBullet(Bullet::FIREBALL, bulletStart, bulletVelocity, this);
 
 			// Reset cooldown timer
@@ -90,6 +101,7 @@ void Effie::update(const sf::Time& dt) {
 
 
 	} else {
+		// The effie does not see the player, play the idle animation
 		currentAnimation = &m_idleAnimation;
 	}
 	

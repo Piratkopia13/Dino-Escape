@@ -19,6 +19,9 @@ MenuState::MenuState(StateStack& stack, Context& context)
 	m_titleShadow = m_title;
 	m_titleShadow.setColor(sf::Color(0, 0, 0, 200));
 
+	// Set up the version number text
+	Utils::createText(m_version, sf::Color::White, 15, getContext().versionText, getContext());
+
 	// Set up background texture
 	m_bg.setTexture(&getContext().textures->get(Textures::ID::MenuBackground));
 
@@ -126,6 +129,7 @@ void MenuState::draw() {
 	window->draw(m_bg);
 	window->draw(m_titleShadow);
 	window->draw(m_title);
+	window->draw(m_version);
 
 	for (auto& text : m_optionTexts) {
 		window->draw(text);
@@ -169,6 +173,9 @@ void MenuState::setPositions() {
 	// Set the position of the title
 	m_title.setPosition(halfWindowWidth, 150);
 	Utils::centerTextOrigin(m_title);
+
+	// Set the position of the version text
+	m_version.setPosition(0.f, height - 20.f);
 
 	// Set the position of the title shadow
 	m_titleShadow.setPosition(halfWindowWidth + 8, 158);

@@ -41,6 +41,9 @@ private:
 	sf::Text m_title;
 	sf::Text m_titleShadow;
 
+	// Text for the version number
+	sf::Text m_version;
+
 	// List of texts for the options
 	std::vector<sf::Text> m_optionTexts;
 	// Line that renders under the currently selected option

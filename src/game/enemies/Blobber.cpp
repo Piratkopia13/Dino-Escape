@@ -8,10 +8,11 @@ Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition, bool facin
 	// Set initial health
 	setHealth(5);
 
-	// Set up animations
+	// Set up walk animation
 	m_walkAnimation.setSpriteSheet(*enemiesTexture);
 	m_walkAnimation.createFrames(16, 16, 0, 0, 3);
 
+	// Set up splat animation
 	m_splatAnimation.setSpriteSheet(*enemiesTexture);
 	m_splatAnimation.createFrames(16, 16, 0, 48, 3);
 
@@ -19,7 +20,9 @@ Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition, bool facin
 	currentAnimation = &m_walkAnimation;
 	sprite.setAnimation(m_walkAnimation);
 
+	// Move the origin to the center of the sprite
 	sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
+	// Set scale
 	spriteScale = sf::Vector2f(1.7f, 1.7f);
 	sprite.setScale(spriteScale);
 
@@ -32,16 +35,10 @@ Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition, bool facin
 		m_isMovingLeft = false;
 	}
 
-	m_debugPoint.setSize(sf::Vector2f(1.0f, 1.0f));
-	m_debugPoint.setFillColor(sf::Color::Red);
-
-	// Set up properties
-
+	// Set up entity properties
 	interpolationStepOnGround.x = 0.01f; // Slippery
 	interpolationStepInAir.x = 0.003f; // Even more slippery
-
 	hitByBulletXMultiplier = 3.0f; // Raise this since the x interpolation is low
-
 
 	// Move to the set position
 	sprite.move(bottomCenterPosition);
@@ -49,17 +46,20 @@ Blobber::Blobber(GameWorld& world, sf::Vector2f bottomCenterPosition, bool facin
 	sf::FloatRect bounds = sprite.getGlobalBounds();
 	sprite.move(0, -bounds.height);
 
-	// Hardcoded bounding box
+	// Hardcoded bounding box size
 	m_boundingBox = bounds;
 	m_boundingBox.height -= 5;
 }
 
 void Blobber::update(const sf::Time& dt) {
 
+	// Only update things if the Blobber is not splatted
 	if (!m_isSplatted) {
 
+		// The movementspeed of the Blobber
 		float speed = 17.f * dt.asSeconds();
 
+		// Update velocity and scale depending on which way its facing
 		if (m_isMovingLeft) {
 			velocity.x -= speed;
 			sprite.setScale(-spriteScale.x, spriteScale.y);
@@ -68,6 +68,7 @@ void Blobber::update(const sf::Time& dt) {
 			sprite.setScale(spriteScale.x, spriteScale.y);
 		}
 
+		// Run the AI
 		runAI();
 
 	}
@@ -75,30 +76,29 @@ void Blobber::update(const sf::Time& dt) {
 	// Update parent
 	Entity::update(dt);
 
-#ifdef ENABLE_DEBUG_SHAPES
-	DebugRenderer::addShape(getGlobalBounds(), sf::Color::Blue);
-#endif
+	ADD_DEBUG_SHAPE_IF_ENABLED(getGlobalBounds(), sf::Color::Blue);
 
 }
 
-//
-// AI explanation:
-// Moves back and forth on platforms while avoiding falling down
-//
 void Blobber::runAI() {
 
-	// No need to check if we are in the air
+	// No need to run AI if Blobber is in the air
 	if (!isGrounded())
 		return;
 	
+	// The offset from the corner of the Blobber where collision will be checked
 	float offset = 1;
+	// Sotre the bounds
 	sf::FloatRect bb = sprite.getGlobalBounds();
 
+	// A point at the bottom of the Blobber that determines if it needs to turn to avoid falling
 	sf::Vector2f bottomCheckPoint = sprite.getPosition();
 	bottomCheckPoint.y += bb.height / 2.f + offset;
 
+	// A point to the side of the Blobber that determines if it needs to turn to avoid looking stupid/getting stuck at a wall
 	sf::Vector2f sideCheckPoint = sprite.getPosition();
 
+	// Move the points depending on what direction the Blobber is moving
 	if (velocity.x > 0) {
 		bottomCheckPoint.x += bb.width / 2.f + offset;
 		sideCheckPoint.x += bb.width / 2.f + offset;
@@ -107,18 +107,14 @@ void Blobber::runAI() {
 		sideCheckPoint.x -= bb.width / 2.f + offset;
 	}
 
-	// Store point for debug rendering
-	m_debugPoint.setPosition(sideCheckPoint);
-
 	// Check if we need to turn to avoid falling
 	if (!getGameWorld().getMap().isPointColliding(bottomCheckPoint)) {
 		
 		// Reverse horizontal movement
-		//velocity.x *= -1.f;
 		m_isMovingLeft = !m_isMovingLeft;
 		m_isMovingRight = !m_isMovingRight;
 
-		// now return since we dont care about side collisions
+		// Return since we now don't care about side collisions
 		return;
 
 	}
@@ -127,7 +123,6 @@ void Blobber::runAI() {
 	if (getGameWorld().getMap().isPointColliding(sideCheckPoint)) {
 
 		// Reverse horizontal movement
-		//velocity.x *= -1.f;
 		m_isMovingLeft = !m_isMovingLeft;
 		m_isMovingRight = !m_isMovingRight;
 
@@ -154,6 +149,7 @@ void Blobber::collidedWith(Entity* collider) {
 		return;
 
 	sf::FloatRect playerBounds = collider->getGlobalBounds();
+	// Get the position of the player's bottom on the last frame
 	float lastPlayerPosY = playerBounds.top + playerBounds.height - collider->getLastVelocity().y;
 
 	// Check if player jumped on Blobber
@@ -169,13 +165,14 @@ void Blobber::collidedWith(Entity* collider) {
 		sprite.setLooped(false);
 
 	} else if (!m_isSplatted) {
-
-		// Player collided from side or bottom and should take damage
+		// Player collided from side or bottom
+		// Calculate a vector that the player should get pushed back by
 		sf::Vector2f pushBack(collider->getCenterPos() - getCenterPos());
 		pushBack = Utils::normalize(pushBack);
 		pushBack *= 20.f;
 		pushBack.y -= 20.f;
 
+		// Damage and push back the player
 		collider->damage(1, pushBack);
 	}
 
