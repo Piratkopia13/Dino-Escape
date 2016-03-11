@@ -7,17 +7,21 @@ Bullet::Bullet(const BulletType type, const sf::Vector2f& from, const sf::Vector
 , m_position(from)
 , m_hasHit(false)
 {
+	// Calculate the angle based of the velocity
+	// And convert it to degrees
 	m_rotation = atan2f(velocity.y, velocity.x) / .0174532925f; // wierd number is pi/180
-}
-Bullet::~Bullet() {
 }
 
 void Bullet::update(sf::Time dt) {
 
 	if (hasHit())
+		// The bullet has hit something, update the time is has been "dead"
 		m_timeDead += dt;
 	else {
+		// The bullet is still flying
+		// Update time alive
 		m_timeAlive += dt;
+		// Update the position by the velocity
 		m_position += m_velocity;
 	}
 

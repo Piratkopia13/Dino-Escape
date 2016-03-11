@@ -116,7 +116,8 @@ void BulletSystem::resolveCollisions(TileMap& map, std::vector<Entity::EntityPtr
 
 		// Check collision with entities
 		for (auto& entity : entites) {
-			if (entity.get() != it->getOwner()) { // Dont check for collisions on bullets owner
+			// Dont check for collisions on bullets owner
+			if (entity.get() != it->getOwner()) {
 
 				sf::FloatRect bounds;
 				switch (it->getType()) {
