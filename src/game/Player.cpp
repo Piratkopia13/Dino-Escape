@@ -45,6 +45,7 @@ Player::Player(GameWorld& world)
 	// Hardcoded bounding box size
 	m_boundingBox = sprite.getGlobalBounds();
 	m_boundingBox.width -= 15.0f;
+	m_boundingBox.height -= 3.f;
 
 }
 
@@ -226,7 +227,7 @@ sf::FloatRect Player::getGlobalBounds() {
 	// Hardcoded bounding box size
 	sf::FloatRect& bb = sprite.getGlobalBounds();
 	m_boundingBox.left = bb.left + m_boundingBox.width / 2.0f;
-	m_boundingBox.top = bb.top;
+	m_boundingBox.top = bb.top + 3.f;
 
 	return m_boundingBox;
 

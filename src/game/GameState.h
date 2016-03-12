@@ -38,8 +38,8 @@ class GameState : public State {
 
 		// Classes to allow the spawning of bullets and entities on clicks
 		// These are mainly used for debugging and performance testing purposes
-		SpawnClickEntity m_spawnClickEnt;
-		SpawnClickBullet m_spawnClickBlt;
+		/*SpawnClickEntity m_spawnClickEnt;
+		SpawnClickBullet m_spawnClickBlt;*/
 
 		// The game world
 		GameWorld m_world;

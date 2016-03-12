@@ -19,6 +19,11 @@ Game::Game()
 	std::cout << "OpenGL version: " << settings.majorVersion << "." << settings.minorVersion << std::endl;
 	std::cout << std::endl << "===========================" << std::endl;
 
+	// Set the window icon
+	sf::Image icon;
+	icon.loadFromFile("res/textures/icon.png");
+	m_window.setIcon(32, 32, icon.getPixelsPtr());
+
 	// Plant the time seed
 	srand(static_cast<unsigned int>(time(0)));
 

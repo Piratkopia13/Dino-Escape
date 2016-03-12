@@ -4,8 +4,7 @@
 
 namespace Fonts {
 	enum ID {
-		Main,
-		Roboto
+		Main
 	};
 }
 

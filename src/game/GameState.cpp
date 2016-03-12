@@ -6,8 +6,8 @@ GameState::GameState(StateStack& stack, Context& context)
 , m_worldCamera(*context.window)
 , m_hudCamera(*context.window)
 , m_world(context)
-, m_spawnClickEnt(m_world, *context.window)
-, m_spawnClickBlt(m_world, *context.window)
+//, m_spawnClickEnt(m_world, *context.window)
+//, m_spawnClickBlt(m_world, *context.window)
 , m_healthBar(context)
 , m_isPaused(false)
 , m_vsync(true)
@@ -26,7 +26,7 @@ GameState::GameState(StateStack& stack, Context& context)
 	getContext().shaders->get(PostEffects::Vignette).setParameter("resolution", sf::Vector2f(getContext().window->getSize()));
 
 	// Set up what entity to spawn when clicking
-	m_spawnClickEnt.setSpawnType(SpawnClickEntity::BLOBBER);
+	//m_spawnClickEnt.setSpawnType(SpawnClickEntity::BLOBBER);
 
 	// Set up status texts
 	Utils::createText(m_FPStext, sf::Color::White, 15, "", getContext());
@@ -89,11 +89,11 @@ bool GameState::handleEvent(const sf::Event& event) {
 
 		// REMOVE THIS BIND ON FINAL PRODUCT!
 		// Go to next level
-		if (event.key.code == sf::Keyboard::PageUp) {
+		/*if (event.key.code == sf::Keyboard::PageUp) {
 			getContext().levels->goToNextLevel();
 			requestStackPop();
 			requestStackPush(States::Game);
-		}
+		}*/
 
 
 		break;
@@ -133,8 +133,8 @@ bool GameState::handleEvent(const sf::Event& event) {
 		// Switch view to the world so that the spawn clickers can get the world coordinates from window coordinates
 		window->setView(m_worldCamera.getView());
 		// Pass event to the debug spawn clickers
-		m_spawnClickEnt.handleInput(event.mouseButton.button, true);
-		m_spawnClickBlt.handleInput(event.mouseButton.button, true);
+		/*m_spawnClickEnt.handleInput(event.mouseButton.button, true);
+		m_spawnClickBlt.handleInput(event.mouseButton.button, true);*/
 
 		break;
 
@@ -144,8 +144,8 @@ bool GameState::handleEvent(const sf::Event& event) {
 		// Switch view to the world so that the spawn clickers can get the world coordinates from window coordinates
 		window->setView(m_worldCamera.getView());
 		// Pass event to the debug spawn clickers
-		m_spawnClickEnt.handleInput(event.mouseButton.button, false);
-		m_spawnClickBlt.handleInput(event.mouseButton.button, false);
+		/*m_spawnClickEnt.handleInput(event.mouseButton.button, false);
+		m_spawnClickBlt.handleInput(event.mouseButton.button, false);*/
 
 		break;
 

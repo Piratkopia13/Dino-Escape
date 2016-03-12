@@ -38,7 +38,8 @@ class PostEffectManager;
 struct Context {
 	Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, LevelManager& levels, MusicPlayer& music, SoundPlayer& sounds, PostEffectManager& shaders);
 
-	std::string versionText = "Beta release build 0.9";
+	//std::string versionText = "Beta release build 0.9";
+	std::string versionText = "Release Version 1.0";
 
 	sf::RenderWindow* window;
 	TextureManager* textures;

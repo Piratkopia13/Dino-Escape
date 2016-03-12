@@ -4,7 +4,6 @@ FontManager::FontManager() {
 
 	// Map filenames to IDs
 	m_filenameMap.insert({ Fonts::ID::Main, "res/fonts/emulogic.ttf" });
-	m_filenameMap.insert({ Fonts::ID::Roboto, "res/fonts/Roboto-Regular.ttf" });
 
 }
 

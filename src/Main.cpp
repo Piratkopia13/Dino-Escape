@@ -2,8 +2,8 @@
 
 #include "Game.h"
 
-//int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszArgument, int nCmdShow) { // For released version, hides the console
-int main() {
+int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszArgument, int nCmdShow) { // For released version, hides the console
+//int main() {
 
 	// Todo list available at https://trello.com/b/uA7B6Z2j/dino-escape-todo
 
