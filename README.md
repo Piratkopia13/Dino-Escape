@@ -12,3 +12,6 @@ You are a dinosaur trapped underground on an alien planet.
 You quickly find out that these underground caves are not safe, multiple hostile creatures resides here.
 
 You must survive and find your way home.
+
+### Executable ###
+Releases are found [here](https://github.com/Piratkopia13/Dino-Escape/releases)
